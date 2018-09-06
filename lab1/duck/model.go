@@ -1,6 +1,7 @@
 package duck
 
 import (
+	"ood/lab1/duck/dance_strategy"
 	"ood/lab1/duck/fly_strategy"
 	"ood/lab1/duck/quack_strategy"
 )
@@ -11,7 +12,7 @@ type Model struct {
 
 func NewModelDuck() *Model {
 	return &Model{
-		newDuck("model", new(quack_strategy.Quack), new(fly_strategy.NoWay)),
+		newDuck("model", new(quack_strategy.Quack), new(fly_strategy.NoWay), new(dance_strategy.NoWay)),
 	}
 }
 

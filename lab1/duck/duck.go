@@ -3,6 +3,7 @@ package duck
 import (
 	"fmt"
 
+	"ood/lab1/duck/dance_strategy"
 	"ood/lab1/duck/fly_strategy"
 	"ood/lab1/duck/quack_strategy"
 )
@@ -25,15 +26,17 @@ type ConfigurableDuck interface {
 type duck struct {
 	quack_strategy.QuackStrategy
 	fly_strategy.FlyStrategy
+	dance_strategy.DanceStrategy
 
 	name string
 }
 
-func newDuck(name string,
-	quackStrategy quack_strategy.QuackStrategy, flyStrategy fly_strategy.FlyStrategy) ConfigurableDuck {
+func newDuck(name string, quack quack_strategy.QuackStrategy,
+	fly fly_strategy.FlyStrategy, dance dance_strategy.DanceStrategy) ConfigurableDuck {
 	return &duck{
-		QuackStrategy: quackStrategy,
-		FlyStrategy:   flyStrategy,
+		QuackStrategy: quack,
+		FlyStrategy:   fly,
+		DanceStrategy: dance,
 
 		name: name,
 	}
@@ -45,10 +48,6 @@ func (d *duck) SetQuackStrategy(strategy quack_strategy.QuackStrategy) {
 
 func (d *duck) SetFlyStrategy(strategy fly_strategy.FlyStrategy) {
 	d.FlyStrategy = strategy
-}
-
-func (duck) Dance() {
-	fmt.Println("I'm dancing!!!")
 }
 
 func (d *duck) String() string {

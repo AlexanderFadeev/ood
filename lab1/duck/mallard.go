@@ -1,6 +1,7 @@
 package duck
 
 import (
+	"ood/lab1/duck/dance_strategy"
 	"ood/lab1/duck/fly_strategy"
 	"ood/lab1/duck/quack_strategy"
 )
@@ -11,6 +12,6 @@ type Mallard struct {
 
 func NewMallardDuck() *Mallard {
 	return &Mallard{
-		newDuck("mallard", new(quack_strategy.Quack), new(fly_strategy.WithWings)),
+		newDuck("mallard", new(quack_strategy.Quack), new(fly_strategy.WithWings), new(dance_strategy.Waltz)),
 	}
 }
