@@ -12,6 +12,6 @@ type Mallard struct {
 
 func NewMallardDuck() *Mallard {
 	return &Mallard{
-		newDuck("mallard", quack_strategy.Quack, new(fly_strategy.WithWings), dance_strategy.Waltz),
+		newDuck("mallard", quack_strategy.Quack, fly_strategy.WithWings(), dance_strategy.Waltz),
 	}
 }

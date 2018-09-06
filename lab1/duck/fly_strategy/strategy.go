@@ -1,5 +1,3 @@
 package fly_strategy
 
-type FlyStrategy interface {
-	Fly()
-}
+type FlyStrategy func()

@@ -12,7 +12,7 @@ type Decoy struct {
 
 func NewDecoyDuck() *Decoy {
 	return &Decoy{
-		newDuck("decoy", quack_strategy.Muted, new(fly_strategy.NoWay), dance_strategy.NoWay),
+		newDuck("decoy", quack_strategy.Muted, fly_strategy.NoWay, dance_strategy.NoWay),
 	}
 }
 

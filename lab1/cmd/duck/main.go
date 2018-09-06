@@ -22,7 +22,7 @@ func main() {
 
 	modelDuck := duck.NewModelDuck()
 	playWithDuck(modelDuck)
-	modelDuck.SetFlyStrategy(new(fly_strategy.WithWings))
+	modelDuck.SetFlyStrategy(fly_strategy.WithWings())
 	playWithDuck(modelDuck)
 }
 

@@ -6,11 +6,11 @@ import (
 	"github.com/dustin/go-humanize"
 )
 
-type WithWings struct {
-	flightsCount int
-}
+func WithWings() FlyStrategy {
+	flightsCount := 0
 
-func (w *WithWings) Fly() {
-	w.flightsCount++
-	fmt.Printf("I'm flying with wings %s time!!!\n", humanize.Ordinal(w.flightsCount))
+	return func() {
+		flightsCount++
+		fmt.Printf("I'm flying with wings %s time!!!\n", humanize.Ordinal(flightsCount))
+	}
 }

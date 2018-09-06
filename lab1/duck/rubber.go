@@ -12,7 +12,7 @@ type Rubber struct {
 
 func NewRubberDuck() *Rubber {
 	return &Rubber{
-		newDuck("rubber", quack_strategy.Squeak, new(fly_strategy.NoWay), dance_strategy.NoWay),
+		newDuck("rubber", quack_strategy.Squeak, fly_strategy.NoWay, dance_strategy.NoWay),
 	}
 }
 

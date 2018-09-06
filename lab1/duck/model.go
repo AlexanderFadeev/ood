@@ -12,7 +12,7 @@ type Model struct {
 
 func NewModelDuck() *Model {
 	return &Model{
-		newDuck("model", quack_strategy.Quack, new(fly_strategy.NoWay), dance_strategy.NoWay),
+		newDuck("model", quack_strategy.Quack, fly_strategy.NoWay, dance_strategy.NoWay),
 	}
 }
 
