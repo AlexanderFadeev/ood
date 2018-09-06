@@ -15,7 +15,3 @@ func NewModelDuck() *Model {
 		newDuck("model", quack_strategy.Quack, fly_strategy.NoWay, dance_strategy.NoWay),
 	}
 }
-
-func (Model) Dance() {
-	//Do nothing
-}

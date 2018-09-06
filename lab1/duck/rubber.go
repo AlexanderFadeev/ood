@@ -15,7 +15,3 @@ func NewRubberDuck() *Rubber {
 		newDuck("rubber", quack_strategy.Squeak, fly_strategy.NoWay, dance_strategy.NoWay),
 	}
 }
-
-func (Rubber) Dance() {
-	//Do nothing
-}

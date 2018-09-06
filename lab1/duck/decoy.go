@@ -15,7 +15,3 @@ func NewDecoyDuck() *Decoy {
 		newDuck("decoy", quack_strategy.Muted, fly_strategy.NoWay, dance_strategy.NoWay),
 	}
 }
-
-func (Decoy) Dance() {
-	//Do nothing
-}
