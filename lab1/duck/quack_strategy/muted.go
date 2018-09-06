@@ -1,7 +1,5 @@
 package quack_strategy
 
-type Muted struct{}
-
-func (Muted) Quack() {
+func Muted() {
 	// Do nothing
 }

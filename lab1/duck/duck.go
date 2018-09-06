@@ -24,7 +24,7 @@ type ConfigurableDuck interface {
 }
 
 type duck struct {
-	quack_strategy.QuackStrategy
+	quack quack_strategy.QuackStrategy
 	fly_strategy.FlyStrategy
 	dance dance_strategy.DanceStrategy
 
@@ -34,16 +34,16 @@ type duck struct {
 func newDuck(name string, quack quack_strategy.QuackStrategy,
 	fly fly_strategy.FlyStrategy, dance dance_strategy.DanceStrategy) ConfigurableDuck {
 	return &duck{
-		QuackStrategy: quack,
-		FlyStrategy:   fly,
-		dance:         dance,
+		quack:       quack,
+		FlyStrategy: fly,
+		dance:       dance,
 
 		name: name,
 	}
 }
 
 func (d *duck) SetQuackStrategy(strategy quack_strategy.QuackStrategy) {
-	d.QuackStrategy = strategy
+	d.quack = strategy
 }
 
 func (d *duck) SetFlyStrategy(strategy fly_strategy.FlyStrategy) {
@@ -52,6 +52,10 @@ func (d *duck) SetFlyStrategy(strategy fly_strategy.FlyStrategy) {
 
 func (d *duck) SetDanceStrategy(strategy dance_strategy.DanceStrategy) {
 	d.dance = strategy
+}
+
+func (d *duck) Quack() {
+	d.quack()
 }
 
 func (d *duck) Dance() {

@@ -2,8 +2,6 @@ package quack_strategy
 
 import "fmt"
 
-type Quack struct{}
-
-func (Quack) Quack() {
+func Quack() {
 	fmt.Println("Quack Quack!!!")
 }

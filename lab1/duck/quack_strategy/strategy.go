@@ -1,5 +1,3 @@
 package quack_strategy
 
-type QuackStrategy interface {
-	Quack()
-}
+type QuackStrategy func()
