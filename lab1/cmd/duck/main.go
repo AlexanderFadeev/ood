@@ -26,7 +26,7 @@ func main() {
 	playWithDuck(modelDuck)
 	modelDuck.SetQuackStrategy(quack_strategy.Squeak)
 	modelDuck.SetFlyStrategy(fly_strategy.WithWings())
-	modelDuck.SetQuackStrategy(dance_strategy.Waltz)
+	modelDuck.SetDanceStrategy(dance_strategy.Waltz)
 	playWithDuck(modelDuck)
 }
 
