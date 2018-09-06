@@ -1,7 +1,5 @@
 package dance_strategy
 
-type NoWay struct{}
-
-func (NoWay) Dance() {
+func NoWay() {
 	//Do nothing
 }

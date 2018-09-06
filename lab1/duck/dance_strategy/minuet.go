@@ -2,8 +2,6 @@ package dance_strategy
 
 import "fmt"
 
-type Minuet struct{}
-
-func (Minuet) Dance() {
+func Minuet() {
 	fmt.Println("I'm dancing minuet")
 }

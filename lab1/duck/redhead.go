@@ -12,6 +12,6 @@ type Redhead struct {
 
 func NewRedheadDuck() *Redhead {
 	return &Redhead{
-		newDuck("redhead", new(quack_strategy.Quack), new(fly_strategy.WithWings), new(dance_strategy.Minuet)),
+		newDuck("redhead", new(quack_strategy.Quack), new(fly_strategy.WithWings), dance_strategy.Minuet),
 	}
 }
