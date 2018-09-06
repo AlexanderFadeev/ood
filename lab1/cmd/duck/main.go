@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"ood/lab1/duck/dance_strategy"
+	"ood/lab1/duck/quack_strategy"
 
 	"ood/lab1/duck"
 	"ood/lab1/duck/fly_strategy"
@@ -22,7 +24,9 @@ func main() {
 
 	modelDuck := duck.NewModelDuck()
 	playWithDuck(modelDuck)
+	modelDuck.SetQuackStrategy(quack_strategy.Squeak)
 	modelDuck.SetFlyStrategy(fly_strategy.WithWings())
+	modelDuck.SetQuackStrategy(dance_strategy.Waltz)
 	playWithDuck(modelDuck)
 }
 

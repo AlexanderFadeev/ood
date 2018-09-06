@@ -21,6 +21,7 @@ type ConfigurableDuck interface {
 
 	SetQuackStrategy(quack_strategy.QuackStrategy)
 	SetFlyStrategy(fly_strategy.FlyStrategy)
+	SetDanceStrategy(dance_strategy.DanceStrategy)
 }
 
 type duck struct {
