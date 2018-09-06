@@ -1,9 +1,16 @@
 package fly_strategy
 
-import "fmt"
+import (
+	"fmt"
 
-type WithWings struct{}
+	"github.com/dustin/go-humanize"
+)
 
-func (WithWings) Fly() {
-	fmt.Println("I'm flying with wings!!!")
+type WithWings struct {
+	flightsCount int
+}
+
+func (w *WithWings) Fly() {
+	w.flightsCount++
+	fmt.Printf("I'm flying with wings %s time!!!\n", humanize.Ordinal(w.flightsCount))
 }
