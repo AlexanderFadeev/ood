@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"ood/lab1/duck/dance_strategy"
-	"ood/lab1/duck/quack_strategy"
 
 	"ood/lab1/duck"
+	"ood/lab1/duck/dance_strategy"
 	"ood/lab1/duck/fly_strategy"
+	"ood/lab1/duck/quack_strategy"
 )
 
 func main() {
