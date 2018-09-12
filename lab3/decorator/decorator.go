@@ -1,7 +1,7 @@
 package decorator
 
 import (
-	"bytes"
+	"strings"
 
 	"ood/lab3/beverage"
 	"ood/lab3/condiment"
@@ -24,9 +24,9 @@ func (cd *condimentDecorator) GetCost() float64 {
 }
 
 func (cd *condimentDecorator) String() string {
-	var buf bytes.Buffer
-	buf.WriteString(cd.beverage.String())
-	buf.WriteString(", ")
-	buf.WriteString(cd.condiment.String())
-	return buf.String()
+	var builder strings.Builder
+	builder.WriteString(cd.beverage.String())
+	builder.WriteString(", ")
+	builder.WriteString(cd.condiment.String())
+	return builder.String()
 }
