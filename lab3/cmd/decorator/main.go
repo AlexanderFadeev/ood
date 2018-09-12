@@ -89,7 +89,8 @@ func getCondimentFromDialogWithUser() (condiment.Condiment, error) {
 
 func makeBeverage1() beverage.Beverage {
 	latte := beverage.NewLatte(beverage.LatteNormal)
-	withCinnamon := decorator.Decorate(latte, condiment.NewCinnamon())
+	withCream := decorator.Decorate(latte, condiment.NewCream())
+	withCinnamon := decorator.Decorate(withCream, condiment.NewCinnamon())
 	withLemon := decorator.Decorate(withCinnamon, condiment.NewLemon(2))
 	withIceCubes := decorator.Decorate(withLemon, condiment.NewIceCubes(condiment.DryIce, 2))
 	return decorator.Decorate(withIceCubes, condiment.NewChocolateCrumbs(2))
