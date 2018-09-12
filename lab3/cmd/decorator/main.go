@@ -118,7 +118,7 @@ func makeBeverage3() beverage.Beverage {
 }
 
 func makeBeverage4() beverage.Beverage {
-	return decorator.NewBuilder(beverage.NewLatte(beverage.LatteNormal)).
+	return decorator.NewBuilder(beverage.NewCapuccino(beverage.CapuccinoNormal)).
 		WithCondiment(condiment.NewCinnamon()).
 		WithCondiment(condiment.NewLemon(2)).
 		WithCondiment(condiment.NewSyrup(condiment.MapleSyrup)).
