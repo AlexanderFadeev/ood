@@ -47,7 +47,7 @@ func dialogWithUser() beverage.Beverage {
 }
 
 func getBeverageFromDialogWithUser() beverage.Beverage {
-	fmt.Println("1 - Coffee, 2 - Tea")
+	fmt.Println("1 - Coffee, 2 - Fruit tea")
 
 	var choice int
 	_, err := fmt.Scan(&choice)
@@ -100,7 +100,7 @@ func makeBeverage2() beverage.Beverage {
 		decorator.Decorate(
 			decorator.Decorate(
 				decorator.Decorate(
-					beverage.NewLatte(beverage.LatteDouble),
+					beverage.NewMilkshake(beverage.MilkshakeMedium),
 					condiment.NewCinnamon()),
 				condiment.NewLemon(2)),
 			condiment.NewIceCubes(condiment.DryIce, 2)),
