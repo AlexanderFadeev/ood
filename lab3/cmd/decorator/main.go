@@ -93,7 +93,8 @@ func makeBeverage1() beverage.Beverage {
 	withCinnamon := decorator.Decorate(withCream, condiment.NewCinnamon())
 	withLemon := decorator.Decorate(withCinnamon, condiment.NewLemon(2))
 	withIceCubes := decorator.Decorate(withLemon, condiment.NewIceCubes(condiment.DryIce, 2))
-	return decorator.Decorate(withIceCubes, condiment.NewChocolate(3))
+	withLiquor := decorator.Decorate(withIceCubes, condiment.NewLiquor(condiment.LiquorNut))
+	return decorator.Decorate(withLiquor, condiment.NewChocolate(3))
 }
 
 func makeBeverage2() beverage.Beverage {
