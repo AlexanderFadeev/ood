@@ -1,8 +1,8 @@
 package decorator
 
 import (
-	"ood/lab3/beverage"
-	"ood/lab3/condiment"
+	"ood/lab3/beverage/beverage"
+	"ood/lab3/beverage/condiment"
 )
 
 type DecoratorFunc func(beverage beverage.Beverage) beverage.Beverage

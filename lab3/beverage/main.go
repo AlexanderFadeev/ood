@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"ood/lab3/beverage"
-	"ood/lab3/condiment"
-	"ood/lab3/decorator"
+	"ood/lab3/beverage/beverage"
+	"ood/lab3/beverage/condiment"
+	"ood/lab3/beverage/decorator"
 
 	"github.com/pkg/errors"
 )

@@ -3,8 +3,8 @@ package decorator
 import (
 	"strings"
 
-	"ood/lab3/beverage"
-	"ood/lab3/condiment"
+	"ood/lab3/beverage/beverage"
+	"ood/lab3/beverage/condiment"
 )
 
 type condimentDecorator struct {
