@@ -59,7 +59,7 @@ func getBeverageFromDialogWithUser() beverage.Beverage {
 	case 1:
 		return beverage.NewCoffee()
 	case 2:
-		return beverage.NewTea()
+		return beverage.NewTea(beverage.TeaFruit)
 	default:
 		return nil
 	}
@@ -112,7 +112,7 @@ func makeBeverage3() beverage.Beverage {
 	lemon2 := decorator.MakeDecoratorFunc(condiment.NewLemon(2))
 	iceCubes3 := decorator.MakeDecoratorFunc(condiment.NewIceCubes(condiment.WaterIce, 3))
 	coconutFlakes := decorator.MakeDecoratorFunc(condiment.NewCoconutFlakes(42))
-	tea := beverage.NewTea()
+	tea := beverage.NewTea(beverage.TeaGreen)
 
 	return coconutFlakes(iceCubes3(lemon2(tea)))
 }

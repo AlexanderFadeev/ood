@@ -1,11 +1,11 @@
 package beverage
 
 type coffee struct {
-	*beverage
+	beverage
 }
 
 func newCoffee(name string, cost float64) *coffee {
-	return &coffee{newBeverage(name, cost)}
+	return &coffee{*newBeverage(name, cost)}
 }
 
 func NewCoffee() Beverage {

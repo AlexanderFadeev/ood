@@ -1,9 +1,9 @@
 package beverage
 
 type milkshake struct {
-	*beverage
+	beverage
 }
 
 func NewMilkshake() Beverage {
-	return &milkshake{newBeverage("Milkshake", 80)}
+	return &milkshake{*newBeverage("Milkshake", 80)}
 }

@@ -32,11 +32,11 @@ func (ls LatteSize) GetLatteCost() float64 {
 }
 
 type latte struct {
-	*coffee
+	coffee
 }
 
 func NewLatte(size LatteSize) Beverage {
-	return &latte{newCoffee(
+	return &latte{*newCoffee(
 		fmt.Sprintf("%s latte", size),
 		90,
 	)}
