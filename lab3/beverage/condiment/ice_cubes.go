@@ -5,15 +5,15 @@ import "fmt"
 type IceCubeType int
 
 const (
-	DryIce = IceCubeType(iota)
-	WaterIce
+	IceCubeTypeDry = IceCubeType(iota)
+	IceCubeTypeWater
 )
 
 func (ict IceCubeType) String() string {
 	switch ict {
-	case DryIce:
+	case IceCubeTypeDry:
 		return "Dry"
-	case WaterIce:
+	case IceCubeTypeWater:
 		return "Water"
 	default:
 		panic("Invalid ice cube type")
@@ -22,9 +22,9 @@ func (ict IceCubeType) String() string {
 
 func (ict IceCubeType) GetCubeCost() float64 {
 	switch ict {
-	case DryIce:
+	case IceCubeTypeDry:
 		return 10
-	case WaterIce:
+	case IceCubeTypeWater:
 		return 5
 	default:
 		panic("Invalid ice cube type")

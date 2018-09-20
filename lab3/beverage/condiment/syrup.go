@@ -5,15 +5,15 @@ import "fmt"
 type SyrupType int
 
 const (
-	ChocolateSyrup = SyrupType(iota)
-	MapleSyrup
+	SyrupTypeChocolate = SyrupType(iota)
+	SyrupTypeMaple
 )
 
 func (st SyrupType) String() string {
 	switch st {
-	case ChocolateSyrup:
+	case SyrupTypeChocolate:
 		return "Chocolate"
-	case MapleSyrup:
+	case SyrupTypeMaple:
 		return "Maple"
 	default:
 		panic("Invalid syrup type")

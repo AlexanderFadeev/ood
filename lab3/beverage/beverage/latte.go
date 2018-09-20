@@ -5,15 +5,15 @@ import "fmt"
 type LatteSize int
 
 const (
-	LatteNormal = LatteSize(iota)
-	LatteDouble
+	LatteSizeNormal = LatteSize(iota)
+	LatteSizeDouble
 )
 
 func (ls LatteSize) String() string {
 	switch ls {
-	case LatteNormal:
+	case LatteSizeNormal:
 		return "Normal"
-	case LatteDouble:
+	case LatteSizeDouble:
 		return "Double"
 	default:
 		panic("Invalid latte size")
@@ -22,9 +22,9 @@ func (ls LatteSize) String() string {
 
 func (ls LatteSize) GetLatteCost() float64 {
 	switch ls {
-	case LatteNormal:
+	case LatteSizeNormal:
 		return 90
-	case LatteDouble:
+	case LatteSizeDouble:
 		return 130
 	default:
 		panic("Invalid latte size")

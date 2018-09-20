@@ -5,15 +5,15 @@ import "fmt"
 type LiquorType int
 
 const (
-	LiquorNut = LiquorType(iota)
-	LiquorChocolate
+	LiquorTypeNut = LiquorType(iota)
+	LiquorTypeChocolate
 )
 
 func (lt LiquorType) String() string {
 	switch lt {
-	case LiquorNut:
+	case LiquorTypeNut:
 		return "Nut"
-	case LiquorChocolate:
+	case LiquorTypeChocolate:
 		return "Chocolate"
 	default:
 		panic("Invalid liquor type")

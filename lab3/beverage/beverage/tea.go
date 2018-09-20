@@ -5,21 +5,21 @@ import "fmt"
 type TeaType int
 
 const (
-	TeaBlack = TeaType(iota)
-	TeaGreen
-	TeaFruit
-	TeaRed
+	TeaTypeBlack = TeaType(iota)
+	TeaTypeGreen
+	TeaTypeFruit
+	TeaTypeRed
 )
 
 func (tt TeaType) String() string {
 	switch tt {
-	case TeaBlack:
+	case TeaTypeBlack:
 		return "Black"
-	case TeaGreen:
+	case TeaTypeGreen:
 		return "Green"
-	case TeaFruit:
+	case TeaTypeFruit:
 		return "Fruit"
-	case TeaRed:
+	case TeaTypeRed:
 		return "Red"
 	default:
 		panic("Invalid tea type")

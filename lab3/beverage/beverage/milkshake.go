@@ -5,18 +5,18 @@ import "fmt"
 type MilkshakeSize int
 
 const (
-	MilkshakeSmall = MilkshakeSize(iota)
-	MilkshakeMedium
-	MilkshakeLarge
+	MilkshakeSizeSmall = MilkshakeSize(iota)
+	MilkshakeSizeMedium
+	MilkshakeSizeLarge
 )
 
 func (ms MilkshakeSize) String() string {
 	switch ms {
-	case MilkshakeSmall:
+	case MilkshakeSizeSmall:
 		return "Small"
-	case MilkshakeMedium:
+	case MilkshakeSizeMedium:
 		return "Medium"
-	case MilkshakeLarge:
+	case MilkshakeSizeLarge:
 		return "Large"
 	default:
 		panic("Invalid milkshake size")
@@ -25,11 +25,11 @@ func (ms MilkshakeSize) String() string {
 
 func (ms MilkshakeSize) GetMilkshakeCost() float64 {
 	switch ms {
-	case MilkshakeSmall:
+	case MilkshakeSizeSmall:
 		return 50
-	case MilkshakeMedium:
+	case MilkshakeSizeMedium:
 		return 60
-	case MilkshakeLarge:
+	case MilkshakeSizeLarge:
 		return 80
 	default:
 		panic("Invalid milkshake size")
