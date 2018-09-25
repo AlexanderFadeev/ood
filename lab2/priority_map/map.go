@@ -7,7 +7,7 @@ import (
 type IterateFunc func(key interface{}, value interface{})
 
 type PriorityMap interface {
-	Insert(key interface{}, value interface{}, priority uint)
+	Set(key interface{}, value interface{}, priority uint)
 	Get(key interface{}) (interface{}, bool)
 	Delete(key interface{})
 	Iterate(iterateFunc IterateFunc)
@@ -16,7 +16,7 @@ type PriorityMap interface {
 type keyToClusterMapping map[interface{}]*cluster
 
 type priorityMap struct {
-	clusters     clustersSlice
+	clusters     clusters
 	keyToCluster keyToClusterMapping
 }
 
@@ -26,7 +26,7 @@ func Make() PriorityMap {
 	}
 }
 
-func (pm *priorityMap) Insert(key interface{}, value interface{}, priority uint) {
+func (pm *priorityMap) Set(key interface{}, value interface{}, priority uint) {
 	if _, ok := pm.keyToCluster[key]; ok {
 		pm.Delete(key)
 	}

@@ -16,22 +16,22 @@ func makeCluster(priority uint) *cluster {
 	}
 }
 
-type clustersSlice []*cluster
+type clusters []*cluster
 
-func (cs clustersSlice) Len() int {
-	return len(cs)
+func (c clusters) Len() int {
+	return len(c)
 }
 
-func (cs clustersSlice) Less(i, j int) bool {
-	return cs[i].priority > cs[j].priority
+func (c clusters) Less(i, j int) bool {
+	return c[i].priority > c[j].priority
 }
 
-func (cs clustersSlice) Swap(i, j int) {
-	tmp := cs[i]
-	cs[i] = cs[j]
-	cs[j] = tmp
+func (c clusters) Swap(i, j int) {
+	tmp := c[i]
+	c[i] = c[j]
+	c[j] = tmp
 }
 
-func (cs clustersSlice) sort() {
-	sort.Sort(cs)
+func (c clusters) sort() {
+	sort.Sort(c)
 }
