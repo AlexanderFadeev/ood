@@ -26,7 +26,7 @@ type uintToSlotPriorityMapImpl struct {
 }
 
 func (m *uintToSlotPriorityMapImpl) set(key uint, value Slot, priority uint) {
-	m.impl.Insert(key, value, priority)
+	m.impl.Set(key, value, priority)
 }
 
 func (m *uintToSlotPriorityMapImpl) get(key uint) (Slot, bool) {
