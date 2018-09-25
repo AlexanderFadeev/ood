@@ -56,7 +56,7 @@ func TestSignalDisconnect(t *testing.T) {
 	assert.Equal(t, 42, c.get())
 }
 
-func noOpSlot(interface{}) error {
+func noOpSlot(_ interface{}) error {
 	return nil
 }
 
