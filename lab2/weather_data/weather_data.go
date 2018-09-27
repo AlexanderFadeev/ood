@@ -4,7 +4,13 @@ type Setter interface {
 	SetTemperature(float64)
 	SetPressure(float64)
 	SetHumidity(float64)
-	SetValues(temperature float64, pressure float64, humidity float64)
+	SetValues(temperature, pressure, humidity float64)
+}
+
+type SetterPro interface {
+	Setter
+	SetWind(speed, direction float64)
+	SetValuesPro(temperature, pressure, humidity, speed, direction float64)
 }
 
 type Getter interface {
@@ -13,22 +19,35 @@ type Getter interface {
 	GetHumidity() float64
 }
 
+type GetterPro interface {
+	Getter
+	GetWind() (speed, direction float64)
+}
+
 type WeatherData interface {
 	Setter
 	Getter
 	Signal
 }
 
-type weatherData struct {
-	temperature float64
-	pressure    float64
-	humidity    float64
-	Signal
+type WeatherDataPro interface {
+	SetterPro
+	GetterPro
+	SignalPro
 }
 
-func New() WeatherData {
+type weatherData struct {
+	temperature   float64
+	pressure      float64
+	humidity      float64
+	windSpeed     float64
+	windDirection float64
+	SignalPro
+}
+
+func New() WeatherDataPro {
 	return &weatherData{
-		Signal: newSignalAdapter(),
+		SignalPro: newSignalAdapter(),
 	}
 }
 
@@ -47,10 +66,25 @@ func (wd *weatherData) SetHumidity(value float64) {
 	wd.notifyObservers()
 }
 
-func (wd *weatherData) SetValues(temperature float64, pressure float64, humidity float64) {
+func (wd *weatherData) SetWind(speed float64, direction float64) {
+	wd.windSpeed = speed
+	wd.windDirection = direction
+	wd.notifyObservers()
+}
+
+func (wd *weatherData) SetValues(temperature, pressure, humidity float64) {
 	wd.temperature = temperature
 	wd.pressure = pressure
 	wd.humidity = humidity
+	wd.notifyObservers()
+}
+
+func (wd *weatherData) SetValuesPro(temperature, pressure, humidity, speed, direction float64) {
+	wd.temperature = temperature
+	wd.pressure = pressure
+	wd.humidity = humidity
+	wd.windSpeed = speed
+	wd.windDirection = direction
 	wd.notifyObservers()
 }
 
@@ -66,8 +100,12 @@ func (wd *weatherData) GetHumidity() float64 {
 	return wd.humidity
 }
 
+func (wd *weatherData) GetWind() (float64, float64) {
+	return wd.windSpeed, wd.windDirection
+}
+
 func (wd *weatherData) notifyObservers() {
-	wd.Signal.Emit(wd.getSelfCopyPtr())
+	wd.SignalPro.Emit(wd.getSelfCopyPtr())
 }
 
 func (wd *weatherData) getSelfCopyPtr() *weatherData {
