@@ -11,11 +11,11 @@ func main() {
 	d := display.New()
 	sd := stats_display.New()
 
-	conn := wd.ConnectPro(d.DisplayPro, 5)
+	conn := wd.ConnectPro(d.DisplayPro(""), 5)
 
 	wd.SetTemperature(1)
 
-	statsConn := wd.ConnectPro(sd.DisplayStatsPro, 42)
+	statsConn := wd.ConnectPro(sd.DisplayStatsPro(""), 42)
 	defer statsConn.Close()
 
 	wd.SetPressure(2)

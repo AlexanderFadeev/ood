@@ -7,8 +7,8 @@ import (
 )
 
 type StatsDisplayer interface {
-	DisplayStats(weather_data.Getter)
-	DisplayStatsPro(weather_data.GetterPro)
+	DisplayStats(location string) weather_data.Slot
+	DisplayStatsPro(location string) weather_data.SlotPro
 }
 
 type statsDisplayer struct {
@@ -27,20 +27,25 @@ func New() StatsDisplayer {
 	}
 }
 
-func (sd *statsDisplayer) DisplayStats(data weather_data.Getter) {
-	sd.update(data)
-	sd.displayImpl(data)
-	fmt.Println()
+func (sd *statsDisplayer) DisplayStats(location string) weather_data.Slot {
+	return func(data weather_data.Getter) {
+		sd.update(data)
+		sd.displayImpl(location, data)
+		fmt.Println()
+	}
 }
 
-func (sd *statsDisplayer) DisplayStatsPro(data weather_data.GetterPro) {
-	sd.updatePro(data)
-	sd.displayImpl(data)
-	sd.displayWindStats()
-	fmt.Println()
+func (sd *statsDisplayer) DisplayStatsPro(location string) weather_data.SlotPro {
+	return func(data weather_data.GetterPro) {
+		sd.updatePro(data)
+		sd.displayImpl(location, data)
+		sd.displayWindStats()
+		fmt.Println()
+	}
 }
 
-func (sd *statsDisplayer) displayImpl(data weather_data.Getter) {
+func (sd *statsDisplayer) displayImpl(location string, data weather_data.Getter) {
+	fmt.Printf("#%s ", location)
 	sd.displayCollectorStats("Temp", sd.temperatureStatsCollector)
 	sd.displayCollectorStats("Press", sd.pressureStatsCollector)
 	sd.displayCollectorStats("Hum", sd.humidityStatsCollector)
