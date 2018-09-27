@@ -38,4 +38,5 @@ func TestDrawTriangle(t *testing.T) {
 	triangle.Draw(canvasMock)
 
 	canvasMock.AssertExpectations(t)
+	canvasMock.AssertNumberOfCalls(t, "DrawLine", 3)
 }
