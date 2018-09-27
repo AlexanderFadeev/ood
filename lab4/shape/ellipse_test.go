@@ -12,10 +12,10 @@ func TestNewEllipse(t *testing.T) {
 		c      Point
 		hr, vr float64
 	}{
-		{true, Point{0, 0}, 1, 1},
-		{false, Point{0, 0}, -1, 1},
-		{false, Point{0, 0}, 1, -1},
-		{false, Point{0, 0}, -1, -1},
+		{true, Point{1, 1}, 1, 1},
+		{false, Point{1, 1}, -1, 1},
+		{false, Point{1, 1}, 1, -1},
+		{false, Point{1, 1}, -1, -1},
 	}
 
 	for _, row := range table {
