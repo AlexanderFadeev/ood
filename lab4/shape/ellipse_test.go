@@ -3,19 +3,21 @@ package shape
 import (
 	"testing"
 
+	"ood/lab4/point"
+
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewEllipse(t *testing.T) {
 	table := []struct {
 		valid  bool
-		c      Point
+		c      point.Point
 		hr, vr float64
 	}{
-		{true, Point{1, 1}, 1, 1},
-		{false, Point{1, 1}, -1, 1},
-		{false, Point{1, 1}, 1, -1},
-		{false, Point{1, 1}, -1, -1},
+		{true, point.Point{1, 1}, 1, 1},
+		{false, point.Point{1, 1}, -1, 1},
+		{false, point.Point{1, 1}, 1, -1},
+		{false, point.Point{1, 1}, -1, -1},
 	}
 
 	for _, row := range table {

@@ -3,6 +3,8 @@ package shape
 import (
 	"testing"
 
+	"ood/lab4/point"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -10,12 +12,12 @@ func TestNewRegularPolygon(t *testing.T) {
 	table := []struct {
 		valid bool
 		v     uint
-		c     Point
+		c     point.Point
 		r     float64
 	}{
-		{true, 42, Point{1, 1}, 1},
-		{false, 2, Point{1, 1}, 1},
-		{false, 42, Point{1, 1}, -1},
+		{true, 42, point.Point{1, 1}, 1},
+		{false, 2, point.Point{1, 1}, 1},
+		{false, 42, point.Point{1, 1}, -1},
 	}
 
 	for _, row := range table {

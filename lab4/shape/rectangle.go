@@ -1,16 +1,18 @@
 package shape
 
+import "ood/lab4/point"
+
 type Rectangle struct {
-	leftTop     Point
-	rightBottom Point
+	leftTop     point.Point
+	rightBottom point.Point
 }
 
-func NewRectangle(leftTop, rightBottom Point) Rectangle {
-	if leftTop.x > rightBottom.x {
-		leftTop.x, rightBottom.x = rightBottom.x, leftTop.x
+func NewRectangle(leftTop, rightBottom point.Point) Rectangle {
+	if leftTop.X > rightBottom.X {
+		leftTop.X, rightBottom.X = rightBottom.X, leftTop.X
 	}
-	if leftTop.y > rightBottom.y {
-		leftTop.y, rightBottom.y = rightBottom.y, leftTop.y
+	if leftTop.Y > rightBottom.Y {
+		leftTop.Y, rightBottom.Y = rightBottom.Y, leftTop.Y
 	}
 
 	return Rectangle{
@@ -19,10 +21,10 @@ func NewRectangle(leftTop, rightBottom Point) Rectangle {
 	}
 }
 
-func (r Rectangle) GetLeftTop() Point {
+func (r Rectangle) GetLeftTop() point.Point {
 	return r.leftTop
 }
 
-func (r Rectangle) GetRightBottom() Point {
+func (r Rectangle) GetRightBottom() point.Point {
 	return r.rightBottom
 }

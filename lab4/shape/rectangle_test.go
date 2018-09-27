@@ -3,15 +3,17 @@ package shape
 import (
 	"testing"
 
+	"ood/lab4/point"
+
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewRectangle(t *testing.T) {
-	table := []struct{ a, b, lt, rb Point }{
-		{Point{1, 2}, Point{3, 4}, Point{1, 2}, Point{3, 4}},
-		{Point{3, 2}, Point{1, 4}, Point{1, 2}, Point{3, 4}},
-		{Point{1, 4}, Point{3, 2}, Point{1, 2}, Point{3, 4}},
-		{Point{3, 4}, Point{1, 2}, Point{1, 2}, Point{3, 4}},
+	table := []struct{ a, b, lt, rb point.Point }{
+		{point.Point{1, 2}, point.Point{3, 4}, point.Point{1, 2}, point.Point{3, 4}},
+		{point.Point{3, 2}, point.Point{1, 4}, point.Point{1, 2}, point.Point{3, 4}},
+		{point.Point{1, 4}, point.Point{3, 2}, point.Point{1, 2}, point.Point{3, 4}},
+		{point.Point{3, 4}, point.Point{1, 2}, point.Point{1, 2}, point.Point{3, 4}},
 	}
 
 	for _, row := range table {

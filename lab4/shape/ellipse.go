@@ -1,14 +1,18 @@
 package shape
 
-import "github.com/pkg/errors"
+import (
+	"ood/lab4/point"
+
+	"github.com/pkg/errors"
+)
 
 type Ellipse struct {
-	center           Point
+	center           point.Point
 	horizontalRadius float64
 	verticalRadius   float64
 }
 
-func NewEllipse(center Point, horizontalRadius, verticalRadius float64) (*Ellipse, error) {
+func NewEllipse(center point.Point, horizontalRadius, verticalRadius float64) (*Ellipse, error) {
 	if horizontalRadius < 0 {
 		return nil, errors.New("Negative horizontal radius value")
 	}
@@ -23,7 +27,7 @@ func NewEllipse(center Point, horizontalRadius, verticalRadius float64) (*Ellips
 	}, nil
 }
 
-func (e Ellipse) GetCenter() Point {
+func (e Ellipse) GetCenter() point.Point {
 	return e.center
 }
 

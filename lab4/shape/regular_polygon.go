@@ -1,14 +1,18 @@
 package shape
 
-import "errors"
+import (
+	"ood/lab4/point"
+
+	"github.com/pkg/errors"
+)
 
 type RegularPolygon struct {
 	vertices uint
-	center   Point
+	center   point.Point
 	radius   float64
 }
 
-func NewRegularPolygon(vertices uint, center Point, radius float64) (*RegularPolygon, error) {
+func NewRegularPolygon(vertices uint, center point.Point, radius float64) (*RegularPolygon, error) {
 	if vertices < 3 {
 		return nil, errors.New("Too few vertices")
 	}
@@ -27,7 +31,7 @@ func (rp RegularPolygon) GetVerticesCount() uint {
 	return rp.vertices
 }
 
-func (rp RegularPolygon) GetCenter() Point {
+func (rp RegularPolygon) GetCenter() point.Point {
 	return rp.center
 }
 
