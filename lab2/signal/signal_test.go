@@ -80,3 +80,36 @@ func TestSignalDisconnectWhileEmittingAfterCalling(t *testing.T) {
 	signal.Connect(makeCloseConnectionSlot(conn), 0)
 	signal.Emit(nil)
 }
+
+func makeIncSlot(i *int) Slot {
+	return func(_ interface{}) error {
+		*i++
+		return nil
+	}
+}
+
+func makeDoubleSlot(i *int) Slot {
+	return func(_ interface{}) error {
+		*i *= 2
+		return nil
+	}
+}
+
+func makeSqrSlot(i *int) Slot {
+	return func(_ interface{}) error {
+		*i *= *i
+		return nil
+	}
+}
+
+func TestSignalPriority(t *testing.T) {
+	signal := New()
+	i := 0
+
+	signal.Connect(makeSqrSlot(&i), 1)
+	signal.Connect(makeIncSlot(&i), 3)
+	signal.Connect(makeDoubleSlot((&i)), 2)
+
+	signal.Emit(nil)
+	assert.Equal(t, 4, i)
+}
