@@ -106,6 +106,7 @@ func (c *canvas) Display() {
 	err := open.Start(fullAddress)
 	if err != nil {
 		logrus.Error(err)
+		return
 	}
 
 	wg.Wait()
