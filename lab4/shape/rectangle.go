@@ -1,6 +1,9 @@
 package shape
 
-import "ood/lab4/point"
+import (
+	"ood/lab4/canvas"
+	"ood/lab4/point"
+)
 
 type Rectangle struct {
 	leftTop     point.Point
@@ -27,4 +30,14 @@ func (r Rectangle) GetLeftTop() point.Point {
 
 func (r Rectangle) GetRightBottom() point.Point {
 	return r.rightBottom
+}
+
+func (r Rectangle) Draw(canvas canvas.Canvas) {
+	rightTop := point.Point{r.rightBottom.X, r.leftTop.Y}
+	leftBottom := point.Point{r.leftTop.X, r.rightBottom.Y}
+
+	canvas.DrawLine(r.leftTop, rightTop)
+	canvas.DrawLine(rightTop, r.rightBottom)
+	canvas.DrawLine(r.rightBottom, leftBottom)
+	canvas.DrawLine(leftBottom, r.leftTop)
 }
