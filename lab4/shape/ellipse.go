@@ -1,6 +1,7 @@
 package shape
 
 import (
+	"ood/lab4/canvas"
 	"ood/lab4/point"
 
 	"github.com/pkg/errors"
@@ -37,4 +38,9 @@ func (e Ellipse) GetHorizontalRadius() float64 {
 
 func (e Ellipse) GetVerticalRadius() float64 {
 	return e.verticalRadius
+}
+
+func (e Ellipse) Draw(canvas canvas.Canvas) {
+	topLeft := point.Point{e.center.X - e.horizontalRadius, e.center.Y - e.verticalRadius}
+	canvas.DrawEllipse(topLeft, e.horizontalRadius*2, e.verticalRadius*2)
 }
