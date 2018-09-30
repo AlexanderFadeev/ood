@@ -1,6 +1,9 @@
 package shape
 
 import (
+	"math"
+
+	"ood/lab4/canvas"
 	"ood/lab4/point"
 
 	"github.com/pkg/errors"
@@ -37,4 +40,20 @@ func (rp RegularPolygon) GetCenter() point.Point {
 
 func (rp RegularPolygon) GetRadius() float64 {
 	return rp.radius
+}
+
+func (rp RegularPolygon) Draw(canvas canvas.Canvas) {
+	for index := uint(0); index < rp.vertices; index++ {
+		from := rp.indexToPoint(index)
+		to := rp.indexToPoint(index + 1)
+		canvas.DrawLine(from, to)
+	}
+}
+
+func (rp RegularPolygon) indexToPoint(index uint) point.Point {
+	angle := float64(index) / float64(rp.vertices) * 2 * math.Pi
+	return point.Point{
+		X: rp.center.X + rp.radius*math.Cos(angle),
+		Y: rp.center.Y - rp.radius*math.Sin(angle),
+	}
 }
