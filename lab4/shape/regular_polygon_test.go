@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"ood/lab4/canvas"
+	"ood/lab4/color"
 	"ood/lab4/point"
 
 	"github.com/stretchr/testify/assert"
@@ -17,14 +18,15 @@ func TestNewRegularPolygon(t *testing.T) {
 		v     uint
 		c     point.Point
 		r     float64
+		color color.Color
 	}{
-		{true, 42, point.Point{1, 1}, 1},
-		{false, 2, point.Point{1, 1}, 1},
-		{false, 42, point.Point{1, 1}, -1},
+		{true, 42, point.Point{1, 1}, 1, color.Yellow},
+		{false, 2, point.Point{1, 1}, 1, 0},
+		{false, 42, point.Point{1, 1}, -1, 0},
 	}
 
 	for _, row := range table {
-		polygon, err := NewRegularPolygon(row.v, row.c, row.r)
+		polygon, err := NewRegularPolygon(row.v, row.c, row.r, row.color)
 		if !row.valid {
 			assert.NotNil(t, err)
 			continue
@@ -34,6 +36,7 @@ func TestNewRegularPolygon(t *testing.T) {
 		assert.Equal(t, row.v, polygon.GetVerticesCount())
 		assert.Equal(t, row.c, polygon.GetCenter())
 		assert.Equal(t, row.r, polygon.GetRadius())
+		assert.Equal(t, row.color, polygon.GetColor())
 	}
 }
 
@@ -51,8 +54,9 @@ func pointsAlmostEqual(a point.Point) func(point.Point) bool {
 func TestDrawRegularPolygon(t *testing.T) {
 	const radius = 42.0
 	const vertices = 8
+	const col = color.Blue
 
-	polygon, _ := NewRegularPolygon(vertices, point.Point{radius, radius}, radius)
+	polygon, _ := NewRegularPolygon(vertices, point.Point{radius, radius}, radius, col)
 
 	var p [vertices]point.Point
 	for i := 0; i < vertices; i++ {
@@ -70,8 +74,10 @@ func TestDrawRegularPolygon(t *testing.T) {
 			mock.MatchedBy(pointsAlmostEqual(p[(i+1)%vertices])),
 		).Return()
 	}
+	canvasMock.On("SetColor", col).Return()
 
 	polygon.Draw(canvasMock)
 	canvasMock.AssertExpectations(t)
 	canvasMock.AssertNumberOfCalls(t, "DrawLine", 8)
+	canvasMock.AssertNumberOfCalls(t, "SetColor", 1)
 }

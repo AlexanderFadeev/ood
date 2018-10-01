@@ -4,18 +4,21 @@ import (
 	"math"
 
 	"ood/lab4/canvas"
+	"ood/lab4/color"
 	"ood/lab4/point"
 
 	"github.com/pkg/errors"
 )
 
 type RegularPolygon struct {
+	shapeColor
+
 	vertices uint
 	center   point.Point
 	radius   float64
 }
 
-func NewRegularPolygon(vertices uint, center point.Point, radius float64) (*RegularPolygon, error) {
+func NewRegularPolygon(vertices uint, center point.Point, radius float64, color color.Color) (*RegularPolygon, error) {
 	if vertices < 3 {
 		return nil, errors.New("Too few vertices")
 	}
@@ -24,9 +27,10 @@ func NewRegularPolygon(vertices uint, center point.Point, radius float64) (*Regu
 	}
 
 	return &RegularPolygon{
-		vertices: vertices,
-		center:   center,
-		radius:   radius,
+		shapeColor: shapeColor(color),
+		vertices:   vertices,
+		center:     center,
+		radius:     radius,
 	}, nil
 }
 
@@ -43,6 +47,8 @@ func (rp RegularPolygon) GetRadius() float64 {
 }
 
 func (rp RegularPolygon) Draw(canvas canvas.Canvas) {
+	canvas.SetColor(rp.GetColor())
+
 	for index := uint(0); index < rp.vertices; index++ {
 		from := rp.indexToPoint(index)
 		to := rp.indexToPoint(index + 1)

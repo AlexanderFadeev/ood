@@ -2,18 +2,21 @@ package shape
 
 import (
 	"ood/lab4/canvas"
+	"ood/lab4/color"
 	"ood/lab4/point"
 
 	"github.com/pkg/errors"
 )
 
 type Ellipse struct {
+	shapeColor
+
 	center           point.Point
 	horizontalRadius float64
 	verticalRadius   float64
 }
 
-func NewEllipse(center point.Point, horizontalRadius, verticalRadius float64) (*Ellipse, error) {
+func NewEllipse(center point.Point, horizontalRadius, verticalRadius float64, color color.Color) (*Ellipse, error) {
 	if horizontalRadius < 0 {
 		return nil, errors.New("Negative horizontal radius value")
 	}
@@ -22,6 +25,7 @@ func NewEllipse(center point.Point, horizontalRadius, verticalRadius float64) (*
 	}
 
 	return &Ellipse{
+		shapeColor:       shapeColor(color),
 		center:           center,
 		horizontalRadius: horizontalRadius,
 		verticalRadius:   verticalRadius,
@@ -41,6 +45,7 @@ func (e Ellipse) GetVerticalRadius() float64 {
 }
 
 func (e Ellipse) Draw(canvas canvas.Canvas) {
+	canvas.SetColor(e.GetColor())
 	topLeft := point.Point{e.center.X - e.horizontalRadius, e.center.Y - e.verticalRadius}
 	canvas.DrawEllipse(topLeft, e.horizontalRadius*2, e.verticalRadius*2)
 }
