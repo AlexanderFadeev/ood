@@ -5,39 +5,42 @@ import "fmt"
 type CapuccinoSize int
 
 const (
-	CapuccinoSizeNormal = CapuccinoSize(iota)
+	CapuccinoSizeRegular = CapuccinoSize(iota)
 	CapuccinoSizeDouble
 )
 
-func (ls CapuccinoSize) String() string {
-	switch ls {
-	case CapuccinoSizeNormal:
-		return "Normal"
+func (cs CapuccinoSize) String() string {
+	switch cs {
+	case CapuccinoSizeRegular:
+		return "Regular"
 	case CapuccinoSizeDouble:
 		return "Double"
 	default:
-		panic("Invalid capuccino size")
-	}
-}
-
-func (ls CapuccinoSize) GetCapuccinoCost() float64 {
-	switch ls {
-	case CapuccinoSizeNormal:
-		return 80
-	case CapuccinoSizeDouble:
-		return 120
-	default:
-		panic("Invalid capuccino size")
+		panic("Invalid capuccino size value")
 	}
 }
 
 type capuccino struct {
-	coffee
+	size CapuccinoSize
 }
 
 func NewCapuccino(size CapuccinoSize) Beverage {
-	return &capuccino{*newCoffee(
-		fmt.Sprintf("%s capuccino", size),
-		size.GetCapuccinoCost(),
-	)}
+	return &capuccino{
+		size: size,
+	}
+}
+
+func (c *capuccino) String() string {
+	return fmt.Sprintf("%s capuccino", c.size)
+}
+
+func (c *capuccino) GetCost() float64 {
+	switch c.size {
+	case CapuccinoSizeRegular:
+		return 80
+	case CapuccinoSizeDouble:
+		return 120
+	default:
+		panic("Invalid capuccino size value")
+	}
 }

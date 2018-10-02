@@ -5,39 +5,42 @@ import "fmt"
 type LatteSize int
 
 const (
-	LatteSizeNormal = LatteSize(iota)
+	LatteSizeRegular = LatteSize(iota)
 	LatteSizeDouble
 )
 
 func (ls LatteSize) String() string {
 	switch ls {
-	case LatteSizeNormal:
-		return "Normal"
+	case LatteSizeRegular:
+		return "Regular"
 	case LatteSizeDouble:
 		return "Double"
 	default:
-		panic("Invalid latte size")
-	}
-}
-
-func (ls LatteSize) GetLatteCost() float64 {
-	switch ls {
-	case LatteSizeNormal:
-		return 90
-	case LatteSizeDouble:
-		return 130
-	default:
-		panic("Invalid latte size")
+		panic("Invalid latte size value")
 	}
 }
 
 type latte struct {
-	coffee
+	size LatteSize
 }
 
 func NewLatte(size LatteSize) Beverage {
-	return &latte{*newCoffee(
-		fmt.Sprintf("%s latte", size),
-		90,
-	)}
+	return &latte{
+		size: size,
+	}
+}
+
+func (l *latte) String() string {
+	return fmt.Sprintf("%s latte", l.size)
+}
+
+func (l *latte) GetCost() float64 {
+	switch l.size {
+	case LatteSizeRegular:
+		return 90
+	case LatteSizeDouble:
+		return 130
+	default:
+		panic("Invalid latte size value")
+	}
 }

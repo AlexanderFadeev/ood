@@ -1,9 +1,15 @@
 package condiment
 
-type cinnamon struct {
-	condiment
-}
+type cinnamon struct{}
 
 func NewCinnamon() Condiment {
-	return &cinnamon{*newCondiment("Cinnamon", 20)}
+	return new(cinnamon)
+}
+
+func (cinnamon) String() string {
+	return "Cinnamon"
+}
+
+func (cinnamon) GetCondimentCost() float64 {
+	return 20
 }

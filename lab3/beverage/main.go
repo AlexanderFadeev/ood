@@ -59,7 +59,7 @@ func getBeverageFromDialogWithUser() beverage.Beverage {
 	case 1:
 		return beverage.NewCoffee()
 	case 2:
-		return beverage.NewTea(beverage.TeaTypeFruit)
+		return beverage.NewTea(beverage.TeaKindFruit)
 	default:
 		return nil
 	}
@@ -88,7 +88,7 @@ func getCondimentFromDialogWithUser() (condiment.Condiment, error) {
 }
 
 func makeBeverage1() beverage.Beverage {
-	latte := beverage.NewLatte(beverage.LatteSizeNormal)
+	latte := beverage.NewLatte(beverage.LatteSizeRegular)
 	withCream := decorator.Decorate(latte, condiment.NewCream())
 	withCinnamon := decorator.Decorate(withCream, condiment.NewCinnamon())
 	withLemon := decorator.Decorate(withCinnamon, condiment.NewLemon(2))
@@ -114,13 +114,13 @@ func makeBeverage3() beverage.Beverage {
 	lemon2 := decorator.MakeDecoratorFunc(condiment.NewLemon(2))
 	iceCubes3 := decorator.MakeDecoratorFunc(condiment.NewIceCubes(condiment.IceCubeTypeWater, 3))
 	coconutFlakes := decorator.MakeDecoratorFunc(condiment.NewCoconutFlakes(42))
-	tea := beverage.NewTea(beverage.TeaTypeGreen)
+	tea := beverage.NewTea(beverage.TeaKindGreen)
 
 	return coconutFlakes(iceCubes3(lemon2(tea)))
 }
 
 func makeBeverage4() beverage.Beverage {
-	return decorator.NewBuilder(beverage.NewCapuccino(beverage.CapuccinoSizeNormal)).
+	return decorator.NewBuilder(beverage.NewCapuccino(beverage.CapuccinoSizeRegular)).
 		WithCondiment(condiment.NewCinnamon()).
 		WithCondiment(condiment.NewLemon(2)).
 		WithCondiment(condiment.NewSyrup(condiment.SyrupTypeMaple)).

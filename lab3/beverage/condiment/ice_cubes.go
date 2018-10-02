@@ -32,12 +32,21 @@ func (ict IceCubeType) GetCubeCost() float64 {
 }
 
 type iceCubes struct {
-	condiment
+	cubesType IceCubeType
+	quantity  uint
 }
 
 func NewIceCubes(cubesType IceCubeType, quantity uint) Condiment {
-	return &iceCubes{*newQuantifiedCondiment(
-		fmt.Sprintf("%s ice cubes", cubesType),
-		cubesType.GetCubeCost(), quantity,
-	)}
+	return &iceCubes{
+		cubesType: cubesType,
+		quantity:  quantity,
+	}
+}
+
+func (ic *iceCubes) String() string {
+	return fmt.Sprintf(quantifiedDescriptionFormat, "Ice cubes", ic.quantity)
+}
+
+func (ic *iceCubes) GetCondimentCost() float64 {
+	return ic.cubesType.GetCubeCost() * float64(ic.quantity)
 }

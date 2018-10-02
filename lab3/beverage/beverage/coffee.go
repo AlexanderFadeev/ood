@@ -1,13 +1,15 @@
 package beverage
 
-type coffee struct {
-	beverage
-}
-
-func newCoffee(name string, cost float64) *coffee {
-	return &coffee{*newBeverage(name, cost)}
-}
+type coffee struct{}
 
 func NewCoffee() Beverage {
-	return newCoffee("Coffee", 60)
+	return new(coffee)
+}
+
+func (coffee) String() string {
+	return "Coffee"
+}
+
+func (coffee) GetCost() float64 {
+	return 60
 }

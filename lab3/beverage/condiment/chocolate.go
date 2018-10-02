@@ -5,15 +5,23 @@ import (
 )
 
 type chocolate struct {
-	condiment
+	quantity uint
 }
 
 func NewChocolate(quantity uint) Condiment {
-	if quantity > 5 {
+	if !(0 < quantity && quantity <= 5) {
 		panic(fmt.Sprintf("Invalid chocolate segments count `%d`", quantity))
 	}
 
 	return &chocolate{
-		*newQuantifiedCondiment("Chocolate", 10, quantity),
+		quantity: quantity,
 	}
+}
+
+func (c *chocolate) String() string {
+	return fmt.Sprintf(quantifiedDescriptionFormat, "Chocolate", c.quantity)
+}
+
+func (c *chocolate) GetCondimentCost() float64 {
+	return 10 * float64(c.quantity)
 }

@@ -2,37 +2,44 @@ package beverage
 
 import "fmt"
 
-type TeaType int
+type TeaKind int
 
 const (
-	TeaTypeBlack = TeaType(iota)
-	TeaTypeGreen
-	TeaTypeFruit
-	TeaTypeRed
+	TeaKindBlack = TeaKind(iota)
+	TeaKindGreen
+	TeaKindFruit
+	TeaKindRed
 )
 
-func (tt TeaType) String() string {
-	switch tt {
-	case TeaTypeBlack:
+func (t TeaKind) String() string {
+	switch t {
+	case TeaKindBlack:
 		return "Black"
-	case TeaTypeGreen:
+	case TeaKindGreen:
 		return "Green"
-	case TeaTypeFruit:
+	case TeaKindFruit:
 		return "Fruit"
-	case TeaTypeRed:
+	case TeaKindRed:
 		return "Red"
 	default:
-		panic("Invalid tea type")
+		panic("Invalid tea kind value")
 	}
 }
 
 type tea struct {
-	beverage
+	kind TeaKind
 }
 
-func NewTea(teaType TeaType) Beverage {
-	return &tea{*newBeverage(
-		fmt.Sprintf("%s tea", teaType),
-		30,
-	)}
+func NewTea(kind TeaKind) Beverage {
+	return &tea{
+		kind: kind,
+	}
+}
+
+func (t *tea) String() string {
+	return fmt.Sprintf("%s tea", t.kind)
+}
+
+func (tea) GetCost() float64 {
+	return 30
 }

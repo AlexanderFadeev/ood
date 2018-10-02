@@ -21,12 +21,19 @@ func (lt LiquorType) String() string {
 }
 
 type liquor struct {
-	condiment
+	liquorType LiquorType
 }
 
 func NewLiquor(liquorType LiquorType) Condiment {
-	return &liquor{*newCondiment(
-		fmt.Sprintf("%s liquor", liquorType),
-		50,
-	)}
+	return &liquor{
+		liquorType: liquorType,
+	}
+}
+
+func (l *liquor) String() string {
+	return fmt.Sprintf("%s liquor", l.liquorType)
+}
+
+func (liquor) GetCondimentCost() float64 {
+	return 50
 }

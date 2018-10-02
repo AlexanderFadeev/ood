@@ -10,8 +10,8 @@ const (
 	MilkshakeSizeLarge
 )
 
-func (ms MilkshakeSize) String() string {
-	switch ms {
+func (m MilkshakeSize) String() string {
+	switch m {
 	case MilkshakeSizeSmall:
 		return "Small"
 	case MilkshakeSizeMedium:
@@ -19,12 +19,26 @@ func (ms MilkshakeSize) String() string {
 	case MilkshakeSizeLarge:
 		return "Large"
 	default:
-		panic("Invalid milkshake size")
+		panic("Invalid milkshake size value")
 	}
 }
 
-func (ms MilkshakeSize) GetMilkshakeCost() float64 {
-	switch ms {
+type milkshake struct {
+	size MilkshakeSize
+}
+
+func NewMilkshake(size MilkshakeSize) Beverage {
+	return &milkshake{
+		size: size,
+	}
+}
+
+func (m *milkshake) String() string {
+	return fmt.Sprintf("%s milkshake", m.size)
+}
+
+func (m *milkshake) GetCost() float64 {
+	switch m.size {
 	case MilkshakeSizeSmall:
 		return 50
 	case MilkshakeSizeMedium:
@@ -32,17 +46,6 @@ func (ms MilkshakeSize) GetMilkshakeCost() float64 {
 	case MilkshakeSizeLarge:
 		return 80
 	default:
-		panic("Invalid milkshake size")
+		panic("Invalid milkshake size value")
 	}
-}
-
-type milkshake struct {
-	beverage
-}
-
-func NewMilkshake(size MilkshakeSize) Beverage {
-	return &milkshake{*newBeverage(
-		fmt.Sprintf("%s milkshake", size),
-		size.GetMilkshakeCost(),
-	)}
 }
