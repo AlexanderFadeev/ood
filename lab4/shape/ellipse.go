@@ -1,6 +1,8 @@
 package shape
 
 import (
+	"fmt"
+
 	"ood/lab4/canvas"
 	"ood/lab4/color"
 	"ood/lab4/point"
@@ -48,4 +50,8 @@ func (e Ellipse) Draw(canvas canvas.Canvas) {
 	canvas.SetColor(e.GetColor())
 	topLeft := point.Point{e.center.X - e.horizontalRadius, e.center.Y - e.verticalRadius}
 	canvas.DrawEllipse(topLeft, e.horizontalRadius*2, e.verticalRadius*2)
+}
+
+func (e Ellipse) String() string {
+	return fmt.Sprintf("%s ellipse: O=%s, HR=%.1f, VR=%.1f", e.GetColor(), e.center, e.horizontalRadius, e.verticalRadius)
 }

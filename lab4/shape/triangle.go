@@ -1,6 +1,8 @@
 package shape
 
 import (
+	"fmt"
+
 	"ood/lab4/canvas"
 	"ood/lab4/color"
 	"ood/lab4/point"
@@ -40,4 +42,8 @@ func (t Triangle) Draw(canvas canvas.Canvas) {
 	canvas.DrawLine(t.a, t.b)
 	canvas.DrawLine(t.b, t.c)
 	canvas.DrawLine(t.c, t.a)
+}
+
+func (t Triangle) String() string {
+	return fmt.Sprintf("%s triangle: A=%s, B=%s, C=%s", t.GetColor(), t.a, t.b, t.c)
 }

@@ -1,6 +1,7 @@
 package shape
 
 import (
+	"fmt"
 	"math"
 
 	"ood/lab4/canvas"
@@ -62,4 +63,8 @@ func (rp RegularPolygon) indexToPoint(index uint) point.Point {
 		X: rp.center.X + rp.radius*math.Cos(angle),
 		Y: rp.center.Y - rp.radius*math.Sin(angle),
 	}
+}
+
+func (rp RegularPolygon) String() string {
+	return fmt.Sprintf("%s %d-sided regular polygon: O=%s, R=%.1f", rp.GetColor(), rp.vertices, rp.center, rp.radius)
 }
