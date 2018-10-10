@@ -9,14 +9,14 @@ import (
 func TestVectorPush(t *testing.T) {
 	vec := make(Vector, 0)
 
-	count := 42
-	for i := 0; i < 42; i++ {
+	const count = 42
+	for i := 0; i < count; i++ {
 		vec.Push(i)
 	}
 
 	assert.Equal(t, count, len(vec))
 
-	for i := 0; i < 42; i++ {
+	for i := 0; i < count; i++ {
 		assert.Equal(t, i, vec[i])
 	}
 }
