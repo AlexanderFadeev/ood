@@ -29,10 +29,35 @@ func TestVectorInsert(t *testing.T) {
 	assert.Equal(t, Vector{1, 2, 3, 4, 5}, vec)
 }
 
+func TestVectorInsertBack(t *testing.T) {
+	vec := Vector{1, 2, 3, 4}
+
+	vec.Insert(5, 4)
+
+	assert.Equal(t, Vector{1, 2, 3, 4, 5}, vec)
+}
+
 func TestVectorDelete(t *testing.T) {
 	vec := Vector{1, 2, 3, 4, 5}
 
 	vec.Delete(2)
 
 	assert.Equal(t, Vector{1, 2, 4, 5}, vec)
+}
+
+func TestVectorDeleteBack(t *testing.T) {
+	vec := Vector{1, 2, 3, 4, 5}
+
+	vec.Delete(4)
+
+	assert.Equal(t, Vector{1, 2, 3, 4}, vec)
+}
+
+func TestVectorPop(t *testing.T) {
+	vec := Vector{1, 2, 3, 4, 5}
+
+	val := vec.Pop()
+	assert.Equal(t, 5, val)
+
+	assert.Equal(t, Vector{1, 2, 3, 4}, vec)
 }

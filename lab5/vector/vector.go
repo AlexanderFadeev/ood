@@ -16,3 +16,9 @@ func (v *Vector) Delete(position int) {
 	copy((*v)[position:], (*v)[position+1:])
 	*v = (*v)[:len(*v)-1]
 }
+
+func (v *Vector) Pop() interface{} {
+	var val interface{}
+	*v, val = (*v)[:len(*v)-1], (*v)[len(*v)-1]
+	return val
+}
