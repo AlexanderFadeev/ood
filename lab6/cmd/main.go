@@ -12,19 +12,26 @@ import (
 )
 
 func main() {
-	if promtYesNo("Should we use new API?") {
-		fmt.Println("Using modern graphics lib")
-		paintPictureOnModernGraphicsRenderer()
-	} else {
+	if !promtYesNo("Should we use new API?") {
 		fmt.Println("Using old graphics lib")
 		paintPictureOnCanvas()
+	} else if !promtYesNo("Should we use class adapter?") {
+		fmt.Println("Using modern graphics lib with object adapter")
+		paintPictureOnModernGraphicsRendererObjectAdapter()
+	} else {
+		fmt.Println("Using modern graphics lib with class adapter")
+		paintPictureOnModernGraphicsRendererClassAdapter()
 	}
 }
 
 func promtYesNo(question string) bool {
 	fmt.Print(question + " (y/n) ")
 	stdinReader := bufio.NewReader(os.Stdin)
-	ch, _, _ := stdinReader.ReadRune()
+	var ch rune
+	var err error
+	for err == nil && (ch == rune(0) || ch == '\n') {
+		ch, _, err = stdinReader.ReadRune()
+	}
 	return ch == 'y' || ch == 'Y'
 }
 
@@ -34,13 +41,23 @@ func paintPictureOnCanvas() {
 	paintPicture(painter)
 }
 
-func paintPictureOnModernGraphicsRenderer() {
+func paintPictureOnModernGraphicsRendererObjectAdapter() {
 	renderer := modern_graphics.NewRenderer(os.Stdout)
 	renderer.BeginDraw()
 	defer renderer.EndDraw()
 
 	canvas := adapter.NewObjectAdapter(renderer)
 	painter := shape_drawing.NewPainter(canvas)
+
+	paintPicture(painter)
+}
+
+func paintPictureOnModernGraphicsRendererClassAdapter() {
+	classAdapter := adapter.NewClassAdapter(os.Stdout)
+	classAdapter.BeginDraw()
+	defer classAdapter.EndDraw()
+
+	painter := shape_drawing.NewPainter(classAdapter)
 
 	paintPicture(painter)
 }
