@@ -1,17 +1,47 @@
-package cmd
+package main
 
 import (
+	"bufio"
+	"fmt"
+	"os"
+
+	"ood/lab6/adapter"
 	"ood/lab6/graphics"
+	"ood/lab6/modern_graphics"
 	"ood/lab6/shape_drawing"
 )
 
 func main() {
-	paintPictureOnCanvas()
+	if promtYesNo("Should we use new API?") {
+		fmt.Println("Using modern graphics lib")
+		paintPictureOnModernGraphicsRenderer()
+	} else {
+		fmt.Println("Using old graphics lib")
+		paintPictureOnCanvas()
+	}
+}
+
+func promtYesNo(question string) bool {
+	fmt.Print(question + " (y/n) ")
+	stdinReader := bufio.NewReader(os.Stdin)
+	ch, _, _ := stdinReader.ReadRune()
+	return ch == 'y' || ch == 'Y'
 }
 
 func paintPictureOnCanvas() {
 	canvas := graphics.New()
 	painter := shape_drawing.NewPainter(canvas)
+	paintPicture(painter)
+}
+
+func paintPictureOnModernGraphicsRenderer() {
+	renderer := modern_graphics.NewRenderer(os.Stdout)
+	renderer.BeginDraw()
+	defer renderer.EndDraw()
+
+	canvas := adapter.NewObjectAdapter(renderer)
+	painter := shape_drawing.NewPainter(canvas)
+
 	paintPicture(painter)
 }
 
