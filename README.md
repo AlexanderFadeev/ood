@@ -12,5 +12,6 @@ Lectures & Tasks : https://github.com/alexey-malov/ood
 |                  | Streams         | In Progress |
 | **4. Factory**   | Shapes          | In Progress |
 | **5. Command**   | Editor          | In Progress |
+| **6. Adapter**   | Graphics        | In Progress |
 | ...              |                 |             |
 | **9**            |                 |             |
