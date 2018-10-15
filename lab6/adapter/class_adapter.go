@@ -15,6 +15,7 @@ type ClassAdapter interface {
 type classAdapter struct {
 	modern_graphics.Renderer
 	prevPoint modern_graphics.Point
+	color     uint32
 }
 
 func NewClassAdapter(writer io.Writer) ClassAdapter {
@@ -23,12 +24,16 @@ func NewClassAdapter(writer io.Writer) ClassAdapter {
 	}
 }
 
+func (a *classAdapter) SetColor(color uint32) {
+	a.color = color
+}
+
 func (a *classAdapter) MoveTo(x, y int) {
 	a.prevPoint = modern_graphics.Point{x, y}
 }
 
 func (a *classAdapter) LineTo(x, y int) {
 	point := modern_graphics.Point{x, y}
-	a.DrawLine(a.prevPoint, point)
+	a.DrawLine(a.prevPoint, point, rgbToRGBA(a.color))
 	a.prevPoint = point
 }

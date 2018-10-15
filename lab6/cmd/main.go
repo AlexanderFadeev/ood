@@ -67,8 +67,9 @@ func paintPicture(painter shape_drawing.Painter) {
 		shape_drawing.Point{10, 15},
 		shape_drawing.Point{100, 200},
 		shape_drawing.Point{150, 250},
+		0xFF0000,
 	)
-	rect := shape_drawing.NewRectangle(shape_drawing.Point{30, 40}, 18, 24)
+	rect := shape_drawing.NewRectangle(shape_drawing.Point{30, 40}, 18, 24, 0x00FF00)
 
 	painter.Draw(triangle)
 	painter.Draw(rect)
