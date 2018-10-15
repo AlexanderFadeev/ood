@@ -36,7 +36,7 @@ func (r *renderer) DrawLine(from, to Point) {
 		panic("DrawLine is allowed between BeginDraw()/EndDraw() only")
 	}
 	io.WriteString(r.writer, fmt.Sprintf(
-		`	<line fromX="%d" fromY="%d" toX="%d" toY="%d/>"
+		`	<line fromX="%d" fromY="%d" toX="%d" toY="%d"/>
 `,
 		from.X, from.Y, to.X, to.Y,
 	))
