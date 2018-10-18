@@ -4,25 +4,41 @@ import (
 	"io"
 	"os"
 	"path"
-	"path/filepath"
 	"strings"
+
+	"ood/lab5/file_system"
 
 	"github.com/pkg/errors"
 )
 
 type local struct {
 	root string
+	fs   file_system.FileSystem
 }
 
-func NewLocal(rootDir string) Storage {
+func newLocal(rootDir string, fs file_system.FileSystem) (Storage, error) {
+	if !path.IsAbs(rootDir) {
+		wd, err := fs.GetWorkDir()
+		if err != nil {
+			return nil, errors.Wrap(err, "Failed to get workdir")
+		}
+
+		rootDir = path.Join(wd, rootDir)
+	}
+
 	return &local{
 		root: rootDir,
-	}
+		fs:   fs,
+	}, nil
+}
+
+func NewLocal(rootDir string) (Storage, error) {
+	return newLocal(rootDir, file_system.New())
 }
 
 func (l *local) ListFiles() ([]string, error) {
 	var files []string
-	err := filepath.Walk(l.root, func(path string, info os.FileInfo, err error) error {
+	err := l.fs.Walk(l.root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -40,24 +56,31 @@ func (l *local) ListFiles() ([]string, error) {
 	return files, nil
 }
 
+func (l *local) HasFile(key string) (bool, error) {
+	exists, err := l.fs.Exists(path.Join(l.root, key))
+	return exists, errors.Wrap(err, "Failed to check if file exists if file system")
+}
+
 func (l *local) GetFile(key string) (io.ReadCloser, error) {
-	if path.IsAbs(key) {
-		return nil, errors.New("Key is not a relative path")
-	}
-	file, err := os.Open(l.getAbsolutePath(key))
+	file, err := l.fs.Open(l.getAbsolutePath(key))
 	return file, errors.Wrap(err, "Failed to open file")
 }
 
 func (l *local) PutFile(key string, srcFile io.Reader) error {
-	if path.IsAbs(key) {
-		return errors.New("Key is not a relative path")
+	exists, err := l.fs.Exists(l.getAbsolutePath(key))
+	if err != nil {
+		return errors.Wrap(err, "Failed to check if file exists in file system")
+	}
+	if exists {
+		return errors.Wrap(err, "File or directory with same name already exists")
 	}
 
-	if l.fileExists(key) {
-		return errors.New("File or directory with same name already exists")
+	err = l.fs.MkdirAll(path.Dir(l.getAbsolutePath(key)))
+	if err != nil {
+		return errors.Wrap(err, "Failed to make dirs for file")
 	}
 
-	dstFile, err := os.Create(l.getAbsolutePath(key))
+	dstFile, err := l.fs.Create(l.getAbsolutePath(key))
 	if err != nil {
 		return errors.Wrap(err, "Failed to create file")
 	}
@@ -68,15 +91,10 @@ func (l *local) PutFile(key string, srcFile io.Reader) error {
 }
 
 func (l *local) DeleteFile(key string) error {
-	err := os.Remove(l.getAbsolutePath(key))
+	err := l.fs.Remove(l.getAbsolutePath(key))
 	return errors.Wrap(err, "Failed to remove file")
 }
 
 func (l *local) getAbsolutePath(key string) string {
 	return path.Join(l.root, key)
-}
-
-func (l *local) fileExists(key string) bool {
-	_, err := os.Stat(path.Join(l.root, key))
-	return !os.IsNotExist(err)
 }
