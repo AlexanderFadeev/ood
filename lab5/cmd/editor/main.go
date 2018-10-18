@@ -11,12 +11,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func checkError(err error) {
-	if err != nil {
-		logrus.Fatal(err)
-	}
-}
-
 func main() {
 	e, err := editor.New()
 	checkError(err)
@@ -38,12 +32,18 @@ func main() {
 	m.AddCommandWithoutArgs("Exit", "Exit", func() error { m.Exit(); return nil })
 	m.AddCommandWithoutArgs("Help", "Show help", func() error { m.Help(); return nil })
 
-	m.SetDefaultHandler(UnknownCommand)
+	m.SetDefaultHandler(unknownCommand)
 
 	m.Run()
 }
 
-func UnknownCommand() error {
+func checkError(err error) {
+	if err != nil {
+		logrus.Fatal(err)
+	}
+}
+
+func unknownCommand() error {
 	fmt.Println("Unknown command; Use `Help` command to show commands list")
 	return nil
 }
