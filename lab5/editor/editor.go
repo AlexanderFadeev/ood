@@ -72,7 +72,7 @@ func New() (Editor, error) {
 func (e *editor) SetTitle(title string) error {
 	oldTitle := e.doc.GetTitle()
 
-	com := command.New(func() error {
+	cmd := command.New(func() error {
 		e.doc.SetTitle(title)
 		return nil
 	}, func() error {
@@ -80,7 +80,7 @@ func (e *editor) SetTitle(title string) error {
 		return nil
 	})
 
-	err := e.history.AddAndExecute(com)
+	err := e.history.AddAndExecute(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -91,13 +91,13 @@ func (e *editor) List() string {
 func (e *editor) InsertParagraph(text string, pos int) error {
 	paragraph := document.NewParagraph(text)
 
-	com := command.New(func() error {
+	cmd := command.New(func() error {
 		return e.doc.InsertElement(paragraph, pos)
 	}, func() error {
 		return e.doc.DeleteElement(pos)
 	})
 
-	err := e.history.AddAndExecute(com)
+	err := e.history.AddAndExecute(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -118,7 +118,7 @@ func (e *editor) EditParagraph(pos int, text string) error {
 
 	oldText := paragraph.GetText()
 
-	com := command.New(func() error {
+	cmd := command.New(func() error {
 		paragraph.SetText(text)
 		return nil
 	}, func() error {
@@ -126,17 +126,17 @@ func (e *editor) EditParagraph(pos int, text string) error {
 		return nil
 	})
 
-	err = e.history.AddAndExecute(com)
+	err = e.history.AddAndExecute(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
 func (e *editor) InsertImage(path string, width, height int, pos int) error {
-	com, err := e.newInsertImageCommand(pos, width, height, path)
+	cmd, err := e.newInsertImageCommand(pos, width, height, path)
 	if err != nil {
 		return errors.Wrap(err, "Failed to create command")
 	}
 
-	err = e.history.AddAndExecute(com)
+	err = e.history.AddAndExecute(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -157,7 +157,7 @@ func (e *editor) ResizeImage(pos int, width, height int) error {
 
 	oldWidth, oldHeight := img.GetSize()
 
-	com := command.New(func() error {
+	cmd := command.New(func() error {
 		img.SetSize(width, height)
 		return nil
 	}, func() error {
@@ -165,7 +165,7 @@ func (e *editor) ResizeImage(pos int, width, height int) error {
 		return nil
 	})
 
-	err = e.history.AddAndExecute(com)
+	err = e.history.AddAndExecute(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -175,13 +175,13 @@ func (e *editor) DeleteElement(pos int) error {
 		return errors.Wrap(err, "Failed to get element")
 	}
 
-	com := command.New(func() error {
+	cmd := command.New(func() error {
 		return e.doc.DeleteElement(pos)
 	}, func() error {
 		return e.doc.InsertElement(elem, pos)
 	})
 
-	err = e.history.AddAndExecute(com)
+	err = e.history.AddAndExecute(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 

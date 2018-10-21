@@ -76,8 +76,8 @@ func (h *history) Redo() error {
 
 func (h *history) eraseTail() (err error) {
 	for h.list.Back() != h.lastCommandElement {
-		com := h.list.Remove(h.list.Back()).(command.Command)
-		currErr := com.Release()
+		cmd := h.list.Remove(h.list.Back()).(command.Command)
+		currErr := cmd.Release()
 		if currErr != nil {
 			err = errors.Wrap(currErr, "Failed to release command")
 		}

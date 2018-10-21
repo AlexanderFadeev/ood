@@ -32,7 +32,7 @@ func (e *editor) newInsertImageCommand(pos int, width, height int, imgPath strin
 
 	img := document.NewImage(*dstKey, width, height)
 
-	com := command.NewWithRelease(func() error {
+	cmd := command.NewWithRelease(func() error {
 		return e.doc.InsertElement(img, pos)
 	}, func() error {
 		return e.doc.DeleteElement(pos)
@@ -40,5 +40,5 @@ func (e *editor) newInsertImageCommand(pos int, width, height int, imgPath strin
 		return e.tempStorage.DeleteFile(*dstKey)
 	})
 
-	return com, nil
+	return cmd, nil
 }
