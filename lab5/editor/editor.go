@@ -80,7 +80,7 @@ func (e *editor) SetTitle(title string) error {
 		return nil
 	})
 
-	err := e.history.AddAndExecute(cmd)
+	err := e.history.Record(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -97,7 +97,7 @@ func (e *editor) InsertParagraph(text string, pos int) error {
 		return e.doc.DeleteElement(pos)
 	})
 
-	err := e.history.AddAndExecute(cmd)
+	err := e.history.Record(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -126,7 +126,7 @@ func (e *editor) EditParagraph(pos int, text string) error {
 		return nil
 	})
 
-	err = e.history.AddAndExecute(cmd)
+	err = e.history.Record(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -136,7 +136,7 @@ func (e *editor) InsertImage(path string, width, height int, pos int) error {
 		return errors.Wrap(err, "Failed to create command")
 	}
 
-	err = e.history.AddAndExecute(cmd)
+	err = e.history.Record(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -165,7 +165,7 @@ func (e *editor) ResizeImage(pos int, width, height int) error {
 		return nil
 	})
 
-	err = e.history.AddAndExecute(cmd)
+	err = e.history.Record(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 
@@ -181,7 +181,7 @@ func (e *editor) DeleteElement(pos int) error {
 		return e.doc.InsertElement(elem, pos)
 	})
 
-	err = e.history.AddAndExecute(cmd)
+	err = e.history.Record(cmd)
 	return errors.Wrap(err, "Failed to add and execute command")
 }
 

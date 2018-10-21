@@ -13,23 +13,23 @@ const sampleSize = 1
 
 var sampleError = errors.New("Sample error")
 
-func TestAddAndExecute(t *testing.T) {
+func TestRecord(t *testing.T) {
 	cmd := new(command.MockCommand)
 	cmd.On("Execute").Return(nil)
 
 	history := New(sampleSize)
-	err := history.AddAndExecute(cmd)
+	err := history.Record(cmd)
 	assert.Nil(t, err)
 
 	cmd.AssertNumberOfCalls(t, "Execute", 1)
 }
 
-func TestAddAndExecuteError(t *testing.T) {
+func TestRecordError(t *testing.T) {
 	cmd := new(command.MockCommand)
 	cmd.On("Execute").Return(sampleError)
 
 	history := New(sampleSize)
-	err := history.AddAndExecute(cmd)
+	err := history.Record(cmd)
 	assert.NotNil(t, err)
 
 	cmd.AssertNumberOfCalls(t, "Execute", 1)
@@ -44,7 +44,7 @@ func TestUndo(t *testing.T) {
 	assert.False(t, history.CanUndo())
 	assert.Panics(t, func() { history.Undo() })
 
-	history.AddAndExecute(cmd)
+	history.Record(cmd)
 	assert.True(t, history.CanUndo())
 
 	history.Undo()
@@ -61,7 +61,7 @@ func TestUndoError(t *testing.T) {
 	cmd.On("Unexecute").Return(sampleError)
 
 	history := New(sampleSize)
-	history.AddAndExecute(cmd)
+	history.Record(cmd)
 	err := history.Undo()
 	assert.NotNil(t, err)
 
@@ -78,7 +78,7 @@ func TestRedo(t *testing.T) {
 	assert.False(t, history.CanRedo())
 	assert.Panics(t, func() { history.Redo() })
 
-	history.AddAndExecute(cmd)
+	history.Record(cmd)
 	assert.False(t, history.CanRedo())
 	assert.Panics(t, func() { history.Redo() })
 
@@ -107,7 +107,7 @@ func TestRedoError(t *testing.T) {
 	cmd.On("Unexecute").Return(nil)
 
 	history := New(sampleSize)
-	history.AddAndExecute(cmd)
+	history.Record(cmd)
 	history.Undo()
 	err := history.Redo()
 	assert.NotNil(t, err)
@@ -116,7 +116,7 @@ func TestRedoError(t *testing.T) {
 	cmd.AssertNumberOfCalls(t, "Unexecute", 1)
 }
 
-func TestAddAndExecuteAfterUndo(t *testing.T) {
+func TestRecordAfterUndo(t *testing.T) {
 	cmdA := new(command.MockCommand)
 	cmdA.On("Execute").Return(nil)
 	cmdA.On("Unexecute").Return(nil)
@@ -125,9 +125,9 @@ func TestAddAndExecuteAfterUndo(t *testing.T) {
 	cmdB.On("Execute").Return(nil)
 
 	history := New(sampleSize)
-	history.AddAndExecute(cmdA)
+	history.Record(cmdA)
 	history.Undo()
-	history.AddAndExecute(cmdB)
+	history.Record(cmdB)
 
 	cmdA.AssertNumberOfCalls(t, "Execute", 1)
 	cmdA.AssertNumberOfCalls(t, "Unexecute", 1)
@@ -144,9 +144,9 @@ func TestReleaseError(t *testing.T) {
 	cmdB.On("Execute").Return(nil)
 
 	history := New(sampleSize)
-	history.AddAndExecute(cmdA)
+	history.Record(cmdA)
 	history.Undo()
-	err := history.AddAndExecute(cmdB)
+	err := history.Record(cmdB)
 	assert.NotNil(t, err)
 
 	cmdA.AssertNumberOfCalls(t, "Execute", 1)
@@ -163,8 +163,8 @@ func TestHistorySize(t *testing.T) {
 	cmdB.On("Unexecute").Return(nil)
 
 	history := New(sampleSize)
-	history.AddAndExecute(cmdA)
-	history.AddAndExecute(cmdB)
+	history.Record(cmdA)
+	history.Record(cmdB)
 	history.Undo()
 	assert.False(t, history.CanUndo())
 

@@ -8,8 +8,13 @@ import (
 	"github.com/pkg/errors"
 )
 
+type Recorder interface {
+	Record(command.Command) error
+}
+
 type History interface {
-	AddAndExecute(command.Command) error
+	Recorder
+
 	CanUndo() bool
 	CanRedo() bool
 	Undo() error
@@ -29,7 +34,7 @@ func New(size int) History {
 	}
 }
 
-func (h *history) AddAndExecute(command command.Command) error {
+func (h *history) Record(command command.Command) error {
 	err := command.Execute()
 	if err != nil {
 		return errors.Wrap(err, "Failed to execute command")
