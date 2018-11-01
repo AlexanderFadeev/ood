@@ -1,35 +1,55 @@
 package document
 
-import "fmt"
+import (
+	"fmt"
 
-type Paragraph interface {
-	Element
-	GetText() string
-	SetText(string)
+	"ood/lab5/command"
+	"ood/lab5/history"
+
+	"github.com/pkg/errors"
+)
+
+type paragraph interface {
+	element
+	getText() string
+	setText(string) error
 }
 
-type paragraph struct {
-	text string
+type paragraphImpl struct {
+	text     string
+	recorder history.Recorder
 }
 
-func NewParagraph(text string) Paragraph {
-	return &paragraph{
-		text: text,
+func newParagraph(text string, recorder history.Recorder) paragraph {
+	return &paragraphImpl{
+		text:     text,
+		recorder: recorder,
 	}
 }
 
-func (p *paragraph) String() string {
+func (p *paragraphImpl) String() string {
 	return fmt.Sprintf("Paragraph: %s", p.text)
 }
 
-func (p *paragraph) ToHTML() string {
-	return fmt.Sprintf("<p>%s</p>", p.text)
+func (p *paragraphImpl) acceptVisitor(visitor htmlFormatVisitor) string {
+	return visitor.visitParagraph(p)
 }
 
-func (p *paragraph) GetText() string {
+func (p *paragraphImpl) getText() string {
 	return p.text
 }
 
-func (p *paragraph) SetText(text string) {
-	p.text = text
+func (p *paragraphImpl) setText(text string) error {
+	oldText := p.text
+
+	cmd := command.New(func() error {
+		p.text = text
+		return nil
+	}, func() error {
+		p.text = oldText
+		return nil
+	})
+
+	err := p.recorder.Record(cmd)
+	return errors.Wrap(err, "Failed to record the command")
 }

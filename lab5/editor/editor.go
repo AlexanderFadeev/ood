@@ -1,228 +1,181 @@
 package editor
 
 import (
-	"io/ioutil"
-	"path"
+	"fmt"
+	"io"
+	"strings"
 
-	"ood/lab5/command"
 	"ood/lab5/document"
-	"ood/lab5/history"
-	"ood/lab5/storage"
 
 	"github.com/pkg/errors"
 )
 
-const maxHistoryLength = 10
-
 type Editor interface {
-	SetTitle(title string) error
-	List() string
-
-	InsertParagraph(text string, pos int) error
-	AddParagraph(text string) error
-	EditParagraph(pos int, text string) error
-
-	InsertImage(path string, width, height int, pos int) error
-	AddImage(path string, width, height int) error
-	ResizeImage(pos int, width, height int) error
-
-	DeleteElement(pos int) error
-
-	Save(path string) error
-
-	CanRedo() bool
-	CanUndo() bool
-	Redo() error
+	InsertParagraph([]string, io.Writer) error
+	InsertImage([]string, io.Writer) error
+	SetTitle([]string, io.Writer) error
+	List([]string, io.Writer) error
+	ReplaceText([]string, io.Writer) error
+	ResizeImage([]string, io.Writer) error
+	DeleteItem([]string, io.Writer) error
 	Undo() error
+	Redo() error
+	Save([]string, io.Writer) error
+	Release() error
 }
 
 type editor struct {
-	doc            document.Document
-	history        history.History
-	workDirStorage storage.Storage
-	globalStorage  storage.Storage
-	tempStorage    storage.Storage
+	doc document.Document
 }
 
 func New() (Editor, error) {
-	wdStorage, err := storage.NewLocal(".")
+	doc, err := document.New()
 	if err != nil {
-		return nil, errors.Wrap(err, "Failed to create workdir storage")
-	}
-
-	tempStorage, err := storage.NewTemp()
-	if err != nil {
-		return nil, errors.Wrap(err, "Failed to create temp storage")
-	}
-
-	globalStorage, err := storage.NewLocal("")
-	if err != nil {
-		return nil, errors.Wrap(err, "Failed to create global storage")
+		return nil, errors.Wrap(err, "Failed to create a document")
 	}
 
 	return &editor{
-		doc:            document.New(),
-		history:        history.New(maxHistoryLength),
-		workDirStorage: wdStorage,
-		globalStorage:  globalStorage,
-		tempStorage:    tempStorage,
+		doc: doc,
 	}, nil
 }
 
-func (e *editor) SetTitle(title string) error {
-	oldTitle := e.doc.GetTitle()
+func (e *editor) InsertParagraph(args []string, _ io.Writer) error {
+	if len(args) < 2 {
+		return errors.New("Not enough args")
+	}
 
-	cmd := command.New(func() error {
-		e.doc.SetTitle(title)
-		return nil
-	}, func() error {
-		e.doc.SetTitle(oldTitle)
-		return nil
-	})
+	text := strings.Join(args[1:], " ")
 
-	err := e.history.Record(cmd)
-	return errors.Wrap(err, "Failed to add and execute command")
+	var pos int
+	_, err := fmt.Sscan(args[0], &pos)
+	if err == nil {
+		return e.doc.InsertParagraph(text, pos)
+	}
+
+	if args[0] != "end" {
+		fmt.Println(args[0])
+		return errors.New("Expected position to be a number or `end`")
+	}
+
+	return e.doc.AddParagraph(text)
 }
 
-func (e *editor) List() string {
-	return e.doc.String()
-}
+func (e *editor) InsertImage(args []string, _ io.Writer) error {
+	if len(args) < 4 {
+		return errors.New("Not enough args")
+	}
 
-func (e *editor) InsertParagraph(text string, pos int) error {
-	paragraph := document.NewParagraph(text)
-
-	cmd := command.New(func() error {
-		return e.doc.InsertElement(paragraph, pos)
-	}, func() error {
-		return e.doc.DeleteElement(pos)
-	})
-
-	err := e.history.Record(cmd)
-	return errors.Wrap(err, "Failed to add and execute command")
-}
-
-func (e *editor) AddParagraph(text string) error {
-	return e.InsertParagraph(text, e.doc.GetElementsCount())
-}
-
-func (e *editor) EditParagraph(pos int, text string) error {
-	elem, err := e.doc.GetElement(pos)
+	var width, height, pos int
+	_, err := fmt.Sscan(args[1], &width)
 	if err != nil {
-		return errors.Wrap(err, "Failed to get element")
+		return errors.Wrap(err, "Invalid width")
 	}
 
-	paragraph, ok := elem.(document.Paragraph)
-	if !ok {
-		return errors.Errorf("Element at position %d is not a paragraph", pos)
-	}
-
-	oldText := paragraph.GetText()
-
-	cmd := command.New(func() error {
-		paragraph.SetText(text)
-		return nil
-	}, func() error {
-		paragraph.SetText(oldText)
-		return nil
-	})
-
-	err = e.history.Record(cmd)
-	return errors.Wrap(err, "Failed to add and execute command")
-}
-
-func (e *editor) InsertImage(path string, width, height int, pos int) error {
-	cmd, err := e.newInsertImageCommand(pos, width, height, path)
+	_, err = fmt.Sscan(args[2], &height)
 	if err != nil {
-		return errors.Wrap(err, "Failed to create command")
+		return errors.Wrap(err, "Invalid height")
 	}
 
-	err = e.history.Record(cmd)
-	return errors.Wrap(err, "Failed to add and execute command")
+	_, err = fmt.Sscan(args[0], &pos)
+	if err == nil {
+		return e.doc.InsertImage(args[3], width, height, pos)
+	}
+
+	if args[0] != "end" {
+		return errors.New("Expected position to be a number or `end`")
+	}
+
+	return e.doc.AddImage(args[3], width, height)
 }
 
-func (e *editor) AddImage(path string, width, height int) error {
-	return e.InsertImage(path, width, height, e.doc.GetElementsCount())
+func (e *editor) SetTitle(args []string, _ io.Writer) error {
+	title := strings.Join(args, " ")
+	return e.doc.SetTitle(title)
 }
 
-func (e *editor) ResizeImage(pos int, width, height int) error {
-	elem, err := e.doc.GetElement(pos)
+func (e *editor) List(_ []string, w io.Writer) error {
+	io.WriteString(w, fmt.Sprintf("%s\n", e.doc.String()))
+	return nil
+}
+
+func (e *editor) ReplaceText(args []string, _ io.Writer) error {
+	if len(args) < 2 {
+		return errors.New("Not enough args")
+	}
+
+	var pos int
+	_, err := fmt.Sscan(args[0], &pos)
 	if err != nil {
-		return errors.Wrap(err, "Failed to get element")
+		return errors.Wrap(err, "Invalid position")
 	}
 
-	img, ok := elem.(document.Image)
-	if !ok {
-		return errors.Errorf("Element at position %d is not an image", pos)
-	}
-
-	oldWidth, oldHeight := img.GetSize()
-
-	cmd := command.New(func() error {
-		img.SetSize(width, height)
-		return nil
-	}, func() error {
-		img.SetSize(oldWidth, oldHeight)
-		return nil
-	})
-
-	err = e.history.Record(cmd)
-	return errors.Wrap(err, "Failed to add and execute command")
+	text := strings.Join(args[1:], " ")
+	return e.doc.EditParagraph(pos, text)
 }
 
-func (e *editor) DeleteElement(pos int) error {
-	elem, err := e.doc.GetElement(pos)
+func (e *editor) ResizeImage(args []string, _ io.Writer) error {
+	if len(args) < 3 {
+		return errors.New("Not enough args")
+	}
+
+	var width, height, pos int
+	_, err := fmt.Sscan(args[0], &pos)
 	if err != nil {
-		return errors.Wrap(err, "Failed to get element")
+		return errors.Wrap(err, "Invalid pos")
 	}
 
-	cmd := command.New(func() error {
-		return e.doc.DeleteElement(pos)
-	}, func() error {
-		return e.doc.InsertElement(elem, pos)
-	})
-
-	err = e.history.Record(cmd)
-	return errors.Wrap(err, "Failed to add and execute command")
-}
-
-func (e *editor) Save(htmlPath string) error {
-	dir := path.Dir(htmlPath)
-	htmlStorage, err := storage.NewLocal(dir)
+	_, err = fmt.Sscan(args[1], &width)
 	if err != nil {
-		return errors.Wrap(err, "Failed to create HTML storage")
+		return errors.Wrap(err, "Invalid width")
 	}
 
-	err = storage.CopyAll(e.tempStorage, htmlStorage)
+	_, err = fmt.Sscan(args[2], &height)
 	if err != nil {
-		return errors.Wrap(err, "Failed to copy files to HTML storage")
+		return errors.Wrap(err, "Invalid height")
 	}
 
-	err = ioutil.WriteFile(htmlPath, []byte(e.doc.ToHTML()), 0x666)
-	return errors.Wrap(err, "Failed to write html file")
+	return e.doc.ResizeImage(pos, width, height)
 }
 
-func (e *editor) CanRedo() bool {
-	return e.history.CanRedo()
+func (e *editor) DeleteItem(args []string, _ io.Writer) error {
+	if len(args) < 1 {
+		return errors.New("Not enough args")
+	}
+
+	var pos int
+	_, err := fmt.Sscan(args[0], &pos)
+	if err != nil {
+		return errors.Wrap(err, "Failed to parse position")
+	}
+
+	return e.doc.DeleteElement(pos)
 }
 
-func (e *editor) CanUndo() bool {
-	return e.history.CanUndo()
+func (e *editor) Save(args []string, _ io.Writer) error {
+	if len(args) < 1 {
+		return errors.New("Not enough args")
+	}
+
+	path := strings.Join(args, " ")
+	return e.doc.Save(path)
 }
 
 func (e *editor) Redo() error {
-	if !e.history.CanRedo() {
-		return errors.New("Cannot redo")
+	if !e.doc.CanRedo() {
+		return errors.New("Can't redo")
 	}
 
-	err := e.history.Redo()
-	return errors.Wrap(err, "Failed to redo")
+	return e.doc.Redo()
 }
 
 func (e *editor) Undo() error {
-	if !e.history.CanUndo() {
-		return errors.New("Cannot undo")
+	if !e.doc.CanUndo() {
+		return errors.New("Can't undo")
 	}
 
-	err := e.history.Undo()
-	return errors.Wrap(err, "Failed to undo")
+	return e.doc.Undo()
+}
+
+func (e *editor) Release() error {
+	return e.doc.Release()
 }

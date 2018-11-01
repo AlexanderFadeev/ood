@@ -70,10 +70,7 @@ func FindUnusedKey(storage Storage, pattern string) (*string, error) {
 func FindInAny(key string, storages ...Storage) (io.ReadCloser, error) {
 	for _, storage := range storages {
 		exists, err := storage.HasFile(key)
-		if err != nil {
-			return nil, errors.Wrapf(err, "Failed to check if storage has file `%s`", key)
-		}
-		if !exists {
+		if !exists || err != nil {
 			continue
 		}
 

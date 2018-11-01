@@ -19,6 +19,8 @@ type History interface {
 	CanRedo() bool
 	Undo() error
 	Redo() error
+
+	Release() error
 }
 
 type history struct {
@@ -76,6 +78,17 @@ func (h *history) Redo() error {
 	}
 
 	h.lastCommandElement = h.getNextCommandElement()
+	return nil
+}
+
+func (h *history) Release() error {
+	for h.list.Back() != nil {
+		cmd := h.list.Remove(h.list.Back()).(command.Command)
+		err := cmd.Release()
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 

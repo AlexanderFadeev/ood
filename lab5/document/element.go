@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type Element interface {
+type element interface {
 	fmt.Stringer
-	ToHTML() string
+	htmlFormatAcceptor
 }

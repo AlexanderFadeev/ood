@@ -3,7 +3,7 @@ package storage
 import (
 	"io"
 	"os"
-	"path"
+	"path/filepath"
 	"strings"
 
 	"ood/lab5/file_system"
@@ -16,23 +16,14 @@ type local struct {
 	fs   file_system.FileSystem
 }
 
-func newLocal(rootDir string, fs file_system.FileSystem) (Storage, error) {
-	if !path.IsAbs(rootDir) {
-		wd, err := fs.GetWorkDir()
-		if err != nil {
-			return nil, errors.Wrap(err, "Failed to get workdir")
-		}
-
-		rootDir = path.Join(wd, rootDir)
-	}
-
+func newLocal(rootDir string, fs file_system.FileSystem) Storage {
 	return &local{
 		root: rootDir,
 		fs:   fs,
-	}, nil
+	}
 }
 
-func NewLocal(rootDir string) (Storage, error) {
+func NewLocal(rootDir string) Storage {
 	return newLocal(rootDir, file_system.New())
 }
 
@@ -57,7 +48,7 @@ func (l *local) ListFiles() ([]string, error) {
 }
 
 func (l *local) HasFile(key string) (bool, error) {
-	exists, err := l.fs.Exists(path.Join(l.root, key))
+	exists, err := l.fs.Exists(filepath.Join(l.root, key))
 	return exists, errors.Wrap(err, "Failed to check if file exists if file system")
 }
 
@@ -75,7 +66,7 @@ func (l *local) PutFile(key string, srcFile io.Reader) error {
 		return errors.Wrap(err, "File or directory with same name already exists")
 	}
 
-	err = l.fs.MkdirAll(path.Dir(l.getAbsolutePath(key)))
+	err = l.fs.MkdirAll(filepath.Dir(l.getAbsolutePath(key)))
 	if err != nil {
 		return errors.Wrap(err, "Failed to make dirs for file")
 	}
@@ -96,5 +87,5 @@ func (l *local) DeleteFile(key string) error {
 }
 
 func (l *local) getAbsolutePath(key string) string {
-	return path.Join(l.root, key)
+	return filepath.Join(l.root, key)
 }

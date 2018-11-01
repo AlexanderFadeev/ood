@@ -4,6 +4,8 @@ import (
 	"io/ioutil"
 	"os"
 
+	"ood/lab5/file_system"
+
 	"github.com/pkg/errors"
 )
 
@@ -26,11 +28,12 @@ func NewTemp() (TempStorage, error) {
 	return &temp{
 		local: local{
 			root: tempDir,
+			fs:   file_system.New(),
 		},
 	}, nil
 }
 
 func (t *temp) Clear() error {
-	err := os.RemoveAll(t.local.root)
+	err := os.RemoveAll(t.root)
 	return errors.Wrap(err, "Failed to remove temp dir")
 }
