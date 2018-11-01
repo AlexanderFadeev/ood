@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestClassAdapter(t *testing.T) {
+func TestCanvasClassAdapter(t *testing.T) {
 	buf := new(bytes.Buffer)
-	adapter := NewClassAdapter(buf)
+	adapter := NewCanvasClassAdapter(buf)
 
 	adapter.BeginDraw()
 	painter := shape_drawing.NewPainter(adapter)

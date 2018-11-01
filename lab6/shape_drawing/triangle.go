@@ -2,13 +2,13 @@ package shape_drawing
 
 import "ood/lab6/graphics"
 
-type triangle struct {
+type Triangle struct {
 	a, b, c Point
 	color   uint32
 }
 
-func NewTriangle(a, b, c Point, color uint32) Drawable {
-	return &triangle{
+func NewTriangle(a, b, c Point, color uint32) *Triangle {
+	return &Triangle{
 		a:     a,
 		b:     b,
 		c:     c,
@@ -16,7 +16,7 @@ func NewTriangle(a, b, c Point, color uint32) Drawable {
 	}
 }
 
-func (t triangle) Draw(canvas graphics.Canvas) {
+func (t Triangle) Draw(canvas graphics.Canvas) {
 	canvas.SetColor(t.color)
 	canvas.MoveTo(t.a.X, t.a.Y)
 	canvas.LineTo(t.b.X, t.b.Y)

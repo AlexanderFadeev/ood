@@ -46,14 +46,14 @@ func paintPictureOnModernGraphicsRendererObjectAdapter() {
 	renderer.BeginDraw()
 	defer renderer.EndDraw()
 
-	canvas := adapter.NewObjectAdapter(renderer)
+	canvas := adapter.NewCanvasObjectAdapter(renderer)
 	painter := shape_drawing.NewPainter(canvas)
 
 	paintPicture(painter)
 }
 
 func paintPictureOnModernGraphicsRendererClassAdapter() {
-	classAdapter := adapter.NewClassAdapter(os.Stdout)
+	classAdapter := adapter.NewCanvasClassAdapter(os.Stdout)
 	classAdapter.BeginDraw()
 	defer classAdapter.EndDraw()
 

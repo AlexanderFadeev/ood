@@ -2,14 +2,14 @@ package shape_drawing
 
 import "ood/lab6/graphics"
 
-type rectangle struct {
+type Rectangle struct {
 	leftTop       Point
 	width, height int
 	color         uint32
 }
 
-func NewRectangle(leftTop Point, width, height int, color uint32) Drawable {
-	return &rectangle{
+func NewRectangle(leftTop Point, width, height int, color uint32) *Rectangle {
+	return &Rectangle{
 		leftTop: leftTop,
 		width:   width,
 		height:  height,
@@ -17,7 +17,7 @@ func NewRectangle(leftTop Point, width, height int, color uint32) Drawable {
 	}
 }
 
-func (r rectangle) Draw(canvas graphics.Canvas) {
+func (r Rectangle) Draw(canvas graphics.Canvas) {
 	canvas.SetColor(r.color)
 	canvas.MoveTo(r.leftTop.X, r.leftTop.Y)
 	canvas.LineTo(r.leftTop.X+r.width, r.leftTop.Y)

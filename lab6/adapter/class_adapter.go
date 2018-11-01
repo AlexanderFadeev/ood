@@ -7,32 +7,32 @@ import (
 	"ood/lab6/modern_graphics"
 )
 
-type ClassAdapter interface {
+type CanvasClassAdapter interface {
 	graphics.Canvas
 	modern_graphics.Renderer
 }
 
-type classAdapter struct {
+type canvasClassAdapter struct {
 	modern_graphics.Renderer
 	prevPoint modern_graphics.Point
 	color     uint32
 }
 
-func NewClassAdapter(writer io.Writer) ClassAdapter {
-	return &classAdapter{
+func NewCanvasClassAdapter(writer io.Writer) CanvasClassAdapter {
+	return &canvasClassAdapter{
 		Renderer: modern_graphics.NewRenderer(writer),
 	}
 }
 
-func (a *classAdapter) SetColor(color uint32) {
+func (a *canvasClassAdapter) SetColor(color uint32) {
 	a.color = color
 }
 
-func (a *classAdapter) MoveTo(x, y int) {
+func (a *canvasClassAdapter) MoveTo(x, y int) {
 	a.prevPoint = modern_graphics.Point{x, y}
 }
 
-func (a *classAdapter) LineTo(x, y int) {
+func (a *canvasClassAdapter) LineTo(x, y int) {
 	point := modern_graphics.Point{x, y}
 	a.DrawLine(a.prevPoint, point, rgbToRGBA(a.color))
 	a.prevPoint = point

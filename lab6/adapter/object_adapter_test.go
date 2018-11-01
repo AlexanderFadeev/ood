@@ -10,10 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestObjectAdapter(t *testing.T) {
+func TestCanvasObjectAdapter(t *testing.T) {
 	buf := new(bytes.Buffer)
 	renderer := modern_graphics.NewRenderer(buf)
-	adapter := NewObjectAdapter(renderer)
+	adapter := NewCanvasObjectAdapter(renderer)
 
 	renderer.BeginDraw()
 	painter := shape_drawing.NewPainter(adapter)
