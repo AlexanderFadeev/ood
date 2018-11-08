@@ -13,6 +13,7 @@ const refillCount = 2
 
 type gumballMachineTestSuite struct {
 	suite.Suite
+	factory machineFactory
 	machine RefillableGumballMachine
 	buf     *bytes.Buffer
 }
@@ -58,11 +59,23 @@ type GumballMachineTestSuite struct {
 
 func (s *GumballMachineTestSuite) SetupTest() {
 	s.buf = &bytes.Buffer{}
-	s.machine = newGumballMachine(startCount, 1, s.buf)
+	s.machine = s.factory.createMachine(startCount, 1, s.buf)
 }
 
 func TestGumballMachineTestSuite(t *testing.T) {
-	suite.Run(t, new(GumballMachineTestSuite))
+	suite.Run(t, &GumballMachineTestSuite{
+		gumballMachineTestSuite{
+			factory: new(commonMachineFactory),
+		},
+	})
+}
+
+func TestNaiveGumballMachineTestSuite(t *testing.T) {
+	suite.Run(t, &GumballMachineTestSuite{
+		gumballMachineTestSuite{
+			factory: new(naiveMachineFactory),
+		},
+	})
 }
 
 func (s *GumballMachineTestSuite) TestNormalUseCase() {
@@ -141,12 +154,24 @@ type MultiGumballMachineTestSuite struct {
 }
 
 func TestMultiGumballMachineTestSuite(t *testing.T) {
-	suite.Run(t, new(MultiGumballMachineTestSuite))
+	suite.Run(t, &MultiGumballMachineTestSuite{
+		gumballMachineTestSuite{
+			factory: new(commonMachineFactory),
+		},
+	})
+}
+
+func TestMultiNaiveGumballMachineTestSuite(t *testing.T) {
+	suite.Run(t, &MultiGumballMachineTestSuite{
+		gumballMachineTestSuite{
+			factory: new(naiveMachineFactory),
+		},
+	})
 }
 
 func (s *MultiGumballMachineTestSuite) SetupTest() {
 	s.buf = &bytes.Buffer{}
-	s.machine = newGumballMachine(startCount, multiGumballMachineQuartersCapacity, s.buf)
+	s.machine = s.factory.createMachine(startCount, multiGumballMachineQuartersCapacity, s.buf)
 }
 
 func (s *MultiGumballMachineTestSuite) TestCapacity() {
