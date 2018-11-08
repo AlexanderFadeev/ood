@@ -14,8 +14,6 @@ type state interface {
 }
 
 type context interface {
-	GumballMachine
-
 	setState(state)
 	incBallsCount(uint)
 	getBallsCount() uint
