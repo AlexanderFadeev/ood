@@ -14,6 +14,5 @@ Lectures & Tasks : https://github.com/alexey-malov/ood
 | **5. Command**   | Editor          | Code Review |
 | **6. Adapter**   | Graphics        | Done        |
 | **7. Composite** | Graphics        | In Progress |
-| **8. State**     | GumballMachine  | In Progress |
-| ...              |                 |             |
-| **9**            |                 |             |
+| **8. State**     | GumballMachine  | Done        |
+| **9. MVXX**      | ID              |             |
