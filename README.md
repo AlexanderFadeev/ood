@@ -11,7 +11,9 @@ Lectures & Tasks : https://github.com/alexey-malov/ood
 | **3. Decorator** | Beverages       | Done        |
 |                  | Streams         | In Progress |
 | **4. Factory**   | Shapes          | In Progress |
-| **5. Command**   | Editor          | In Progress |
-| **6. Adapter**   | Graphics        | Code Review |
+| **5. Command**   | Editor          | Code Review |
+| **6. Adapter**   | Graphics        | Done        |
+| **7. Composite** | Graphics        | In Progress |
+| **8. State**     | GumballMachine  | In Progress |
 | ...              |                 |             |
 | **9**            |                 |             |
