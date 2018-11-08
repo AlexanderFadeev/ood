@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+const multiGumballMachineQuartersCapacity = 5
+
 type GumballMachine interface {
 	fmt.Stringer
 
@@ -20,65 +22,84 @@ type RefillableGumballMachine interface {
 	Refill(uint)
 }
 type gumballMachine struct {
-	state      state
-	ballsCount uint
-	writer     io.Writer
+	state            state
+	ballsCount       uint
+	quartersCount    uint
+	quartersCapacity uint
+	writer           io.Writer
 }
 
-func newGumballMachine(count uint, writer io.Writer) RefillableGumballMachine {
+func newGumballMachine(count uint, quartersCapacity uint, writer io.Writer) RefillableGumballMachine {
 	var state state = new(stateNoQuarter)
 	if count == 0 {
 		state = new(stateSoldOut)
 	}
 
 	return &gumballMachine{
-		ballsCount: count,
-		state:      state,
-		writer:     writer,
+		ballsCount:       count,
+		state:            state,
+		quartersCapacity: quartersCapacity,
+		writer:           writer,
 	}
 }
 
 func New(count uint) RefillableGumballMachine {
-	return newGumballMachine(count, os.Stdout)
+	return newGumballMachine(count, 1, os.Stdout)
 }
 
-func (n *gumballMachine) String() string {
-	return fmt.Sprintf("Gumball machine, %d gumballs, %s", n.ballsCount, n.state)
+func NewMulti(count uint) RefillableGumballMachine {
+	return newGumballMachine(count, multiGumballMachineQuartersCapacity, os.Stdout)
 }
 
-func (n *gumballMachine) InsertQuarter() {
-	n.state.insertQuarter(n)
+func (gm *gumballMachine) String() string {
+	return fmt.Sprintf("Gumball machine, %d gumballs, %s", gm.ballsCount, gm.state)
 }
 
-func (n *gumballMachine) EjectQuarter() {
-	n.state.ejectQuarter(n)
+func (gm *gumballMachine) InsertQuarter() {
+	gm.state.insertQuarter(gm)
 }
 
-func (n *gumballMachine) TurnCrank() {
-	n.state.turnCrank(n)
+func (gm *gumballMachine) EjectQuarter() {
+	gm.state.ejectQuarter(gm)
 }
 
-func (n *gumballMachine) Refill(count uint) {
-	n.state.refill(n, count)
+func (gm *gumballMachine) TurnCrank() {
+	gm.state.turnCrank(gm)
 }
 
-func (n *gumballMachine) setState(state state) {
-	n.state = state
+func (gm *gumballMachine) Refill(count uint) {
+	gm.state.refill(gm, count)
 }
 
-func (n *gumballMachine) incBallsCount(count uint) {
-	n.ballsCount += count
+func (gm *gumballMachine) setState(state state) {
+	gm.state = state
 }
 
-func (n *gumballMachine) getBallsCount() uint {
-	return n.ballsCount
+func (gm *gumballMachine) incBallsCount(count uint) {
+	gm.ballsCount += count
 }
 
-func (n *gumballMachine) releaseBall() {
-	n.ballsCount--
-	n.println("A gumball comes rolling out the slot...")
+func (gm *gumballMachine) getBallsCount() uint {
+	return gm.ballsCount
 }
 
-func (n *gumballMachine) println(args ...interface{}) {
-	fmt.Fprintln(n.writer, args...)
+func (gm *gumballMachine) getQuartersCapacity() uint {
+	return gm.quartersCapacity
+}
+
+func (gm *gumballMachine) getQuartersCount() uint {
+	return gm.quartersCount
+}
+
+func (gm *gumballMachine) changeQuartersCount(count int) {
+	gm.quartersCount = uint(int(gm.quartersCount) + count)
+}
+
+func (gm *gumballMachine) releaseBall() {
+	gm.ballsCount--
+	gm.println("A gumball comes rolling out the slot...")
+}
+
+func (gm *gumballMachine) println(args ...interface{}) {
+	fmt.Fprintln(gm.writer, args...)
 }

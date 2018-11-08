@@ -1,10 +1,10 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 
+	"ood/cli_util"
 	"ood/lab6/adapter"
 	"ood/lab6/graphics"
 	"ood/lab6/modern_graphics"
@@ -12,27 +12,16 @@ import (
 )
 
 func main() {
-	if !promtYesNo("Should we use new API?") {
+	if !cli_util.PromtYesNo("Should we use new API?") {
 		fmt.Println("Using old graphics lib")
 		paintPictureOnCanvas()
-	} else if !promtYesNo("Should we use class adapter?") {
+	} else if !cli_util.PromtYesNo("Should we use class adapter?") {
 		fmt.Println("Using modern graphics lib with object adapter")
 		paintPictureOnModernGraphicsRendererObjectAdapter()
 	} else {
 		fmt.Println("Using modern graphics lib with class adapter")
 		paintPictureOnModernGraphicsRendererClassAdapter()
 	}
-}
-
-func promtYesNo(question string) bool {
-	fmt.Print(question + " (y/n) ")
-	stdinReader := bufio.NewReader(os.Stdin)
-	var ch rune
-	var err error
-	for err == nil && (ch == rune(0) || ch == '\n') {
-		ch, _, err = stdinReader.ReadRune()
-	}
-	return ch == 'y' || ch == 'Y'
 }
 
 func paintPictureOnCanvas() {
