@@ -2,6 +2,15 @@ package weather_data
 
 import "ood/lab2/signal"
 
+const (
+	TemperatureBit uint = 1 << iota
+	HumidityBit
+	PressureBit
+	WindBit
+	AllBits    = PressureBit<<1 - 1
+	AllProBits = WindBit<<1 - 1
+)
+
 type Slot func(data Getter)
 type SlotPro func(data GetterPro)
 
@@ -16,13 +25,13 @@ func (s SlotPro) exec(ctx interface{}) error {
 }
 
 type Signal interface {
-	Connect(slot Slot, priority uint) signal.Connection
-	Emit(data Getter)
+	Connect(bitmap uint, slot Slot, priority uint) signal.Connection
+	Emit(bitmap uint, data Getter)
 }
 
 type SignalPro interface {
 	Signal
-	ConnectPro(slot SlotPro, priority uint) signal.Connection
+	ConnectPro(bitmap uint, slot SlotPro, priority uint) signal.Connection
 }
 
 type signalAdapter struct {
@@ -35,14 +44,14 @@ func newSignalAdapter() SignalPro {
 	}
 }
 
-func (s *signalAdapter) Connect(slot Slot, priority uint) signal.Connection {
-	return s.Signal.Connect(slot.exec, priority)
+func (s *signalAdapter) Connect(bitmap uint, slot Slot, priority uint) signal.Connection {
+	return s.Signal.Connect(bitmap, slot.exec, priority)
 }
 
-func (s *signalAdapter) ConnectPro(slot SlotPro, priority uint) signal.Connection {
-	return s.Signal.Connect(slot.exec, priority)
+func (s *signalAdapter) ConnectPro(bitmap uint, slot SlotPro, priority uint) signal.Connection {
+	return s.Signal.Connect(bitmap, slot.exec, priority)
 }
 
-func (s *signalAdapter) Emit(data Getter) {
-	s.Signal.Emit(data)
+func (s *signalAdapter) Emit(bitmap uint, data Getter) {
+	s.Signal.Emit(bitmap, data)
 }

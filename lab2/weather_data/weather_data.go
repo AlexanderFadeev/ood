@@ -53,30 +53,30 @@ func New() WeatherDataPro {
 
 func (wd *weatherData) SetTemperature(value float64) {
 	wd.temperature = value
-	wd.notifyObservers()
+	wd.notifyObservers(TemperatureBit)
 }
 
 func (wd *weatherData) SetPressure(value float64) {
 	wd.pressure = value
-	wd.notifyObservers()
+	wd.notifyObservers(PressureBit)
 }
 
 func (wd *weatherData) SetHumidity(value float64) {
 	wd.humidity = value
-	wd.notifyObservers()
+	wd.notifyObservers(HumidityBit)
 }
 
 func (wd *weatherData) SetWind(speed float64, direction float64) {
 	wd.windSpeed = speed
 	wd.windDirection = direction
-	wd.notifyObservers()
+	wd.notifyObservers(WindBit)
 }
 
 func (wd *weatherData) SetValues(temperature, pressure, humidity float64) {
 	wd.temperature = temperature
 	wd.pressure = pressure
 	wd.humidity = humidity
-	wd.notifyObservers()
+	wd.notifyObservers(AllBits)
 }
 
 func (wd *weatherData) SetValuesPro(temperature, pressure, humidity, speed, direction float64) {
@@ -85,7 +85,7 @@ func (wd *weatherData) SetValuesPro(temperature, pressure, humidity, speed, dire
 	wd.humidity = humidity
 	wd.windSpeed = speed
 	wd.windDirection = direction
-	wd.notifyObservers()
+	wd.notifyObservers(AllProBits)
 }
 
 func (wd *weatherData) GetTemperature() float64 {
@@ -104,8 +104,8 @@ func (wd *weatherData) GetWind() (float64, float64) {
 	return wd.windSpeed, wd.windDirection
 }
 
-func (wd *weatherData) notifyObservers() {
-	wd.SignalPro.Emit(wd.getSelfCopyPtr())
+func (wd *weatherData) notifyObservers(bitmap uint) {
+	wd.SignalPro.Emit(bitmap, wd.getSelfCopyPtr())
 }
 
 func (wd *weatherData) getSelfCopyPtr() *weatherData {

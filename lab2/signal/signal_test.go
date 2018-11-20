@@ -6,14 +6,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const bitmap = 1
+
 func TestSignalCallSlot(t *testing.T) {
 	signal := New()
 	var c value
 
-	signal.Connect(c.set, 0)
+	signal.Connect(bitmap, c.set, 0)
 
 	assert.Equal(t, nil, c.get())
-	signal.Emit(42)
+	signal.Emit(bitmap, 42)
 	assert.Equal(t, 42, c.get())
 }
 
@@ -22,10 +24,10 @@ func TestSignalCallMultipleSlots(t *testing.T) {
 	var c1 value
 	var c2 value
 
-	signal.Connect(c1.set, 0)
-	signal.Connect(c2.set, 0)
+	signal.Connect(bitmap, c1.set, 0)
+	signal.Connect(bitmap, c2.set, 0)
 
-	signal.Emit(42)
+	signal.Emit(bitmap, 42)
 	assert.Equal(t, 42, c1.get())
 	assert.Equal(t, 42, c2.get())
 }
@@ -34,10 +36,10 @@ func TestSignalEmittedValue(t *testing.T) {
 	signal := New()
 	var c value
 
-	signal.Connect(c.set, 0)
+	signal.Connect(bitmap, c.set, 0)
 
 	assert.Equal(t, nil, c.get())
-	signal.Emit(42)
+	signal.Emit(bitmap, 42)
 	assert.Equal(t, 42, c.get())
 }
 
@@ -45,14 +47,14 @@ func TestSignalDisconnect(t *testing.T) {
 	signal := New()
 	var c value
 
-	conn := signal.Connect(c.set, 0)
+	conn := signal.Connect(bitmap, c.set, 0)
 
-	signal.Emit(42)
+	signal.Emit(bitmap, 42)
 	assert.Equal(t, 42, c.get())
 
 	conn.Close()
 
-	signal.Emit(nil)
+	signal.Emit(bitmap, nil)
 	assert.Equal(t, 42, c.get())
 }
 
@@ -69,16 +71,16 @@ func makeCloseConnectionSlot(conn Connection) Slot {
 
 func TestSignalDisconnectWhileEmittingBeforeCalling(t *testing.T) {
 	signal := New()
-	conn := signal.Connect(noOpSlot, 0)
-	signal.Connect(makeCloseConnectionSlot(conn), 42)
-	signal.Emit(nil)
+	conn := signal.Connect(bitmap, noOpSlot, 0)
+	signal.Connect(bitmap, makeCloseConnectionSlot(conn), 42)
+	signal.Emit(bitmap, nil)
 }
 
 func TestSignalDisconnectWhileEmittingAfterCalling(t *testing.T) {
 	signal := New()
-	conn := signal.Connect(noOpSlot, 42)
-	signal.Connect(makeCloseConnectionSlot(conn), 0)
-	signal.Emit(nil)
+	conn := signal.Connect(bitmap, noOpSlot, 42)
+	signal.Connect(bitmap, makeCloseConnectionSlot(conn), 0)
+	signal.Emit(bitmap, nil)
 }
 
 func makeIncSlot(i *int) Slot {
@@ -106,10 +108,25 @@ func TestSignalPriority(t *testing.T) {
 	signal := New()
 	i := 0
 
-	signal.Connect(makeSqrSlot(&i), 1)
-	signal.Connect(makeIncSlot(&i), 3)
-	signal.Connect(makeDoubleSlot((&i)), 2)
+	signal.Connect(bitmap, makeSqrSlot(&i), 1)
+	signal.Connect(bitmap, makeIncSlot(&i), 3)
+	signal.Connect(bitmap, makeDoubleSlot((&i)), 2)
 
-	signal.Emit(nil)
+	signal.Emit(bitmap, nil)
 	assert.Equal(t, 4, i)
+}
+
+func TestSignalBitmap(t *testing.T) {
+	signal := New()
+	i := 0
+
+	signal.Connect(1, makeIncSlot(&i), 1)
+	signal.Connect(2, makeSqrSlot(&i), 2)
+
+	signal.Emit(1, nil) // 0+1
+	signal.Emit(1, nil) // 1+1
+	signal.Emit(2, nil) // 2*2
+	signal.Emit(3, nil) // 4*4+1
+
+	assert.Equal(t, 17, i)
 }

@@ -28,7 +28,7 @@ func (d displayer) DisplayPro(location string) weather_data.SlotPro {
 	return func(data weather_data.GetterPro) {
 		d.displayImpl(location, data)
 		speed, dir := data.GetWind()
-		fmt.Printf("Wind: %.1f m/s %.1f grad", speed, dir)
+		fmt.Printf(" Wind: %.1f m/s %.1f grad", speed, dir)
 		fmt.Println()
 	}
 }

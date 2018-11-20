@@ -11,11 +11,11 @@ func main() {
 	d := display.New()
 	sd := stats_display.New()
 
-	conn := wd.Connect(d.Display(""), 5)
+	conn := wd.Connect(weather_data.AllBits, d.Display(""), 5)
 
 	wd.SetTemperature(1)
 
-	statsConn := wd.Connect(sd.DisplayStats(""), 42)
+	statsConn := wd.Connect(weather_data.AllBits, sd.DisplayStats(""), 42)
 	defer statsConn.Close()
 
 	wd.SetPressure(2)

@@ -13,10 +13,10 @@ func main() {
 	d := display.New()
 	sd := stats_display.New()
 
-	in.ConnectPro(d.DisplayPro("In"), 1)
-	out.ConnectPro(d.DisplayPro("Out"), 1)
-	in.ConnectPro(sd.DisplayStatsPro("In"), 0)
-	out.ConnectPro(sd.DisplayStatsPro("Out"), 0)
+	in.ConnectPro(weather_data.AllBits, d.DisplayPro("In"), 1)
+	out.ConnectPro(weather_data.AllBits, d.DisplayPro("Out"), 1)
+	in.ConnectPro(weather_data.AllBits, sd.DisplayStatsPro("In"), 0)
+	out.ConnectPro(weather_data.AllBits, sd.DisplayStatsPro("Out"), 0)
 
 	in.SetTemperature(1)
 	in.SetPressure(2)

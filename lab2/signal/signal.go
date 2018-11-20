@@ -1,40 +1,47 @@
 package signal
 
 type Signal interface {
-	Connect(slot Slot, priority uint) Connection
-	Emit(ctx interface{}) error
+	Connect(bitmap uint, slot Slot, priority uint) Connection
+	Emit(bitmap uint, ctx interface{}) error
 }
 
 type signal struct {
-	slots             uintToSlotPriorityMap
-	slotsToDisconnect map[uint]struct{}
-	lastConnectionID  uint
+	connections             uintToConnectionPriorityMap
+	connectionsToDisconnect map[uint]struct{}
+	lastConnectionID        uint
 }
 
 func New() Signal {
 	return &signal{
-		slots:             makeUintToSlotPriorityMap(),
-		slotsToDisconnect: make(map[uint]struct{}),
+		connections:             makeUintToConnectionPriorityMap(),
+		connectionsToDisconnect: make(map[uint]struct{}),
 	}
 }
 
-func (s *signal) Connect(slot Slot, priority uint) Connection {
+func (s *signal) Connect(bitmap uint, slot Slot, priority uint) Connection {
 	id := s.findUnusedConnectionID()
-	s.slots.set(id, slot, priority)
-
 	s.lastConnectionID = id
-	return &connection{
+
+	conn := &connection{
+		bitmap: bitmap,
 		id:     id,
 		signal: s,
+		slot:   slot,
 	}
+
+	s.connections.set(id, conn, priority)
+	return conn
 }
 
-func (s *signal) Emit(ctx interface{}) (err error) {
+func (s *signal) Emit(bitmap uint, ctx interface{}) (err error) {
 	s.disconnectMarkedSlots()
 	defer s.disconnectMarkedSlots()
 
-	s.slots.iterate(func(_ uint, slot Slot) {
-		slotErr := slot(ctx)
+	s.connections.iterate(func(_ uint, conn *connection) {
+		if conn.bitmap&bitmap == 0 {
+			return
+		}
+		slotErr := conn.slot(ctx)
 		if slotErr != nil {
 			err = slotErr
 		}
@@ -46,7 +53,7 @@ func (s *signal) Emit(ctx interface{}) (err error) {
 func (s *signal) findUnusedConnectionID() uint {
 	id := s.lastConnectionID + 1
 	for {
-		_, ok := s.slots.get(id)
+		_, ok := s.connections.get(id)
 		if !ok {
 			return id
 		}
@@ -55,12 +62,12 @@ func (s *signal) findUnusedConnectionID() uint {
 }
 
 func (s *signal) disconnect(id uint) {
-	s.slotsToDisconnect[id] = struct{}{}
+	s.connectionsToDisconnect[id] = struct{}{}
 }
 
 func (s *signal) disconnectMarkedSlots() {
-	for id := range s.slotsToDisconnect {
-		s.slots.delete(id)
-		delete(s.slotsToDisconnect, id)
+	for id := range s.connectionsToDisconnect {
+		s.connections.delete(id)
+		delete(s.connectionsToDisconnect, id)
 	}
 }

@@ -2,46 +2,46 @@ package signal
 
 import "ood/lab2/priority_map"
 
-type iterateFunc func(key uint, value Slot)
+type iterateFunc func(key uint, value *connection)
 
 func (i iterateFunc) exec(key interface{}, value interface{}) {
-	i(key.(uint), value.(Slot))
+	i(key.(uint), value.(*connection))
 }
 
-type uintToSlotPriorityMap interface {
-	set(key uint, value Slot, priority uint)
-	get(key uint) (Slot, bool)
+type uintToConnectionPriorityMap interface {
+	set(key uint, value *connection, priority uint)
+	get(key uint) (*connection, bool)
 	delete(key uint)
 	iterate(iterateFunc iterateFunc)
 }
 
-func makeUintToSlotPriorityMap() uintToSlotPriorityMap {
-	return &uintToSlotPriorityMapImpl{
+func makeUintToConnectionPriorityMap() uintToConnectionPriorityMap {
+	return &uintToConnectionPriorityMapImpl{
 		impl: priority_map.Make(),
 	}
 }
 
-type uintToSlotPriorityMapImpl struct {
+type uintToConnectionPriorityMapImpl struct {
 	impl priority_map.PriorityMap
 }
 
-func (m *uintToSlotPriorityMapImpl) set(key uint, value Slot, priority uint) {
+func (m *uintToConnectionPriorityMapImpl) set(key uint, value *connection, priority uint) {
 	m.impl.Set(key, value, priority)
 }
 
-func (m *uintToSlotPriorityMapImpl) get(key uint) (Slot, bool) {
+func (m *uintToConnectionPriorityMapImpl) get(key uint) (*connection, bool) {
 	val, ok := m.impl.Get(key)
 	if !ok {
 		return nil, false
 	}
 
-	return val.(Slot), ok
+	return val.(*connection), ok
 }
 
-func (m *uintToSlotPriorityMapImpl) delete(key uint) {
+func (m *uintToConnectionPriorityMapImpl) delete(key uint) {
 	m.impl.Delete(key)
 }
 
-func (m *uintToSlotPriorityMapImpl) iterate(fn iterateFunc) {
+func (m *uintToConnectionPriorityMapImpl) iterate(fn iterateFunc) {
 	m.impl.Iterate(fn.exec)
 }
