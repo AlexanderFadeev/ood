@@ -1,10 +1,8 @@
-package encrypting
+package encryption
 
 import "math/rand"
 
 type permutation []byte
-
-type permutationMakerFunc func(seed int64, len uint) permutation
 
 func newPermutation(seed int64, len uint) permutation {
 	src := rand.NewSource(seed)
@@ -18,4 +16,12 @@ func newPermutation(seed int64, len uint) permutation {
 	}
 
 	return perm
+}
+
+func (p permutation) inverted() permutation {
+	result := make(permutation, len(p))
+	for index, value := range p {
+		result[value] = byte(index)
+	}
+	return result
 }
