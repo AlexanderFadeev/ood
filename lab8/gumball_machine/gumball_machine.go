@@ -21,6 +21,7 @@ type RefillableGumballMachine interface {
 
 	Refill(uint)
 }
+
 type gumballMachine struct {
 	state            state
 	ballsCount       uint
