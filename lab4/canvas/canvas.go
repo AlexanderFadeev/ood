@@ -1,26 +1,21 @@
 package canvas
 
 import (
-	"context"
 	"image"
-	"net/http"
-	"sync"
+	"io"
 
+	"ood/browser_display"
 	"ood/lab4/color"
 	"ood/lab4/point"
 
-	"github.com/gorilla/mux"
-	"github.com/sirupsen/logrus"
-	"github.com/skratchdot/open-golang/open"
 	"golang.org/x/image/bmp"
 )
 
 const pixelRadius = 0.5
 
-const (
-	address     = ":8080"
-	fullAddress = "http://localhost:8080/"
-)
+type Drawable interface {
+	Draw(canvas)
+}
 
 type Canvas interface {
 	SetColor(color.Color)
@@ -79,35 +74,7 @@ func (pc *canvas) drawPoint(p point.Point) {
 }
 
 func (c *canvas) Display() {
-	router := mux.NewRouter()
-
-	var wg sync.WaitGroup
-	wg.Add(1)
-
-	router.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		w.Header().Set("Content-Type", "image/bmp")
+	browser_display.DisplayInBrowser(func(w io.Writer) {
 		bmp.Encode(w, c.img)
-		wg.Done()
-	}))
-
-	server := http.Server{
-		Addr:    address,
-		Handler: router,
-	}
-
-	go func() {
-		err := server.ListenAndServe()
-		if err != nil && err != http.ErrServerClosed {
-			logrus.Error(err)
-		}
-	}()
-	defer server.Shutdown(context.Background())
-
-	err := open.Start(fullAddress)
-	if err != nil {
-		logrus.Error(err)
-		return
-	}
-
-	wg.Wait()
+	}, "image/bmp")
 }
