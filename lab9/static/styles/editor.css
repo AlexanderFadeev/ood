@@ -1,0 +1,93 @@
+
+html {
+    background-color: lightgray;
+}
+
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 4em;
+    height: 4em;
+    margin-top: -2em; /* -1/2 height */
+    margin-left: -2em; /* -1/2 width */
+    border: 1em solid transparent;
+    border-top: 1em solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.menu {
+    height: 50px;
+}
+
+.panel {
+    background-color: whitesmoke;
+    border: 1px lightgray solid;
+    margin: 10px;
+}
+
+.tab {
+    display: block;
+    float: left;
+    margin: 1px;
+    padding: 3px;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px 1px 0;
+    width: auto;
+    cursor: pointer;
+}
+
+.tab_inactive {
+    border-bottom-width: 1px;
+}
+
+.tab_active {
+    background-color: white;
+}
+
+.button {
+    float: left;
+    margin: 1px;
+    padding: 3px;
+    border: 1px black solid;
+    width: auto;
+    cursor: pointer;
+}
+
+.editor_space {
+    width: 95%;
+    max-width: 1024px;
+    margin: 0 auto;
+    display: block;
+}
+
+.rectangle {
+    border: 1px black solid;
+    user-select: none;
+}
+
+.ellipse {
+    user-select: none;
+    border: 1px black solid;
+    border-radius: 50%;
+}
+
+.draggable {
+    position: absolute;
+}
+
+.resizeable {
+    resize: both;
+    overflow: hidden;
+}
+
+.clear_fix {
+    clear: both;
+}
