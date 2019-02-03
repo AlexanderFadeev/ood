@@ -1,4 +1,5 @@
 import Util from "./Util.mjs";
+import Rect from "./Rect.mjs";
 
 export default class Shape {
     constructor(id, className, parent, onRectUpdate) {
@@ -98,17 +99,12 @@ export default class Shape {
         const elemRect = this._element.getBoundingClientRect();
         const parentRect = this._parent.getBoundingClientRect();
 
-        let result = {
-            left: (elemRect.left - parentRect.left) / parentRect.width,
-            top: (elemRect.top - parentRect.top) / parentRect.height,
-            width: elemRect.width / parentRect.width,
-            height: elemRect.height / parentRect.height
-        };
-
-        result.right = result.left + result.width;
-        result.bottom = result.top + result.height;
-
-        return result;
+        return new Rect(
+            (elemRect.left - parentRect.left) / parentRect.width,
+            (elemRect.top - parentRect.top) / parentRect.height,
+            elemRect.width / parentRect.width,
+            elemRect.height / parentRect.height
+        );
     }
 
     set _dimensions(d) {
@@ -136,18 +132,11 @@ export default class Shape {
     _update() {
         const dimensions = this._dimensions;
 
-        if (Shape._dimensionsAreEqual(dimensions, this._prevDimensions)) {
+        if (dimensions.equal(this._prevDimensions)) {
             return;
         }
 
         this._onUpdate(this._id, dimensions);
-    }
-
-    static _dimensionsAreEqual(a, b) {
-        return a.left === b.left &&
-            a.top === b.top &&
-            a.width === b.width &&
-            a.height === b.height;
     }
 
     static _getOffset(elem) {

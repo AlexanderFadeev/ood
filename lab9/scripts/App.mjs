@@ -1,5 +1,5 @@
 import Model from "./Model.mjs";
-import {View} from "./View.mjs";
+import View from "./View.mjs";
 import Presenter from "./Presenter.mjs";
 
 

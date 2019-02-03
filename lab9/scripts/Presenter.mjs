@@ -9,8 +9,8 @@ export default class Presenter {
     }
 
     init() {
-        this.view.doOnShapeUpdate((id, rect) => {
-            console.log(`Shape ${id} was moved/resized to rect ${rect}`)
+        this.view.doOnShapeUpdate((id) => {
+            console.log(`Shape ${id} was moved/resized`)
         });
 
         this.view.doOnButtonClick(View.buttonAddRectangle, () => {

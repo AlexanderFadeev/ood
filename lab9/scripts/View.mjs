@@ -23,7 +23,7 @@ const buttons = [
     "buttonAddEllipse",
 ];
 
-export class View {
+export default class View {
     constructor() {
         this._activeTabID = null;
         this._shapes = {};
@@ -97,8 +97,7 @@ export class View {
 
     _onShapeUpdate(id, dimensions) {
         for (let handler of this._shapeUpdateHandlers) {
-            const d = dimensions;
-            handler(id, d.left, d.top, d.width, d.height);
+            handler(id, dimensions);
         }
     }
 
