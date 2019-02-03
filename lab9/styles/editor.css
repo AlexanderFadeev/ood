@@ -75,6 +75,7 @@ html {
 
 .ellipse {
     user-select: none;
+    box-shadow: grey;
     border: 1px black solid;
     border-radius: 50%;
 }
