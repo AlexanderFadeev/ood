@@ -6,11 +6,15 @@ export default class Rect {
         this.height = height;
     }
 
-    equal(rect) {
+    equals(rect) {
         return this.left === rect.left &&
             this.top === rect.top &&
             this.width === rect.width &&
             this.height === rect.height;
+    }
+
+    clone() {
+        return new Rect(this.left, this.top, this.width, this.height);
     }
 
     get right() {

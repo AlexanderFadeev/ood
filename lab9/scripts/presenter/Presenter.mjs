@@ -1,4 +1,4 @@
-import * as View from "./View.mjs";
+import * as View from "../view/View.mjs";
 
 export default class Presenter {
     constructor(model, view) {

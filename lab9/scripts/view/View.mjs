@@ -1,5 +1,5 @@
 import Shape from "./Shape.mjs";
-import Util from "./Util.mjs";
+import Util from "../common/Util.mjs";
 
 export const tabFile = 0;
 export const tabHome = 1;

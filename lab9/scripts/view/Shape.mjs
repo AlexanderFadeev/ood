@@ -1,5 +1,5 @@
-import Util from "./Util.mjs";
-import Rect from "./Rect.mjs";
+import Util from "../common/Util.mjs";
+import Rect from "../common/Rect.mjs";
 
 export default class Shape {
     constructor(id, className, parent, onRectUpdate) {
@@ -108,8 +108,6 @@ export default class Shape {
     }
 
     set _dimensions(d) {
-        this._prevDimensions = this._dimensions;
-
         const rect = this._parent.getBoundingClientRect();
         const offset = Shape._getOffset(this._parent);
 
@@ -120,6 +118,7 @@ export default class Shape {
         this._element.style.height = `${rect.height * d.height - 2}px`;
 
         this._update();
+        this._prevDimensions = this._dimensions;
     }
 
     get _resized() {
@@ -132,7 +131,7 @@ export default class Shape {
     _update() {
         const dimensions = this._dimensions;
 
-        if (dimensions.equal(this._prevDimensions)) {
+        if (dimensions.equals(this._prevDimensions)) {
             return;
         }
 
