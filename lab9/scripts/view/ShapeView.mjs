@@ -2,7 +2,7 @@ import Util from "../common/Util.mjs";
 import Rect from "../common/Rect.mjs";
 
 export default class ShapeView {
-    constructor(id, className, parent) {
+    constructor(className, parent) {
         this._parent = parent;
         this._element = document.createElement("div");
 

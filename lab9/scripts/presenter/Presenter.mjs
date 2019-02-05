@@ -1,6 +1,5 @@
 import * as View from "../view/View.mjs";
 import Shape from "../model/Shape.mjs";
-import Rect from "../common/Rect.mjs";
 import ShapePresenter from "./ShapePresenter.mjs";
 
 export default class Presenter {
@@ -9,8 +8,6 @@ export default class Presenter {
         this._view = view;
 
         this._shapePresenters = [];
-
-        this._lastShapeID = 0;
 
         this._view.doOnWindowResize(this._onWindowResize.bind(this));
         this._view.doOnTabClick(this._view.setActiveTab.bind(this._view));
@@ -33,11 +30,7 @@ export default class Presenter {
     }
 
     _addShape(type) {
-        this._lastShapeID++;
-        let shapeView = this._view.newShapeView(type, this._lastShapeID);
-        let shapeModel = new Shape(type, new Rect(1 / 4, 1 / 4, 1 / 2, 1 / 2));
-        let shapePresenter = new ShapePresenter(shapeModel, this._view, shapeView);
-
+        let shapePresenter = new ShapePresenter(type, this._model, this._view);
         this._shapePresenters.push(shapePresenter);
     }
 

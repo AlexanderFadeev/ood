@@ -1,8 +1,15 @@
+import Shape from "../model/Shape.mjs";
+import Rect from "../common/Rect.mjs";
+
 export default class ShapePresenter {
-    constructor(shapeModel, view, shapeView) {
-        this._model = shapeModel;
+    constructor(type, model, view) {
+        this._model = model;
         this._view = view;
-        this._shapeView = shapeView;
+
+        this._shapeModel = new Shape(type, new Rect(1 / 4, 1 / 4, 1 / 2, 1 / 2));
+        this._shapeView = this._view.newShapeView(type);
+
+        this._model.addShape(this._shapeModel);
 
         this._isDragged = false;
         this._isResized = false;
@@ -24,7 +31,7 @@ export default class ShapePresenter {
             return;
         }
 
-        let rect = this._model.rect;
+        let rect = this._shapeModel.rect;
 
         const delta = pos.sub(this._prevMousePos);
         rect.left += delta.x;
@@ -62,7 +69,7 @@ export default class ShapePresenter {
     _handleResize(size) {
         this._isResized = true;
 
-        let rect = this._model.rect;
+        let rect = this._shapeModel.rect;
 
         rect.width = size.x;
         rect.height = size.y;
@@ -77,6 +84,6 @@ export default class ShapePresenter {
     }
 
     _sync() {
-        this._shapeView.rect = this._model.rect;
+        this._shapeView.rect = this._shapeModel.rect;
     }
 }

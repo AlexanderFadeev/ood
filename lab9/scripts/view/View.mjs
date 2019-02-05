@@ -95,8 +95,8 @@ export default class View {
         this._activeTabID = newActiveTabID;
     }
 
-    newShapeView(type, id) {
-        return new ShapeView(id, type, this._editorSpace);
+    newShapeView(type) {
+        return new ShapeView(type, this._editorSpace);
     }
 
     _tab(id) {
