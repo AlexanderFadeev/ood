@@ -11,13 +11,14 @@
     <div class="ribbon panel">
         <div class="tabs">
             <div id="tabFile" class="tab tab_inactive">File</div>
-            <div id="tabHome" class="tab tab_active">Home</div>
-            <div id="tabInsert" class="tab tab_inactive">Insert</div>
-            <div id="tabView" class="tab tab_inactive">View</div>
-            <div id="tabFormat" class="tab tab_inactive">Format</div>
+            <div id="tabInsert" class="tab tab_active">Insert</div>
         </div>
         <div class="clear_fix"></div>
-        <div class="menu">
+        <div id="menuFile" class="menu" hidden>
+            <div id="buttonOpen" class="button">Open</div>
+            <div id="buttonSave" class="button">Save</div>
+        </div>
+        <div id="menuInsert" class="menu">
             <div id="buttonAddRectangle" class="button">Add rectangle</div>
             <div id="buttonAddEllipse" class="button">Add ellipse</div>
         </div>

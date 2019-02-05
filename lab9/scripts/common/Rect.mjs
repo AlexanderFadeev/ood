@@ -1,3 +1,5 @@
+import Vector from "./Vector.mjs";
+
 export default class Rect {
     constructor(left, top, width, height) {
         this.left = left;
@@ -31,5 +33,9 @@ export default class Rect {
 
     set bottom(bottom) {
         this.height = bottom - this.top;
+    }
+
+    get size() {
+        return new Vector(this.width, this.height);
     }
 }

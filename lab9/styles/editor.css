@@ -68,25 +68,22 @@ html {
     display: block;
 }
 
-.rectangle {
+.shape {
+    position: absolute;
+    resize: both;
+    overflow: hidden;
     border: 1px black solid;
     user-select: none;
+    cursor: move;
+}
+
+.rectangle {
+    background-color: rgba(11,159,0,0.75);
 }
 
 .ellipse {
-    user-select: none;
-    box-shadow: grey;
-    border: 1px black solid;
+    background-color: rgba(47,0,159,0.75);
     border-radius: 50%;
-}
-
-.draggable {
-    position: absolute;
-}
-
-.resizeable {
-    resize: both;
-    overflow: hidden;
 }
 
 .clear_fix {
