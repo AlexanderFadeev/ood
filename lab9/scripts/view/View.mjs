@@ -6,7 +6,7 @@ export const tabInsert = 1;
 
 const tabs = [
     "tabFile",
-    "tabInsert"
+    "tabInsert",
 ];
 
 export const menuFile = 0;
@@ -14,19 +14,21 @@ export const menuInsert = 1;
 
 const menus = [
     "menuFile",
-    "menuInsert"
+    "menuInsert",
 ];
 
-export const buttonAddRectangle = 0;
-export const buttonAddEllipse = 1;
-export const buttonOpen= 2;
-export const buttonSave = 3;
+export const buttonOpen = 0;
+export const buttonSave = 1;
+export const buttonSaveAs = 2;
+export const buttonAddRectangle = 3;
+export const buttonAddEllipse = 4;
 
 const buttons = [
-    "buttonAddRectangle",
-    "buttonAddEllipse",
     "buttonOpen",
     "buttonSave",
+    "buttonSaveAs",
+    "buttonAddRectangle",
+    "buttonAddEllipse",
 ];
 
 export default class View {

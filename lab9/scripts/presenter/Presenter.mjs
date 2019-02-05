@@ -15,13 +15,11 @@ export default class Presenter {
         this._view.doOnWindowResize(this._onWindowResize.bind(this));
         this._view.doOnTabClick(this._view.setActiveTab.bind(this._view));
 
-        this._view.doOnButtonClick(View.buttonAddRectangle, () => {
-            this._addShape(Shape.Type.rectangle);
-        });
+        this._view.doOnButtonClick(View.buttonSave, this._save.bind(this, false));
+        this._view.doOnButtonClick(View.buttonSaveAs, this._save.bind(this, true));
 
-        this._view.doOnButtonClick(View.buttonAddEllipse, () => {
-            this._addShape(Shape.Type.ellipse);
-        });
+        this._view.doOnButtonClick(View.buttonAddRectangle, this._addShape.bind(this, Shape.Type.rectangle));
+        this._view.doOnButtonClick(View.buttonAddEllipse, this._addShape.bind(this, Shape.Type.ellipse));
 
         this._view.removeLoader()
     }
@@ -41,5 +39,18 @@ export default class Presenter {
         let shapePresenter = new ShapePresenter(shapeModel, this._view, shapeView);
 
         this._shapePresenters.push(shapePresenter);
+    }
+
+    _save(showDialog) {
+        let blob = new Blob([JSON.stringify(this._model)], {type: 'application/json'});
+
+        let a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        a.download = "shapes_data.json";
+        if (showDialog) {
+            a.target = '_blank'; // FIXME
+        }
+
+        a.click();
     }
 }
