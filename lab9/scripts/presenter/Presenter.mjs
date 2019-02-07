@@ -15,8 +15,8 @@ export default class Presenter {
         this._view.doOnWindowResize(this._onWindowResize.bind(this));
         this._view.doOnTabClick(this._view.setActiveTab.bind(this._view));
 
-        this._view.doOnButtonClick(View.buttonSave, this._save.bind(this, false));
-        this._view.doOnButtonClick(View.buttonSaveAs, this._save.bind(this, true));
+        this._view.doOnButtonClick(View.buttonSave, this._save.bind(this));
+        this._view.enableButton(View.buttonSaveAs, false); //TODO
 
         this._view.doOnButtonClick(View.buttonUndo, this._model.undo.bind(this._model));
         this._view.doOnButtonClick(View.buttonRedo, this._model.redo.bind(this._model));
@@ -60,16 +60,7 @@ export default class Presenter {
         this._view.enableButton(View.buttonRedo, this._model.canRedo());
     }
 
-    _save(showDialog) {
-        let blob = new Blob([this._model.serialize()], {type: 'application/json'});
-
-        let a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        a.download = "shapes_data.json";
-        if (showDialog) {
-            a.target = '_blank'; // FIXME
-        }
-
-        a.click();
+    _save() {
+        this._view.save(this._model.serialize(), 'application/json', "shapes_data.json")
     }
 }

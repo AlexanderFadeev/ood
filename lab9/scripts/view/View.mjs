@@ -122,6 +122,16 @@ export default class View {
         return new ShapeView(type, this._editorSpace);
     }
 
+    save(data, type, name) {
+        let blob = new Blob([data], {type: type});
+
+        let a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        a.download = name;
+
+        a.click();
+    }
+
     _tab(id) {
         return document.getElementById(tabs[id]);
     }
