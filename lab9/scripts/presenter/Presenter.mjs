@@ -15,6 +15,7 @@ export default class Presenter {
         this._view.doOnWindowResize(this._onWindowResize.bind(this));
         this._view.doOnTabClick(this._view.setActiveTab.bind(this._view));
 
+        this._view.enableButton(View.buttonOpen, false); //TODO
         this._view.doOnButtonClick(View.buttonSave, this._save.bind(this));
         this._view.enableButton(View.buttonSaveAs, false); //TODO
 
@@ -61,6 +62,6 @@ export default class Presenter {
     }
 
     _save() {
-        this._view.save(this._model.serialize(), 'application/json', "shapes_data.json")
+        this._view.saveFile(this._model.serialize(), 'application/json', "shapes_data.json")
     }
 }
