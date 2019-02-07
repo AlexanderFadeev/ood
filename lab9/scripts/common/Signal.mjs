@@ -29,9 +29,9 @@ export default class Signal {
     }
 
     emit(...args) {
-        for (let conn of this._connections.values()) {
+        this._connections.forEach((conn) => {
             conn.slot(...args);
-        }
+        });
     }
 
     get newConnectionID() {
