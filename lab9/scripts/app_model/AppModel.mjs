@@ -35,6 +35,11 @@ export default class AppModel {
         return this._history.canRedo();
     }
 
+    resetHistory() {
+        this._history.reset();
+        this.onHistoryUpdate.emit();
+    }
+
     addShape(type, rect) {
         this._history.addAndExecute(new AddShapeCommand(this, this._document, type, rect));
         this.onHistoryUpdate.emit();

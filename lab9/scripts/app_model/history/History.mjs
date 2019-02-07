@@ -1,6 +1,10 @@
 export default class History {
     constructor(size) {
         this._size = size;
+        this.reset();
+    }
+
+    reset() {
         this._commands = [];
         this._lastExecutedCommandIndex = -1;
     }

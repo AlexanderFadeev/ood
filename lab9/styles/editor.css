@@ -18,8 +18,12 @@ html {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .menu {
@@ -87,12 +91,17 @@ html {
 }
 
 .rectangle {
-    background-color: rgba(11,159,0,0.75);
+    background-color: rgba(11, 159, 0, 0.75);
 }
 
 .ellipse {
-    background-color: rgba(47,0,159,0.75);
+    background-color: rgba(47, 0, 159, 0.75);
     border-radius: 50%;
+}
+
+/* read Presenter.mjs@Presenter._hack*/
+.hack_shape {
+    display: none;
 }
 
 .clear_fix {

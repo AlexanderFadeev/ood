@@ -1,6 +1,3 @@
-import Shape from "../model/Shape.mjs";
-import Rect from "../common/Rect.mjs";
-
 export default class ShapePresenter {
     constructor(shape, view) {
         this._shape = shape;
@@ -22,7 +19,7 @@ export default class ShapePresenter {
         this._view.doOnMouseUp(this._handleMouseUp.bind(this));
         this._shapeView.doOnMouseDown(this._handleMouseDown.bind(this));
 
-        this._shape.onRectChanged.connect(this._onRectChanged.bind(this));
+        this._onRectChangedConn = this._shape.onRectChanged.connect(this._onRectChanged.bind(this));
     }
 
     onWindowResize() {
@@ -31,6 +28,7 @@ export default class ShapePresenter {
     }
 
     remove() {
+        this._onRectChangedConn.disconnect();
         this._shapeView.remove()
     }
 

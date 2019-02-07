@@ -34,6 +34,7 @@ export default class Presenter {
         this._model.onHistoryUpdate.connect(this._updateHistoryButtons.bind(this));
 
         this._updateHistoryButtons();
+        this._hack();
         this._view.removeLoader();
     }
 
@@ -63,5 +64,14 @@ export default class Presenter {
 
     _save() {
         this._view.saveFile(this._model.serialize(), 'application/json', "shapes_data.json")
+    }
+
+    // First created shape cannot be normally resized
+    // so we are creating and removing it
+    // TODO: research
+    _hack() {
+        this._model.addShape("hack_shape", defaultShapeRect.clone());
+        this._model.undo();
+        this._model.resetHistory();
     }
 }
