@@ -8,8 +8,8 @@ export default class Signal {
     }
 
     emit(...args) {
-        for (let slot of this._slots.values()) {
+        this._slot.forEach((slot) => {
             slot(...args);
-        }
+        });
     }
 }
