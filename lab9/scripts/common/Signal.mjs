@@ -8,7 +8,7 @@ export default class Signal {
     }
 
     emit(...args) {
-        this._slot.forEach((slot) => {
+        this._slots.forEach((slot) => {
             slot(...args);
         });
     }
