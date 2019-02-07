@@ -1,39 +1,46 @@
 import ShapeView from "./ShapeView.mjs";
 import Util from "../common/Util.mjs";
 
-export const tabFile = 0;
-export const tabInsert = 1;
+let i = 0;
+export const tabFile = i++;
+export const tabEdit = i++;
 
 const tabs = [
     "tabFile",
-    "tabInsert",
+    "tabEdit",
 ];
 
-export const menuFile = 0;
-export const menuInsert = 1;
+i = 0;
+export const menuFile = i++;
+export const menuEdit = i++;
 
 const menus = [
     "menuFile",
-    "menuInsert",
+    "menuEdit",
 ];
 
-export const buttonOpen = 0;
-export const buttonSave = 1;
-export const buttonSaveAs = 2;
-export const buttonAddRectangle = 3;
-export const buttonAddEllipse = 4;
+i = 0;
+export const buttonOpen = i++;
+export const buttonSave = i++;
+export const buttonSaveAs = i++;
+export const buttonUndo = i++;
+export const buttonRedo = i++;
+export const buttonAddRectangle = i++;
+export const buttonAddEllipse = i++;
 
 const buttons = [
     "buttonOpen",
     "buttonSave",
     "buttonSaveAs",
+    "buttonUndo",
+    "buttonRedo",
     "buttonAddRectangle",
     "buttonAddEllipse",
 ];
 
 export default class View {
     constructor() {
-        this._activeTabID = tabInsert;
+        this._activeTabID = tabEdit;
         this.onWindowResize();
     }
 
@@ -67,7 +74,23 @@ export default class View {
     }
 
     doOnButtonClick(id, handler) {
-        this._button(id).addEventListener(`click`, handler);
+        this._button(id).addEventListener(`click`, () => {
+            if (this._button(id).classList.contains("button_inactive")) {
+                return;
+            }
+
+            handler();
+        });
+    }
+
+    enableButton(id, enabled) {
+        const active = "button_active";
+        const inactive = "button_inactive";
+
+        this._button(id).classList.replace(
+            enabled ? inactive : active,
+            enabled ? active : inactive
+        )
     }
 
     doOnTabClick(handler) {

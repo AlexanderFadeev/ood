@@ -42,6 +42,7 @@ html {
     border-width: 1px 1px 0;
     width: auto;
     cursor: pointer;
+    user-select: none;
 }
 
 .tab_inactive {
@@ -58,7 +59,15 @@ html {
     padding: 3px;
     border: 1px black solid;
     width: auto;
+    user-select: none;
+}
+
+.button_active {
     cursor: pointer;
+}
+
+.button_inactive {
+    color: lightgray;
 }
 
 .editor_space {

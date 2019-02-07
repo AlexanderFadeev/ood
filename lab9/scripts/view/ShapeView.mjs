@@ -12,6 +12,10 @@ export default class ShapeView {
         parent.appendChild(this._element);
     }
 
+    remove() {
+        this._element.remove();
+    }
+
     doOnMouseDown(cb) {
         this._element.addEventListener("mousedown", (event) => {
             const pos = Util.extractMousePosition(event, Util.extractElementSize(this._parent));
