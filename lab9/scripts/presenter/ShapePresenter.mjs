@@ -1,12 +1,14 @@
 export default class ShapePresenter {
-    constructor(shape, view) {
-        this._shape = shape;
+    constructor(id, model, view) {
+        this._id = id;
         this._view = view;
 
-        this._shapeView = this._view.newShapeView(shape.type);
+        this._shape = model.getShape(id);
+
+        view.addShape(id, this._shape.type, this._shape.rect);
+        this._shapeView = view.getShape(id);
 
         this._loadShapeRect();
-        this._syncView();
 
         this._isDragged = false;
         this._startMousePos = null;
@@ -14,9 +16,9 @@ export default class ShapePresenter {
         this._isResized = false;
         this._ignoreNextResize = false;
 
+        view.doOnMouseMove(this._handleMouseMove.bind(this));
+        view.doOnMouseUp(this._handleMouseUp.bind(this));
         this._shapeView.doOnResize(this._handleResize.bind(this));
-        this._view.doOnMouseMove(this._handleMouseMove.bind(this));
-        this._view.doOnMouseUp(this._handleMouseUp.bind(this));
         this._shapeView.doOnMouseDown(this._handleMouseDown.bind(this));
 
         this._onRectChangedConn = this._shape.onRectChanged.connect(this._onRectChanged.bind(this));
@@ -29,7 +31,7 @@ export default class ShapePresenter {
 
     remove() {
         this._onRectChangedConn.disconnect();
-        this._shapeView.remove()
+        this._view.removeShape(this._id);
     }
 
     _onRectChanged() {

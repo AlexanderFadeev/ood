@@ -2,12 +2,14 @@ import Util from "../common/Util.mjs";
 import Rect from "../common/Rect.mjs";
 
 export default class ShapeView {
-    constructor(className, parent) {
+    constructor(id, className, parent) {
         this._parent = parent;
         this._element = document.createElement("div");
+        this._element.id = `shape${id}`;
 
         this._element.classList.add("shape");
         this._element.classList.add(className);
+        this._rect = null;
 
         parent.appendChild(this._element);
     }
@@ -52,14 +54,38 @@ export default class ShapeView {
     }
 
     set rect(rect) {
+        this._rect = rect.clone();
+        this._reposition();
+    }
+
+    get selected() {
+        return this._element.classList.contains("shape_selected");
+    }
+
+    set selected(selected) {
+        if (selected === this.selected) {
+            return;
+        }
+
+        if (selected) {
+            this._element.classList.add("shape_selected");
+        } else {
+            this._element.classList.remove("shape_selected");
+        }
+        this._reposition();
+    }
+
+    _reposition() {
         const parentRect = this._parent.getBoundingClientRect();
         const offset = ShapeView._getOffset(this._parent);
 
-        this._element.style.left = `${offset.left + parentRect.width * rect.left}px`;
-        this._element.style.top = `${offset.top + parentRect.height * rect.top}px`;
+        this._element.style.left = `${offset.left + parentRect.width * this._rect.left}px`;
+        this._element.style.top = `${offset.top + parentRect.height * this._rect.top}px`;
 
-        this._element.style.width = `${parentRect.width * rect.width - 2}px`;
-        this._element.style.height = `${parentRect.height * rect.height - 2}px`;
+        const border = +getComputedStyle(this._element).borderTopWidth.slice(0, -2);
+
+        this._element.style.width = `${parentRect.width * this._rect.width - 2 * border}px`;
+        this._element.style.height = `${parentRect.height * this._rect.height - 2 * border}px`;
     }
 
     static _getOffset(elem) {

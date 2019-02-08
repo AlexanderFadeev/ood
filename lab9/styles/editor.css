@@ -83,10 +83,14 @@ html {
 
 .shape {
     position: absolute;
-    resize: both;
-    overflow: hidden;
     border: 1px black solid;
     user-select: none;
+}
+
+.shape_selected {
+    border: 2px red dashed;
+    resize: both;
+    overflow: hidden;
     cursor: move;
 }
 

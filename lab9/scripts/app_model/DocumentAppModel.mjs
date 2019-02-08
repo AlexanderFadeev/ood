@@ -24,7 +24,6 @@ export default class DocumentAppModel {
 
         this._idMap.set(id, this._document.shapes.length - 1);
         this._shapes.set(id, shape);
-        console.log(`Add ${id}`);
         return id;
     }
 
@@ -43,7 +42,6 @@ export default class DocumentAppModel {
 
         this._idMap.delete(id);
         this._shapes.delete(id);
-        console.log(`Remove ${id}`);
     }
 
     decrement(id) {

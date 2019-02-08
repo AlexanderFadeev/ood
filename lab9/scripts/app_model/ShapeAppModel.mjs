@@ -13,6 +13,10 @@ export default class ShapeAppModel {
     }
 
     set rect(rect) {
+        if (this.impl.rect.equals(rect)) {
+            return;
+        }
+
         rect = rect.clone();
         const oldRect = this.impl.rect.clone();
         this._history.addAndExecute(new LambdaCommand(() => {

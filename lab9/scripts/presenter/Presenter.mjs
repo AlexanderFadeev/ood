@@ -2,6 +2,7 @@ import * as View from "../view/View.mjs";
 import Shape from "../model/Shape.mjs";
 import ShapePresenter from "./ShapePresenter.mjs";
 import Rect from "../common/Rect.mjs";
+import SelectionPresenter from "./SelectionPresenter.mjs";
 
 const defaultShapeRect = new Rect(1 / 4, 1 / 4, 1 / 2, 1 / 2);
 
@@ -11,7 +12,16 @@ export default class Presenter {
         this._view = view;
 
         this._shapePresenters = new Map();
+        this._selectionPresenter = new SelectionPresenter(this._view);
 
+        this._initModel();
+        this._initView();
+
+        this._hack();
+        this._view.removeLoader();
+    }
+
+    _initView() {
         this._view.doOnWindowResize(this._onWindowResize.bind(this));
         this._view.doOnTabClick(this._view.setActiveTab.bind(this._view));
 
@@ -28,14 +38,19 @@ export default class Presenter {
         this._view.doOnButtonClick(View.buttonAddEllipse, () => {
             this._model.addShape(Shape.Type.ellipse, defaultShapeRect.clone());
         });
+        this._view.doOnShapeMouseDown((id) => {
+            this._selectionPresenter.onShapeClicked(id);
+        });
+        this._view.doOnKeyPressed("Delete", this._onDelete.bind(this));
+        this._view.doOnButtonClick(View.buttonDelete, this._onDelete.bind(this));
 
+        this._updateHistoryButtons();
+    }
+
+    _initModel() {
         this._model.onShapeAdded.connect(this._onShapeAdded.bind(this));
         this._model.onShapeRemoved.connect(this._onShapeRemoved.bind(this));
         this._model.onHistoryUpdate.connect(this._updateHistoryButtons.bind(this));
-
-        this._updateHistoryButtons();
-        this._hack();
-        this._view.removeLoader();
     }
 
     _onWindowResize() {
@@ -47,12 +62,15 @@ export default class Presenter {
     }
 
     _onShapeAdded(id) {
-        const shape = this._model.getShape(id);
-        let shapePresenter = new ShapePresenter(shape, this._view);
+        let shapePresenter = new ShapePresenter(id, this._model, this._view);
         this._shapePresenters.set(id, shapePresenter);
     }
 
     _onShapeRemoved(id) {
+        if (this._selectionPresenter.selectedShapeID === id) {
+            this._selectionPresenter.selectedShapeID = null;
+        }
+
         this._shapePresenters.get(id).remove();
         this._shapePresenters.delete(id);
     }
@@ -64,6 +82,15 @@ export default class Presenter {
 
     _save() {
         this._view.saveFile(this._model.serialize(), 'application/json', "shapes_data.json")
+    }
+
+    _onDelete() {
+        if (this._selectionPresenter.selectedShapeID === null) {
+            return;
+        }
+
+        this._model.removeShape(this._selectionPresenter.selectedShapeID);
+        this._selectionPresenter.selectedShapeID = null;
     }
 
     // First created shape cannot be normally resized
