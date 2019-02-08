@@ -9,6 +9,7 @@ export default class ShapeView {
 
         this._element.classList.add("shape");
         this._element.classList.add(className);
+        this._element.style.zIndex = id.toString();
         this._rect = null;
 
         parent.appendChild(this._element);
