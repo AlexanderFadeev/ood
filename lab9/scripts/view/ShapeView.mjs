@@ -1,4 +1,4 @@
-import Util from "../common/Util.mjs";
+import Util from "./Util.mjs";
 import Rect from "../common/Rect.mjs";
 
 export default class ShapeView {

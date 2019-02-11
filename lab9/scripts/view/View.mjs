@@ -1,5 +1,5 @@
 import ShapeView from "./ShapeView.mjs";
-import Util from "../common/Util.mjs";
+import Util from "./Util.mjs";
 
 let i = 0;
 export const tabFile = i++;
