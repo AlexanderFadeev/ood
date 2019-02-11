@@ -149,8 +149,6 @@ export default class View {
     }
 
     openFile() {
-        throw new Error("Not implemented");
-
         let input = document.createElement('input');
         input.type = 'file';
 
@@ -158,12 +156,17 @@ export default class View {
 
         input.addEventListener('change', (event) => {
             const file = event.target.files[0];
-
             reader.readAsText(file, 'utf-8');
         });
 
         let promise = new Promise((resolve, reject) => {
-
+            reader.onload = () => {
+                resolve(reader.result);
+            };
+            reader.onerror = (event) => {
+                reader.abort();
+                reject(event.error);
+            };
         });
 
         input.click();

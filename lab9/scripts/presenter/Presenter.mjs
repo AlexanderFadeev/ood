@@ -25,7 +25,7 @@ export default class Presenter {
         this._view.doOnWindowResize(this._onWindowResize.bind(this));
         this._view.doOnTabClick(this._view.setActiveTab.bind(this._view));
 
-        this._view.enableButton(View.buttonOpen, false); //TODO
+        this._view.doOnButtonClick(View.buttonOpen, this._open.bind(this));
         this._view.doOnButtonClick(View.buttonSave, this._save.bind(this));
         this._view.enableButton(View.buttonSaveAs, false); //TODO
 
@@ -78,6 +78,12 @@ export default class Presenter {
     _updateHistoryButtons() {
         this._view.enableButton(View.buttonUndo, this._model.canUndo());
         this._view.enableButton(View.buttonRedo, this._model.canRedo());
+    }
+
+    _open() {
+        this._view.openFile().then((data) => {
+            this._model.loadFile(data);
+        })
     }
 
     _save() {

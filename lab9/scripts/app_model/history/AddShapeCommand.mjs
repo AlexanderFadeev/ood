@@ -1,8 +1,7 @@
 import Shape from "../../model/Shape.mjs";
 
 export default class AddShapeCommand {
-    constructor(model, document, type, rect) {
-        this._model = model;
+    constructor(document, type, rect) {
         this._document = document;
         this._type = type;
         this._rect = rect.clone();
@@ -15,12 +14,9 @@ export default class AddShapeCommand {
         } else {
             this._document.retrieveShape(this._shape, this._id);
         }
-
-        this._model.onShapeAdded.emit(this._id);
     }
 
     unexecute() {
         this._document.removeShape(this._id);
-        this._model.onShapeRemoved.emit(this._id);
     }
 }
