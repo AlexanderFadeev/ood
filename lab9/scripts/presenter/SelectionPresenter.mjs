@@ -1,11 +1,11 @@
-import * as View from "../view/View.mjs";
+import * as RibbonView from "../view/RibbonView.mjs";
 
 export default class SelectionPresenter {
     constructor(view) {
         this._view = view;
 
         this._selectedShapeID = null;
-        this._view.enableButton(View.buttonDelete, false)
+        this._view.ribbon.enableButton(RibbonView.buttonDelete, false)
     }
 
     onShapeClicked(id) {
@@ -18,13 +18,13 @@ export default class SelectionPresenter {
 
     set selectedShapeID(id) {
         if (this._selectedShapeID !== null) {
-            this._view.getShape(this._selectedShapeID).selected = false;
+            this._view.document.getShape(this._selectedShapeID).selected = false;
         }
         if (id !== null) {
-            this._view.getShape(id).selected = true;
+            this._view.document.getShape(id).selected = true;
         }
 
         this._selectedShapeID = id;
-        this._view.enableButton(View.buttonDelete, id !== null)
+        this._view.ribbon.enableButton(RibbonView.buttonDelete, id !== null)
     }
 }
