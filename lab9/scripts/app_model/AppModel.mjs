@@ -16,11 +16,10 @@ export default class AppModel {
         this._document.reset();
 
         const data = JSON.parse(file);
-        const shapes = data.shapes;
 
-        for (let shape of shapes.values()) {
+        data.shapes.forEach((shape) => {
             this._loadShape(shape);
-        }
+        });
 
         this.resetHistory();
     }
