@@ -1,12 +1,16 @@
+import Signal from "../../common/Signal.mjs";
+
 export default class History {
     constructor(size) {
         this._size = size;
+        this.onUpdate = new Signal();
         this.reset();
     }
 
     reset() {
         this._commands = [];
         this._lastExecutedCommandIndex = -1;
+        this.onUpdate.emit();
     }
 
     addAndExecute(cmd) {
@@ -20,6 +24,7 @@ export default class History {
         if (this._isOverflown) {
             this._removeOldestCommand();
         }
+        this.onUpdate.emit();
     }
 
     canUndo() {
@@ -33,11 +38,13 @@ export default class History {
     undo() {
         this._lastExecutedCommand.unexecute();
         this._lastExecutedCommandIndex--;
+        this.onUpdate.emit();
     }
 
     redo() {
         this._lastUndoneCommand.execute();
         this._lastExecutedCommandIndex++;
+        this.onUpdate.emit();
     }
 
     get _lastExecutedCommand() {

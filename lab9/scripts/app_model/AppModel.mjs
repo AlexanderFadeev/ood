@@ -1,10 +1,8 @@
 import History from "./history/History.mjs";
-import Signal from "../common/Signal.mjs";
 import DocumentAppModel from "./DocumentAppModel.mjs";
 import AddShapeCommand from "./history/AddShapeCommand.mjs";
 import RemoveShapeCommand from "./history/RemoveShapeCommand.mjs";
 import Rect from "../common/Rect.mjs";
-import Shape from "../model/Shape.mjs";
 
 const maxHistorySize = 64;
 
@@ -12,7 +10,6 @@ export default class AppModel {
     constructor() {
         this._history = new History(maxHistorySize);
         this._document = new DocumentAppModel(this._history);
-        this.onHistoryUpdate = new Signal();
     }
 
     loadFile(file) {
@@ -42,12 +39,10 @@ export default class AppModel {
 
     undo() {
         this._history.undo();
-        this.onHistoryUpdate.emit();
     }
 
     redo() {
         this._history.redo();
-        this.onHistoryUpdate.emit();
     }
 
     canUndo() {
@@ -60,17 +55,18 @@ export default class AppModel {
 
     resetHistory() {
         this._history.reset();
-        this.onHistoryUpdate.emit();
     }
 
     addShape(type, rect) {
         this._history.addAndExecute(new AddShapeCommand(this._document, type, rect));
-        this.onHistoryUpdate.emit();
     }
 
     removeShape(id) {
         this._history.addAndExecute(new RemoveShapeCommand(this._document, id));
-        this.onHistoryUpdate.emit();
+    }
+
+    get onHistoryUpdate() {
+        return this._history.onUpdate;
     }
 
     get onShapeAdded() {
