@@ -69,7 +69,7 @@ html {
     color: lightgray;
 }
 
-.editor_space {
+.document {
     width: auto;
     max-width: 1024px;
     margin: 10px;

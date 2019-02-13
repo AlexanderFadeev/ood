@@ -3,33 +3,33 @@ import Util from "./Util.mjs";
 
 export default class DocumentView {
     constructor() {
+        this._element = document.getElementById("document");
         this._shapeViews = new Map();
         this.onWindowResize();
     }
 
     doOnMouseMove(cb) {
         document.addEventListener("mousemove", (event) => {
-            const pos = Util.extractMousePosition(event, Util.extractElementSize(this._editorSpace));
+            const pos = Util.extractMousePosition(event, Util.extractElementSize(this._element));
             cb(pos);
         });
     }
 
     doOnMouseUp(cb) {
         document.addEventListener("mouseup", (event) => {
-            const pos = Util.extractMousePosition(event, Util.extractElementSize(this._editorSpace));
+            const pos = Util.extractMousePosition(event, Util.extractElementSize(this._element));
             cb(pos);
         })
     }
 
     onWindowResize() {
-        let editorSpace = document.getElementById("editorSpace");
-        const w = editorSpace.clientWidth;
+        const w = this._element.clientWidth;
         const h = w * 9 / 16;
-        editorSpace.style.height = `${h}px`;
+        this._element.style.height = `${h}px`;
     }
 
     addShape(id, type, rect) {
-        let shapeView = new ShapeView(id, type, this._editorSpace);
+        let shapeView = new ShapeView(id, type, this._element);
         shapeView.rect = rect;
         this._shapeViews.set(id, shapeView);
     }
@@ -44,7 +44,7 @@ export default class DocumentView {
     }
 
     doOnShapeMouseDown(handler) {
-        this._editorSpace.addEventListener("mousedown", (event) => {
+        this._element.addEventListener("mousedown", (event) => {
             if (event.target.id === "editorSpace") {
                 handler(null);
                 return;
@@ -53,9 +53,5 @@ export default class DocumentView {
             const id = parseInt(event.target.id.substr(5));
             handler(id);
         })
-    }
-
-    get _editorSpace() {
-        return document.getElementById("editorSpace");
     }
 }
