@@ -13,6 +13,6 @@ Lectures & Tasks : https://github.com/alexey-malov/ood
 | **4. Factory**   | Shapes                                                      | In Progress |
 | **5. Command**   | Editor                                                      | In Progress |
 | **6. Adapter**   | Graphics                                                    | Done        |
-| **7. Composite** | Slides                                                      | Code Review |
+| **7. Composite** | Slides                                                      | In progress |
 | **8. State**     | Gumball Machine                                             | Done        |
 | **9. MVXX**      | [Shape Editor](https://alexanderfadeev.github.io/ood/lab9/) | In Progress |

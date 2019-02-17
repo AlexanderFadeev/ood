@@ -70,16 +70,40 @@ func (g *group) SetFrame(newFrame rect.Rect) {
 	}
 }
 
+func (g *group) Count() int {
+	return g.GetShapesCount()
+}
+
 func (g *group) GetLineStyle() style.LineStyle {
-	return &groupLineStyle{
-		shapes: g.shapes,
+	return style.NewCompoundLineStyle(g)
+}
+
+func (g *group) LineStyle(index int) style.LineStyle {
+	return g.shapes.GetShape(index).GetLineStyle()
+}
+
+func (g *group) LineStyles() []style.LineStyle {
+	var result []style.LineStyle
+	for _, shape := range g.Vector {
+		result = append(result, shape.(Shape).GetLineStyle())
 	}
+	return result
 }
 
 func (g *group) GetFillStyle() style.FillStyle {
-	return &fillStyle{
-		shapes: g.shapes,
+	return style.NewCompoundFillStyle(g)
+}
+
+func (g *group) FillStyle(index int) style.FillStyle {
+	return g.shapes.GetShape(index).GetFillStyle()
+}
+
+func (g *group) FillStyles() []style.FillStyle {
+	var result []style.FillStyle
+	for _, shape := range g.Vector {
+		result = append(result, shape.(Shape).GetFillStyle())
 	}
+	return result
 }
 
 func (g *group) Accept(v Visitor) {

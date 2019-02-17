@@ -1,4 +1,4 @@
-package shape
+package style
 
 import "image/color"
 
