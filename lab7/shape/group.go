@@ -1,6 +1,7 @@
 package shape
 
 import (
+	"ood/lab7/canvas"
 	"ood/lab7/rect"
 	"ood/lab7/style"
 )
@@ -106,9 +107,9 @@ func (g *group) FillStyles() []style.FillStyle {
 	return result
 }
 
-func (g *group) Accept(v Visitor) {
+func (g *group) Draw(c canvas.Canvas) {
 	for _, s := range g.shapes.Vector {
-		s.(Shape).Accept(v)
+		s.(Shape).Draw(c)
 	}
 }
 

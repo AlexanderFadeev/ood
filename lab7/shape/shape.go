@@ -1,6 +1,7 @@
 package shape
 
 import (
+	"ood/lab7/canvas"
 	"ood/lab7/rect"
 	"ood/lab7/style"
 )
@@ -14,5 +15,5 @@ type Shape interface {
 
 	GetGroup() Group
 
-	Accept(Visitor)
+	Draw(canvas canvas.Canvas)
 }

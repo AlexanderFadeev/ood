@@ -1,6 +1,7 @@
 package shape
 
 import (
+	"ood/lab7/canvas"
 	"ood/lab7/rect"
 )
 
@@ -17,6 +18,7 @@ func NewEllipse(rect rect.Rect) Shape {
 	}
 }
 
-func (e *Ellipse) Accept(v Visitor) {
-	v.VisitEllipse(e)
+func (e *Ellipse) Draw(c canvas.Canvas) {
+	e.styles.apply(c)
+	c.DrawEllipse(e.Rect)
 }

@@ -5,7 +5,6 @@ import (
 
 	"ood/browser_display"
 	"ood/lab7/canvas"
-	"ood/lab7/drawer"
 	"ood/lab7/point"
 	"ood/lab7/rect"
 	"ood/lab7/shape"
@@ -31,8 +30,7 @@ func main() {
 		c := canvas.New(w, int(r.Width()), int(r.Height()))
 		defer c.End()
 
-		d := drawer.NewDrawer(c)
-		d.DrawShape(s)
+		s.Draw(c)
 	}, "image/svg+xml")
 }
 

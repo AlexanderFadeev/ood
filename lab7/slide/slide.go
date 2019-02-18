@@ -3,6 +3,7 @@ package slide
 import (
 	"image/color"
 
+	"ood/lab7/canvas"
 	"ood/lab7/rect"
 	"ood/lab7/shape"
 )
@@ -44,8 +45,8 @@ func (s *slide) GetFrame() *rect.Rect {
 	return s.shapesWithBackground.GetFrame()
 }
 
-func (s *slide) Accept(v shape.Visitor) {
-	s.shapesWithBackground.Accept(v)
+func (s *slide) Draw(c canvas.Canvas) {
+	s.shapesWithBackground.Draw(c)
 }
 
 func (s *slide) GetBackgroundColor() color.Color {

@@ -1,6 +1,7 @@
 package shape
 
 import (
+	"ood/lab7/canvas"
 	"ood/lab7/point"
 	"ood/lab7/rect"
 )
@@ -30,8 +31,12 @@ func NewTriangle(vertices [3]point.Point) Shape {
 	}
 }
 
-func (t *Triangle) Accept(v Visitor) {
-	v.VisitTriangle(t)
+func (t *Triangle) Draw(c canvas.Canvas) {
+	t.styles.apply(c)
+	c.MoveTo(t.GetVertex(0))
+	c.LineTo(t.GetVertex(1))
+	c.LineTo(t.GetVertex(2))
+	c.LineTo(t.GetVertex(0))
 }
 
 func (t *Triangle) GetVertex(index uint) point.Point {
