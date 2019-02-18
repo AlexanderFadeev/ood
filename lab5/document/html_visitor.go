@@ -44,5 +44,5 @@ func (v htmlFormatVisitorImpl) visitDocument(d Document) string {
 		builder.WriteString(fmt.Sprintf("\n%s", elem.(element).acceptVisitor(&v)))
 	}
 
-	return fmt.Sprintf(htmlTemplate, d.GetTitle(), builder.String())
+	return fmt.Sprintf(htmlTemplate, html.EscapeString(d.GetTitle()), builder.String())
 }
