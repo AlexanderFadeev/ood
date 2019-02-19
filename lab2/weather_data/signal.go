@@ -1,6 +1,6 @@
 package weather_data
 
-import "ood/lab2/signal"
+import "github.com/AlexanderFadeev/ood/lab2/signal"
 
 const (
 	TemperatureBit uint = 1 << iota

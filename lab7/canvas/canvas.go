@@ -5,8 +5,8 @@ import (
 	"image/color"
 	"io"
 
-	"ood/lab7/point"
-	"ood/lab7/rect"
+	"github.com/AlexanderFadeev/ood/lab7/point"
+	"github.com/AlexanderFadeev/ood/lab7/rect"
 
 	"github.com/AlexanderFadeev/colors"
 	"github.com/ajstarks/svgo"

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/AlexanderFadeev/ood/lab3/streams/parser"
 	"io"
-	"ood/lab3/streams/parser"
 	"os"
 )
 

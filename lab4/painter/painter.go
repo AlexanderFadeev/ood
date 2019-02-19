@@ -1,8 +1,8 @@
 package painter
 
 import (
-	"ood/lab4/canvas"
-	"ood/lab4/picture_draft"
+	"github.com/AlexanderFadeev/ood/lab4/canvas"
+	"github.com/AlexanderFadeev/ood/lab4/picture_draft"
 )
 
 type Painter interface {

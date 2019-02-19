@@ -3,7 +3,7 @@ package adapter
 import (
 	"fmt"
 
-	"ood/lab6/shape_drawing"
+	"github.com/AlexanderFadeev/ood/lab6/shape_drawing"
 )
 
 var (

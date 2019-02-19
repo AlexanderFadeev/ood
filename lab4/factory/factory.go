@@ -1,7 +1,7 @@
 package factory
 
 import (
-	"ood/lab4/shape"
+	"github.com/AlexanderFadeev/ood/lab4/shape"
 
 	"github.com/pkg/errors"
 )

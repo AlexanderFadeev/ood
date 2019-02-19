@@ -5,7 +5,7 @@ import (
 	"io"
 	"strings"
 
-	"ood/lab5/document"
+	"github.com/AlexanderFadeev/ood/lab5/document"
 
 	"github.com/pkg/errors"
 )

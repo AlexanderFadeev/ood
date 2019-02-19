@@ -3,7 +3,7 @@ package shape
 import (
 	"fmt"
 
-	"ood/lab4/canvas"
+	"github.com/AlexanderFadeev/ood/lab4/canvas"
 )
 
 type Shape interface {

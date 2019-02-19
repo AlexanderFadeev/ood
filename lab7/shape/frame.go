@@ -1,6 +1,6 @@
 package shape
 
-import "ood/lab7/rect"
+import "github.com/AlexanderFadeev/ood/lab7/rect"
 
 type frame struct {
 	rect.Rect

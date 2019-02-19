@@ -3,8 +3,8 @@ package decorator
 import (
 	"io"
 
-	"ood/lab3/streams/compression"
-	"ood/lab3/streams/encryption"
+	"github.com/AlexanderFadeev/ood/lab3/streams/compression"
+	"github.com/AlexanderFadeev/ood/lab3/streams/encryption"
 )
 
 type ReaderDecorator interface {

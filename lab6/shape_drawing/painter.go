@@ -1,6 +1,6 @@
 package shape_drawing
 
-import "ood/lab6/graphics"
+import "github.com/AlexanderFadeev/ood/lab6/graphics"
 
 type Painter interface {
 	Draw(Drawable)

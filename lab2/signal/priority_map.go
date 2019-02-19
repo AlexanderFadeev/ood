@@ -1,6 +1,6 @@
 package signal
 
-import "ood/lab2/priority_map"
+import "github.com/AlexanderFadeev/ood/lab2/priority_map"
 
 type iterateFunc func(key uint, value *connection)
 

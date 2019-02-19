@@ -3,7 +3,7 @@ package canvas
 import (
 	"math"
 
-	"ood/lab4/point"
+	"github.com/AlexanderFadeev/ood/lab4/point"
 )
 
 type ellipse struct {

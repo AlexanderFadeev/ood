@@ -1,8 +1,8 @@
 package parser
 
 import (
+	"github.com/AlexanderFadeev/ood/lab3/streams/decorator"
 	"github.com/pkg/errors"
-	"ood/lab3/streams/decorator"
 	"strconv"
 )
 

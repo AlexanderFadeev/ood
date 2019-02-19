@@ -3,7 +3,7 @@ package stats_display
 import (
 	"fmt"
 
-	"ood/lab2/weather_data"
+	"github.com/AlexanderFadeev/ood/lab2/weather_data"
 )
 
 type StatsDisplayer interface {

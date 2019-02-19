@@ -1,9 +1,9 @@
 package decorator
 
 import (
+	"github.com/AlexanderFadeev/ood/lab3/streams/compression"
+	"github.com/AlexanderFadeev/ood/lab3/streams/encryption"
 	"io"
-	"ood/lab3/streams/compression"
-	"ood/lab3/streams/encryption"
 )
 
 type WriterDecorator interface {

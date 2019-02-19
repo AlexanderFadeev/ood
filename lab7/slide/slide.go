@@ -3,9 +3,9 @@ package slide
 import (
 	"image/color"
 
-	"ood/lab7/canvas"
-	"ood/lab7/rect"
-	"ood/lab7/shape"
+	"github.com/AlexanderFadeev/ood/lab7/canvas"
+	"github.com/AlexanderFadeev/ood/lab7/rect"
+	"github.com/AlexanderFadeev/ood/lab7/shape"
 )
 
 type Slide interface {

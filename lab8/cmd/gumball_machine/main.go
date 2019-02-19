@@ -6,9 +6,9 @@ import (
 	"os"
 	"strconv"
 
-	"ood/cli_util"
-	"ood/lab5/menu"
-	"ood/lab8/gumball_machine"
+	"github.com/AlexanderFadeev/ood/cli_util"
+	"github.com/AlexanderFadeev/ood/lab5/menu"
+	"github.com/AlexanderFadeev/ood/lab8/gumball_machine"
 
 	"github.com/pkg/errors"
 )

@@ -1,7 +1,7 @@
 package shape
 
 import (
-	"ood/lab5/vector"
+	"github.com/AlexanderFadeev/ood/lab5/vector"
 )
 
 type shapes struct {

@@ -3,8 +3,8 @@ package adapter
 import (
 	"io"
 
-	"ood/lab6/graphics"
-	"ood/lab6/modern_graphics"
+	"github.com/AlexanderFadeev/ood/lab6/graphics"
+	"github.com/AlexanderFadeev/ood/lab6/modern_graphics"
 )
 
 type CanvasClassAdapter interface {

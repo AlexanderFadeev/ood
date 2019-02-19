@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ood/lab2/display"
-	"ood/lab2/stats_display"
-	"ood/lab2/weather_data"
+	"github.com/AlexanderFadeev/ood/lab2/display"
+	"github.com/AlexanderFadeev/ood/lab2/stats_display"
+	"github.com/AlexanderFadeev/ood/lab2/weather_data"
 )
 
 func main() {

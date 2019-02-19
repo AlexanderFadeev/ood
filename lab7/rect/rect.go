@@ -3,7 +3,7 @@ package rect
 import (
 	"math"
 
-	"ood/lab7/point"
+	"github.com/AlexanderFadeev/ood/lab7/point"
 )
 
 type Rect struct {

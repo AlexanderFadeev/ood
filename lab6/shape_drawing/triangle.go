@@ -1,6 +1,6 @@
 package shape_drawing
 
-import "ood/lab6/graphics"
+import "github.com/AlexanderFadeev/ood/lab6/graphics"
 
 type Triangle struct {
 	a, b, c Point
