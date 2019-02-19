@@ -6,7 +6,6 @@ type Connection interface {
 
 type connection struct {
 	id     uint
-	bitmap uint
 	signal *signal
 	slot   Slot
 }

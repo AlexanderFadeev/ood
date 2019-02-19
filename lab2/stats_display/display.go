@@ -7,19 +7,25 @@ import (
 )
 
 type StatsDisplayer interface {
-	DisplayStats(location string) weather_data.Slot
-	DisplayStatsPro(location string) weather_data.SlotPro
+	DisplayStats()
+	DisplayStatsPro()
 }
 
 type statsDisplayer struct {
+	wd       weather_data.GetterPro
+	location string
+
 	temperatureStatsCollector collector
 	pressureStatsCollector    collector
 	humidityStatsCollector    collector
 	windStatsCollector        windCollector
 }
 
-func New() StatsDisplayer {
+func New(wd weather_data.GetterPro, location string) StatsDisplayer {
 	return &statsDisplayer{
+		wd:       wd,
+		location: location,
+
 		temperatureStatsCollector: new(collectorImpl),
 		pressureStatsCollector:    new(collectorImpl),
 		humidityStatsCollector:    new(collectorImpl),
@@ -27,25 +33,21 @@ func New() StatsDisplayer {
 	}
 }
 
-func (sd *statsDisplayer) DisplayStats(location string) weather_data.Slot {
-	return func(data weather_data.Getter) {
-		sd.update(data)
-		sd.displayImpl(location, data)
-		fmt.Println()
-	}
+func (sd *statsDisplayer) DisplayStats() {
+	sd.update()
+	sd.displayImpl()
+	fmt.Println()
 }
 
-func (sd *statsDisplayer) DisplayStatsPro(location string) weather_data.SlotPro {
-	return func(data weather_data.GetterPro) {
-		sd.updatePro(data)
-		sd.displayImpl(location, data)
-		sd.displayWindStats()
-		fmt.Println()
-	}
+func (sd *statsDisplayer) DisplayStatsPro() {
+	sd.updatePro()
+	sd.displayImpl()
+	sd.displayWindStats()
+	fmt.Println()
 }
 
-func (sd *statsDisplayer) displayImpl(location string, data weather_data.Getter) {
-	fmt.Printf("#%s ", location)
+func (sd *statsDisplayer) displayImpl() {
+	fmt.Printf("#%s ", sd.location)
 	sd.displayCollectorStats("Temp", sd.temperatureStatsCollector)
 	sd.displayCollectorStats("Press", sd.pressureStatsCollector)
 	sd.displayCollectorStats("Hum", sd.humidityStatsCollector)
@@ -65,13 +67,13 @@ func (sd *statsDisplayer) displayWindStats() {
 		sd.windStatsCollector.GetMaxSpeed(), sd.windStatsCollector.GetMinSpeed(), avgSpeed, avgDir)
 }
 
-func (sd *statsDisplayer) updatePro(data weather_data.GetterPro) {
-	sd.update(data)
-	sd.windStatsCollector.AddWindValue(data.GetWind())
+func (sd *statsDisplayer) updatePro() {
+	sd.update()
+	sd.windStatsCollector.AddWindValue(sd.wd.GetWind())
 }
 
-func (sd *statsDisplayer) update(data weather_data.Getter) {
-	sd.temperatureStatsCollector.AddValue(data.GetTemperature())
-	sd.pressureStatsCollector.AddValue(data.GetPressure())
-	sd.humidityStatsCollector.AddValue(data.GetHumidity())
+func (sd *statsDisplayer) update() {
+	sd.temperatureStatsCollector.AddValue(sd.wd.GetTemperature())
+	sd.pressureStatsCollector.AddValue(sd.wd.GetPressure())
+	sd.humidityStatsCollector.AddValue(sd.wd.GetHumidity())
 }
