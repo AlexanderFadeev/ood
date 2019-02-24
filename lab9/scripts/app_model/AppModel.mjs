@@ -25,15 +25,8 @@ export default class AppModel {
     }
 
     _loadShape(shape) {
-        const rectData = shape.rect;
-        const rect = new Rect(
-            rectData.left,
-            rectData.top,
-            rectData.width,
-            rectData.height
-        );
-
-        this.addShape(shape.type, rect);
+        Object.setPrototypeOf(shape.rect, Rect.prototype);
+        this.addShape(shape.type, shape.rect);
     }
 
     undo() {
