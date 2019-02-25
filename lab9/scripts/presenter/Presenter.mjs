@@ -27,6 +27,9 @@ export default class Presenter {
             this._view.ribbon.setActiveTab(id);
         });
 
+        this._view.ribbon.doOnButtonClick(RibbonView.buttonNew, () => {
+            this._model.reset();
+        });
         this._view.ribbon.doOnButtonClick(RibbonView.buttonOpen, this._open.bind(this));
         this._view.ribbon.doOnButtonClick(RibbonView.buttonSave, this._save.bind(this));
         this._view.ribbon.enableButton(RibbonView.buttonSaveAs, false); //TODO

@@ -17,6 +17,7 @@ const menus = [
 ];
 
 i = 0;
+export const buttonNew = i++;
 export const buttonOpen = i++;
 export const buttonSave = i++;
 export const buttonSaveAs = i++;
@@ -27,6 +28,7 @@ export const buttonAddRectangle = i++;
 export const buttonAddEllipse = i++;
 
 const buttons = [
+    "buttonNew",
     "buttonOpen",
     "buttonSave",
     "buttonSaveAs",
