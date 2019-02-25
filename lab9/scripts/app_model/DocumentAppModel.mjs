@@ -42,7 +42,7 @@ export default class DocumentAppModel {
 
         for (let key of this._idMap.keys()) {
             if (key > id) {
-                this.decrement(key);
+                this._decrement(key);
             }
         }
 
@@ -51,7 +51,7 @@ export default class DocumentAppModel {
         this.onShapeRemoved.emit(id);
     }
 
-    decrement(id) {
+    _decrement(id) {
         const value = this._idMap.get(id);
         this._idMap.set(id, value - 1);
     }
