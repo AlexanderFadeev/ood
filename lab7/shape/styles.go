@@ -1,8 +1,8 @@
 package shape
 
 import (
-	"ood/lab7/canvas"
-	"ood/lab7/style"
+	"github.com/AlexanderFadeev/ood/lab7/canvas"
+	"github.com/AlexanderFadeev/ood/lab7/style"
 )
 
 type styles struct {

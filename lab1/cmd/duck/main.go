@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"ood/lab1/duck"
-	"ood/lab1/duck/dance_strategy"
-	"ood/lab1/duck/fly_strategy"
-	"ood/lab1/duck/quack_strategy"
+	"github.com/AlexanderFadeev/ood/lab1/duck"
+	"github.com/AlexanderFadeev/ood/lab1/duck/dance_strategy"
+	"github.com/AlexanderFadeev/ood/lab1/duck/fly_strategy"
+	"github.com/AlexanderFadeev/ood/lab1/duck/quack_strategy"
 )
 
 func main() {

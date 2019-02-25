@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"math"
 
-	"ood/lab4/canvas"
-	"ood/lab4/color"
-	"ood/lab4/point"
+	"github.com/AlexanderFadeev/ood/lab4/canvas"
+	"github.com/AlexanderFadeev/ood/lab4/color"
+	"github.com/AlexanderFadeev/ood/lab4/point"
 
 	"github.com/pkg/errors"
 )

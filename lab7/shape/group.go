@@ -1,9 +1,9 @@
 package shape
 
 import (
-	"ood/lab7/canvas"
-	"ood/lab7/rect"
-	"ood/lab7/style"
+	"github.com/AlexanderFadeev/ood/lab7/canvas"
+	"github.com/AlexanderFadeev/ood/lab7/rect"
+	"github.com/AlexanderFadeev/ood/lab7/style"
 )
 
 type Group interface {
@@ -83,28 +83,12 @@ func (g *group) LineStyle(index int) style.LineStyle {
 	return g.shapes.GetShape(index).GetLineStyle()
 }
 
-func (g *group) LineStyles() []style.LineStyle {
-	var result []style.LineStyle
-	for _, shape := range g.Vector {
-		result = append(result, shape.(Shape).GetLineStyle())
-	}
-	return result
-}
-
 func (g *group) GetFillStyle() style.FillStyle {
 	return style.NewCompoundFillStyle(g)
 }
 
 func (g *group) FillStyle(index int) style.FillStyle {
 	return g.shapes.GetShape(index).GetFillStyle()
-}
-
-func (g *group) FillStyles() []style.FillStyle {
-	var result []style.FillStyle
-	for _, shape := range g.Vector {
-		result = append(result, shape.(Shape).GetFillStyle())
-	}
-	return result
 }
 
 func (g *group) Draw(c canvas.Canvas) {

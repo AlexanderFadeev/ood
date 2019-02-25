@@ -3,7 +3,7 @@ package history
 import (
 	"container/list"
 
-	"ood/lab5/command"
+	"github.com/AlexanderFadeev/ood/lab5/command"
 
 	"github.com/pkg/errors"
 )

@@ -1,22 +1,26 @@
 package main
 
 import (
-	"ood/lab2/display"
-	"ood/lab2/stats_display"
-	"ood/lab2/weather_data"
+	"github.com/AlexanderFadeev/ood/lab2/display"
+	"github.com/AlexanderFadeev/ood/lab2/stats_display"
+	"github.com/AlexanderFadeev/ood/lab2/weather_data"
 )
 
 func main() {
 	in := weather_data.New()
 	out := weather_data.New()
 
-	d := display.New()
-	sd := stats_display.New()
+	dIn := display.New(in, "In")
+	sdIn := stats_display.New(in, "In")
 
-	in.ConnectPro(weather_data.AllBits, d.DisplayPro("In"), 1)
-	out.ConnectPro(weather_data.AllBits, d.DisplayPro("Out"), 1)
-	in.ConnectPro(weather_data.AllBits, sd.DisplayStatsPro("In"), 0)
-	out.ConnectPro(weather_data.AllBits, sd.DisplayStatsPro("Out"), 0)
+	dOut := display.New(out, "Out")
+	sdOut := stats_display.New(out, "Out")
+
+	in.ConnectPro(d.DisplayPro("In"), 1)
+	in.ConnectPro(sd.DisplayStatsPro("In"), 0)
+
+	out.ConnectPro(d.DisplayPro("Out"), 1)
+	out.ConnectPro(sd.DisplayStatsPro("Out"), 0)
 
 	in.SetTemperature(1)
 	in.SetPressure(2)

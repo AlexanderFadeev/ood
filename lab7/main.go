@@ -3,12 +3,12 @@ package main
 import (
 	"io"
 
-	"ood/browser_display"
-	"ood/lab7/canvas"
-	"ood/lab7/point"
-	"ood/lab7/rect"
-	"ood/lab7/shape"
-	"ood/lab7/slide"
+	"github.com/AlexanderFadeev/ood/browser_display"
+	"github.com/AlexanderFadeev/ood/lab7/canvas"
+	"github.com/AlexanderFadeev/ood/lab7/point"
+	"github.com/AlexanderFadeev/ood/lab7/rect"
+	"github.com/AlexanderFadeev/ood/lab7/shape"
+	"github.com/AlexanderFadeev/ood/lab7/slide"
 
 	"golang.org/x/image/colornames"
 )

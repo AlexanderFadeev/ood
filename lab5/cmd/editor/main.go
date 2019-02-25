@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"ood/lab5/editor"
-	"ood/lab5/menu"
+	"github.com/AlexanderFadeev/ood/lab5/editor"
+	"github.com/AlexanderFadeev/ood/lab5/menu"
 
 	"github.com/sirupsen/logrus"
 )

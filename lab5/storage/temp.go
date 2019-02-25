@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"ood/lab5/file_system"
+	"github.com/AlexanderFadeev/ood/lab5/file_system"
 
 	"github.com/pkg/errors"
 )

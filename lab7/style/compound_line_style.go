@@ -7,7 +7,6 @@ import (
 type LineStyleEnumerator interface {
 	Count() int
 	LineStyle(int) LineStyle
-	LineStyles() []LineStyle
 }
 
 type compoundLineStyle struct {
@@ -26,7 +25,8 @@ func (ls *compoundLineStyle) IsEnabled() *bool {
 	}
 
 	result := ls.enum.LineStyle(0).IsEnabled()
-	for _, s := range ls.enum.LineStyles() {
+	for index := 0; index < ls.enum.Count(); index++ {
+		s := ls.enum.LineStyle(index)
 		val := s.IsEnabled()
 		if val == nil || *result != *val {
 			return nil
@@ -37,7 +37,8 @@ func (ls *compoundLineStyle) IsEnabled() *bool {
 }
 
 func (ls *compoundLineStyle) Enable(enabled bool) {
-	for _, s := range ls.enum.LineStyles() {
+	for index := 0; index < ls.enum.Count(); index++ {
+		s := ls.enum.LineStyle(index)
 		s.Enable(enabled)
 	}
 }
@@ -48,7 +49,8 @@ func (ls *compoundLineStyle) GetColor() color.Color {
 	}
 
 	result := ls.enum.LineStyle(0).GetColor()
-	for _, s := range ls.enum.LineStyles() {
+	for index := 0; index < ls.enum.Count(); index++ {
+		s := ls.enum.LineStyle(index)
 		val := s.GetColor()
 		if val == nil || !colorsAreEqual(result, val) {
 			return nil
@@ -58,7 +60,8 @@ func (ls *compoundLineStyle) GetColor() color.Color {
 }
 
 func (ls *compoundLineStyle) SetColor(color color.Color) {
-	for _, s := range ls.enum.LineStyles() {
+	for index := 0; index < ls.enum.Count(); index++ {
+		s := ls.enum.LineStyle(index)
 		s.SetColor(color)
 	}
 }
@@ -69,7 +72,8 @@ func (ls *compoundLineStyle) GetWidth() *float64 {
 	}
 
 	result := ls.enum.LineStyle(0).GetWidth()
-	for _, s := range ls.enum.LineStyles() {
+	for index := 0; index < ls.enum.Count(); index++ {
+		s := ls.enum.LineStyle(index)
 		val := s.GetWidth()
 		if val == nil || *result != *val {
 			return nil
@@ -79,7 +83,8 @@ func (ls *compoundLineStyle) GetWidth() *float64 {
 }
 
 func (ls *compoundLineStyle) SetWidth(width float64) {
-	for _, s := range ls.enum.LineStyles() {
+	for index := 0; index < ls.enum.Count(); index++ {
+		s := ls.enum.LineStyle(index)
 		s.SetWidth(width)
 	}
 }

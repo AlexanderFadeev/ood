@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path"
 
-	"ood/lab5/command"
-	"ood/lab5/history"
-	"ood/lab5/storage"
+	"github.com/AlexanderFadeev/ood/lab5/command"
+	"github.com/AlexanderFadeev/ood/lab5/history"
+	"github.com/AlexanderFadeev/ood/lab5/storage"
 
 	"github.com/pkg/errors"
 )

@@ -4,9 +4,9 @@ import (
 	"image"
 	"io"
 
-	"ood/browser_display"
-	"ood/lab4/color"
-	"ood/lab4/point"
+	"github.com/AlexanderFadeev/ood/browser_display"
+	"github.com/AlexanderFadeev/ood/lab4/color"
+	"github.com/AlexanderFadeev/ood/lab4/point"
 
 	"golang.org/x/image/bmp"
 )

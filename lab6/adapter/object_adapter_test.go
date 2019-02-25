@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"testing"
 
-	"ood/lab6/modern_graphics"
-	"ood/lab6/shape_drawing"
+	"github.com/AlexanderFadeev/ood/lab6/modern_graphics"
+	"github.com/AlexanderFadeev/ood/lab6/shape_drawing"
 
 	"github.com/stretchr/testify/assert"
 )

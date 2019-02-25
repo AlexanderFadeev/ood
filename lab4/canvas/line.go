@@ -1,6 +1,6 @@
 package canvas
 
-import "ood/lab4/point"
+import "github.com/AlexanderFadeev/ood/lab4/point"
 
 type line struct {
 	from point.Point

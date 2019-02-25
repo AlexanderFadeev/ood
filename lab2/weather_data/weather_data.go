@@ -1,5 +1,9 @@
 package weather_data
 
+import (
+	"github.com/AlexanderFadeev/ood/lab2/signal"
+)
+
 type Setter interface {
 	SetTemperature(float64)
 	SetPressure(float64)
@@ -24,6 +28,18 @@ type GetterPro interface {
 	GetWind() (speed, direction float64)
 }
 
+type Signal interface {
+	DoOnTemperatureChange(slot FloatSlot, priority uint) signal.Connection
+	DoOnPressureChange(slot FloatSlot, priority uint) signal.Connection
+	DoOnHumidityChange(slot FloatSlot, priority uint) signal.Connection
+}
+
+type SignalPro interface {
+	Signal
+
+	DoOnWindChange(slot WindSlot, priority uint) signal.Connection
+}
+
 type WeatherData interface {
 	Setter
 	Getter
@@ -42,50 +58,52 @@ type weatherData struct {
 	humidity      float64
 	windSpeed     float64
 	windDirection float64
-	SignalPro
+
+	onTemperatureChange FloatSignal
+	onPressureChange    FloatSignal
+	onHumidityChange    FloatSignal
+	onWindChange        WindSignal
 }
 
 func New() WeatherDataPro {
 	return &weatherData{
-		SignalPro: newSignalAdapter(),
+		onTemperatureChange: newFloatSignalAdapter(),
+		onPressureChange:    newFloatSignalAdapter(),
+		onHumidityChange:    newFloatSignalAdapter(),
+		onWindChange:        newWindSignalAdapter(),
 	}
 }
 
 func (wd *weatherData) SetTemperature(value float64) {
 	wd.temperature = value
-	wd.notifyObservers(TemperatureBit)
+	wd.onTemperatureChange.Emit(value)
 }
 
 func (wd *weatherData) SetPressure(value float64) {
 	wd.pressure = value
-	wd.notifyObservers(PressureBit)
+	wd.onPressureChange.Emit(value)
 }
 
 func (wd *weatherData) SetHumidity(value float64) {
 	wd.humidity = value
-	wd.notifyObservers(HumidityBit)
+	wd.onHumidityChange.Emit(value)
 }
 
 func (wd *weatherData) SetWind(speed float64, direction float64) {
 	wd.windSpeed = speed
 	wd.windDirection = direction
-	wd.notifyObservers(WindBit)
+	wd.onWindChange.Emit(WindInfo{speed, direction})
 }
 
 func (wd *weatherData) SetValues(temperature, pressure, humidity float64) {
-	wd.temperature = temperature
-	wd.pressure = pressure
-	wd.humidity = humidity
-	wd.notifyObservers(AllBits)
+	wd.SetTemperature(temperature)
+	wd.SetPressure(pressure)
+	wd.SetHumidity(humidity)
 }
 
 func (wd *weatherData) SetValuesPro(temperature, pressure, humidity, speed, direction float64) {
-	wd.temperature = temperature
-	wd.pressure = pressure
-	wd.humidity = humidity
-	wd.windSpeed = speed
-	wd.windDirection = direction
-	wd.notifyObservers(AllProBits)
+	wd.SetValues(temperature, pressure, humidity)
+	wd.SetWind(speed, direction)
 }
 
 func (wd *weatherData) GetTemperature() float64 {
@@ -104,11 +122,19 @@ func (wd *weatherData) GetWind() (float64, float64) {
 	return wd.windSpeed, wd.windDirection
 }
 
-func (wd *weatherData) notifyObservers(bitmap uint) {
-	wd.SignalPro.Emit(bitmap, wd.getSelfCopyPtr())
+func (wd *weatherData) DoOnTemperatureChange(slot FloatSlot, priority uint) signal.Connection {
+	return wd.onTemperatureChange.Connect(slot, priority)
 }
 
-func (wd *weatherData) getSelfCopyPtr() *weatherData {
-	wdCopy := *wd
-	return &wdCopy
+func (wd *weatherData) DoOnPressureChange(slot FloatSlot, priority uint) signal.Connection {
+	return wd.onPressureChange.Connect(slot, priority)
+
+}
+
+func (wd *weatherData) DoOnHumidityChange(slot FloatSlot, priority uint) signal.Connection {
+	return wd.onHumidityChange.Connect(slot, priority)
+}
+
+func (wd *weatherData) DoOnWindChange(slot WindSlot, priority uint) signal.Connection {
+	return wd.onWindChange.Connect(slot, priority)
 }

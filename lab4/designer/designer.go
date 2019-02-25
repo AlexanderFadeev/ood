@@ -1,11 +1,11 @@
 package designer
 
 import (
+	"github.com/AlexanderFadeev/ood/lab4/factory"
+	"github.com/AlexanderFadeev/ood/lab4/picture_draft"
 	"github.com/pkg/errors"
 	"io"
 	"io/ioutil"
-	"ood/lab4/factory"
-	"ood/lab4/picture_draft"
 	"strings"
 )
 

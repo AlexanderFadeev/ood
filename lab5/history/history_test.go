@@ -3,7 +3,7 @@ package history
 import (
 	"testing"
 
-	"ood/lab5/command"
+	"github.com/AlexanderFadeev/ood/lab5/command"
 
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"

@@ -3,8 +3,8 @@ package document
 import (
 	"fmt"
 
-	"ood/lab5/command"
-	"ood/lab5/history"
+	"github.com/AlexanderFadeev/ood/lab5/command"
+	"github.com/AlexanderFadeev/ood/lab5/history"
 
 	"github.com/pkg/errors"
 )

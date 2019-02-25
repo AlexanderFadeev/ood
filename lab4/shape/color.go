@@ -1,6 +1,6 @@
 package shape
 
-import "ood/lab4/color"
+import "github.com/AlexanderFadeev/ood/lab4/color"
 
 type shapeColor color.Color
 

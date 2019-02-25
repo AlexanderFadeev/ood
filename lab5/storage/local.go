@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"ood/lab5/file_system"
+	"github.com/AlexanderFadeev/ood/lab5/file_system"
 
 	"github.com/pkg/errors"
 )

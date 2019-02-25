@@ -7,7 +7,6 @@ import (
 type FillStyleEnumerator interface {
 	Count() int
 	FillStyle(int) FillStyle
-	FillStyles() []FillStyle
 }
 
 type compoundFillStyle struct {
@@ -26,7 +25,8 @@ func (fs *compoundFillStyle) IsEnabled() *bool {
 	}
 
 	result := fs.enum.FillStyle(0).IsEnabled()
-	for _, s := range fs.enum.FillStyles() {
+	for index := 0; index < fs.enum.Count(); index++ {
+		s := fs.enum.FillStyle(index)
 		val := s.IsEnabled()
 		if val == nil || *result != *val {
 			return nil
@@ -37,7 +37,8 @@ func (fs *compoundFillStyle) IsEnabled() *bool {
 }
 
 func (fs *compoundFillStyle) Enable(enabled bool) {
-	for _, s := range fs.enum.FillStyles() {
+	for index := 0; index < fs.enum.Count(); index++ {
+		s := fs.enum.FillStyle(index)
 		s.Enable(enabled)
 	}
 }
@@ -48,7 +49,8 @@ func (fs *compoundFillStyle) GetColor() color.Color {
 	}
 
 	result := fs.enum.FillStyle(0).GetColor()
-	for _, s := range fs.enum.FillStyles() {
+	for index := 0; index < fs.enum.Count(); index++ {
+		s := fs.enum.FillStyle(index)
 		val := s.GetColor()
 		if val == nil || !colorsAreEqual(result, val) {
 			return nil
@@ -59,7 +61,8 @@ func (fs *compoundFillStyle) GetColor() color.Color {
 }
 
 func (fs *compoundFillStyle) SetColor(color color.Color) {
-	for _, s := range fs.enum.FillStyles() {
+	for index := 0; index < fs.enum.Count(); index++ {
+		s := fs.enum.FillStyle(index)
 		s.SetColor(color)
 	}
 }

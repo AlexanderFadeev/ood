@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 
-	"ood/cli_util"
-	"ood/lab6/adapter"
-	"ood/lab6/graphics"
-	"ood/lab6/modern_graphics"
-	"ood/lab6/shape_drawing"
+	"github.com/AlexanderFadeev/ood/cli_util"
+	"github.com/AlexanderFadeev/ood/lab6/adapter"
+	"github.com/AlexanderFadeev/ood/lab6/graphics"
+	"github.com/AlexanderFadeev/ood/lab6/modern_graphics"
+	"github.com/AlexanderFadeev/ood/lab6/shape_drawing"
 )
 
 func main() {

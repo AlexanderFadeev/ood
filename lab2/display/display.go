@@ -3,37 +3,39 @@ package display
 import (
 	"fmt"
 
-	"ood/lab2/weather_data"
+	"github.com/AlexanderFadeev/ood/lab2/weather_data"
 )
 
 type Displayer interface {
-	Display(location string) weather_data.Slot
-	DisplayPro(location string) weather_data.SlotPro
+	Display()
+	DisplayPro()
 }
 
-type displayer struct{}
-
-func New() Displayer {
-	return new(displayer)
+type displayer struct {
+	wd       weather_data.GetterPro
+	location string
 }
 
-func (d displayer) Display(location string) weather_data.Slot {
-	return func(data weather_data.Getter) {
-		d.displayImpl(location, data)
-		fmt.Println()
+func New(wd weather_data.WeatherDataPro, location string) Displayer {
+	return &displayer{
+		wd:       wd,
+		location: location,
 	}
 }
 
-func (d displayer) DisplayPro(location string) weather_data.SlotPro {
-	return func(data weather_data.GetterPro) {
-		d.displayImpl(location, data)
-		speed, dir := data.GetWind()
-		fmt.Printf(" Wind: %.1f m/s %.1f grad", speed, dir)
-		fmt.Println()
-	}
+func (d displayer) Display() {
+	d.displayImpl()
+	fmt.Println()
 }
 
-func (displayer) displayImpl(location string, data weather_data.Getter) {
+func (d displayer) DisplayPro() {
+	d.displayImpl()
+	speed, dir := d.wd.GetWind()
+	fmt.Printf(" Wind: %.1f m/s %.1f grad", speed, dir)
+	fmt.Println()
+}
+
+func (d displayer) displayImpl() {
 	fmt.Printf("#%s Temp: %.1f, Press: %.1f, Hum: %.1f",
-		location, data.GetTemperature(), data.GetPressure(), data.GetHumidity())
+		d.location, d.wd.GetTemperature(), d.wd.GetPressure(), d.wd.GetHumidity())
 }

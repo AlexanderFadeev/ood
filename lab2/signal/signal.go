@@ -1,8 +1,8 @@
 package signal
 
 type Signal interface {
-	Connect(bitmap uint, slot Slot, priority uint) Connection
-	Emit(bitmap uint, ctx interface{}) error
+	Connect(slot Slot, priority uint) Connection
+	Emit(ctx interface{}) error
 }
 
 type signal struct {
@@ -18,12 +18,11 @@ func New() Signal {
 	}
 }
 
-func (s *signal) Connect(bitmap uint, slot Slot, priority uint) Connection {
+func (s *signal) Connect(slot Slot, priority uint) Connection {
 	id := s.findUnusedConnectionID()
 	s.lastConnectionID = id
 
 	conn := &connection{
-		bitmap: bitmap,
 		id:     id,
 		signal: s,
 		slot:   slot,
@@ -33,14 +32,11 @@ func (s *signal) Connect(bitmap uint, slot Slot, priority uint) Connection {
 	return conn
 }
 
-func (s *signal) Emit(bitmap uint, ctx interface{}) (err error) {
+func (s *signal) Emit(ctx interface{}) (err error) {
 	s.disconnectMarkedSlots()
 	defer s.disconnectMarkedSlots()
 
 	s.connections.iterate(func(_ uint, conn *connection) {
-		if conn.bitmap&bitmap == 0 {
-			return
-		}
 		slotErr := conn.slot(ctx)
 		if slotErr != nil {
 			err = slotErr

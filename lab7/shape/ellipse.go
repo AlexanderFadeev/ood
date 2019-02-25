@@ -1,8 +1,8 @@
 package shape
 
 import (
-	"ood/lab7/canvas"
-	"ood/lab7/rect"
+	"github.com/AlexanderFadeev/ood/lab7/canvas"
+	"github.com/AlexanderFadeev/ood/lab7/rect"
 )
 
 type Ellipse struct {
