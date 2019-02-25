@@ -1,15 +1,15 @@
 export default class RemoveShapeCommand {
-    constructor(document, id) {
-        this._document = document;
+    constructor(shape, id) {
+        this._shapes = shape;
         this._id = id;
-        this._shape = this._document.getShape(id);
+        this._shape = this._shapes.getShape(id);
     }
 
     execute() {
-        this._document.removeShape(this._id);
+        this._shapes.removeShape(this._id);
     }
 
     unexecute() {
-        this._document.retrieveShape(this._shape, this._id);
+        this._shapes.retrieveShape(this._shape, this._id);
     }
 }

@@ -1,22 +1,22 @@
 import Shape from "../../model/Shape.mjs";
 
 export default class AddShapeCommand {
-    constructor(document, type, rect) {
-        this._document = document;
+    constructor(shapes, type, rect) {
+        this._shapes = shapes;
         this._type = type;
         this._rect = rect.clone();
     }
 
     execute() {
         if (!this._shape) {
-            this._id = this._document.addShape(new Shape(this._type, this._rect));
-            this._shape = this._document.getShape(this._id);
+            this._id = this._shapes.addShape(new Shape(this._type, this._rect));
+            this._shape = this._shapes.getShape(this._id);
         } else {
-            this._document.retrieveShape(this._shape, this._id);
+            this._shapes.retrieveShape(this._shape, this._id);
         }
     }
 
     unexecute() {
-        this._document.removeShape(this._id);
+        this._shapes.removeShape(this._id);
     }
 }
