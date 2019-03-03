@@ -45,7 +45,7 @@ export default class DocumentView {
 
     doOnShapeMouseDown(handler) {
         this._element.addEventListener("mousedown", (event) => {
-            if (event.target.id === "editorSpace") {
+            if (event.target.id === "document") {
                 handler(null);
                 return;
             }
