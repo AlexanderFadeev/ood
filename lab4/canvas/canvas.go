@@ -1,5 +1,8 @@
 package canvas
 
+//go:generate mockery -inpkg -name Canvas
+//go:generate mockery -inpkg -name Drawable
+
 import (
 	"image"
 	"io"
@@ -14,7 +17,7 @@ import (
 const pixelRadius = 0.5
 
 type Drawable interface {
-	Draw(canvas)
+	Draw(Canvas)
 }
 
 type Canvas interface {
@@ -69,8 +72,8 @@ func (c *canvas) DrawEllipse(leftTop point.Point, width, height float64) {
 	ellipse.draw(c)
 }
 
-func (pc *canvas) drawPoint(p point.Point) {
-	pc.img.Set(int(p.X), int(p.Y), pc.color)
+func (c *canvas) drawPoint(p point.Point) {
+	c.img.Set(int(p.X), int(p.Y), c.color)
 }
 
 func (c *canvas) Display() {

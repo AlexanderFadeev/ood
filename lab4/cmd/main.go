@@ -2,25 +2,38 @@ package main
 
 import (
 	"github.com/AlexanderFadeev/ood/lab4/canvas"
-	"github.com/AlexanderFadeev/ood/lab4/color"
-	"github.com/AlexanderFadeev/ood/lab4/point"
-	"github.com/AlexanderFadeev/ood/lab4/shape"
+	"github.com/AlexanderFadeev/ood/lab4/designer"
+	"github.com/AlexanderFadeev/ood/lab4/painter"
 	"github.com/sirupsen/logrus"
+	"os"
+)
+
+const (
+	width  = 1366
+	height = 768
+
+	filename = "shapes.dat"
 )
 
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 
-	c := canvas.New(1366, 768)
-	c.SetColor(color.Red)
-	c.DrawLine(point.Point{0, 0}, point.Point{1366, 768})
-	c.SetColor(color.Green)
-	c.DrawEllipse(point.Point{100, 100}, 500, 100)
+	c := canvas.New(width, height)
 
-	for i := uint(3); i < 64; i++ {
-		regPol, _ := shape.NewRegularPolygon(i, point.Point{700, 350}, 350, color.Blue)
-		regPol.Draw(c)
+	file, err := os.Open(filename)
+	if err != nil {
+		logrus.Fatal(err)
 	}
+	defer file.Close()
+
+	d := designer.New()
+	draft, err := d.CreateDraft(file)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+
+	p := painter.New()
+	p.Paint(draft, c)
 
 	c.Display()
 }

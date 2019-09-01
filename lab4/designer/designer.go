@@ -1,12 +1,11 @@
 package designer
 
 import (
+	"bufio"
 	"github.com/AlexanderFadeev/ood/lab4/factory"
 	"github.com/AlexanderFadeev/ood/lab4/picture_draft"
 	"github.com/pkg/errors"
 	"io"
-	"io/ioutil"
-	"strings"
 )
 
 type Designer interface {
@@ -20,20 +19,20 @@ func New() Designer {
 }
 
 func (d *designer) CreateDraft(reader io.Reader) (picture_draft.PictureDraft, error) {
-	data, err := ioutil.ReadAll(reader)
-	if err != nil {
-		return nil, errors.Wrap(err, "Failed to read from reader")
-	}
-
-	lines := strings.Split(string(data), "\n")
-	draft := make(picture_draft.PictureDraft, len(lines))
 	f := factory.New()
+	var draft picture_draft.PictureDraft
 
-	for index, line := range lines {
-		draft[index], err = f.CreateShape(line)
+	s := bufio.NewScanner(reader)
+	for s.Scan() {
+		shape, err := f.CreateShape(s.Text())
 		if err != nil {
-			return nil, errors.Wrapf(err, "Failed to create shape from desc `%s`", line)
+			return nil, errors.Wrapf(err, "Failed to create shape from desc `%s`", s.Text())
 		}
+
+		draft = append(draft, shape)
+	}
+	if err := s.Err(); err != nil {
+		return nil, errors.Wrap(err, "Failed to scan data")
 	}
 
 	return draft, nil
