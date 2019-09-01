@@ -7,10 +7,12 @@ import (
 	"github.com/AlexanderFadeev/ood/lab2/weather_data"
 )
 
+const location = "Yoshkar-Ola"
+
 func main() {
 	wd := weather_data.New()
-	d := display.New(wd, "")
-	sd := stats_display.New(wd, "")
+	d := display.New(wd, location)
+	sd := stats_display.New(wd, location)
 
 	conn1 := wd.DoOnTemperatureChange(helper.WrapToFloatSlot(d.Display), 5)
 	conn2 := wd.DoOnPressureChange(helper.WrapToFloatSlot(d.Display), 5)

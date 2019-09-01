@@ -2,21 +2,42 @@ package main
 
 import (
 	"github.com/AlexanderFadeev/ood/lab2/display"
+	"github.com/AlexanderFadeev/ood/lab2/helper"
 	"github.com/AlexanderFadeev/ood/lab2/stats_display"
 	"github.com/AlexanderFadeev/ood/lab2/weather_data"
 )
 
+const location = "North Pole"
+
 func main() {
-	in := weather_data.WeatherData(weather_data.New())
+	in := weather_data.New()
 	out := weather_data.New()
 
-	d := display.New()
-	sd := stats_display.New()
+	dIn := display.New(in, location+"In")
+	sdIn := stats_display.New(in, location+"In")
 
-	in.Connect(weather_data.AllProBits, d.Display("In"), 1)
-	out.ConnectPro(weather_data.AllProBits, d.DisplayPro("Out"), 1)
-	in.Connect(weather_data.AllProBits, sd.DisplayStats("In"), 0)
-	out.ConnectPro(weather_data.AllProBits, sd.DisplayStatsPro("Out"), 0)
+	dOut := display.New(out, location+"Out")
+	sdOut := stats_display.New(out, location+"Out")
+
+	in.DoOnTemperatureChange(helper.WrapToFloatSlot(dIn.DisplayPro), 1)
+	in.DoOnPressureChange(helper.WrapToFloatSlot(dIn.DisplayPro), 1)
+	in.DoOnHumidityChange(helper.WrapToFloatSlot(dIn.DisplayPro), 1)
+	in.DoOnWindChange(helper.WrapToWindSlot(dIn.DisplayPro), 1)
+
+	in.DoOnTemperatureChange(helper.WrapToFloatSlot(sdIn.DisplayStatsPro), 2)
+	in.DoOnPressureChange(helper.WrapToFloatSlot(sdIn.DisplayStatsPro), 2)
+	in.DoOnHumidityChange(helper.WrapToFloatSlot(sdIn.DisplayStatsPro), 2)
+	in.DoOnWindChange(helper.WrapToWindSlot(sdIn.DisplayStatsPro), 2)
+
+	out.DoOnTemperatureChange(helper.WrapToFloatSlot(dOut.DisplayPro), 1)
+	out.DoOnPressureChange(helper.WrapToFloatSlot(dOut.DisplayPro), 1)
+	out.DoOnHumidityChange(helper.WrapToFloatSlot(dOut.DisplayPro), 1)
+	out.DoOnWindChange(helper.WrapToWindSlot(dOut.DisplayPro), 1)
+
+	out.DoOnTemperatureChange(helper.WrapToFloatSlot(sdOut.DisplayStatsPro), 2)
+	out.DoOnPressureChange(helper.WrapToFloatSlot(sdOut.DisplayStatsPro), 2)
+	out.DoOnHumidityChange(helper.WrapToFloatSlot(sdOut.DisplayStatsPro), 2)
+	out.DoOnWindChange(helper.WrapToWindSlot(sdOut.DisplayStatsPro), 2)
 
 	in.SetTemperature(1)
 	in.SetPressure(2)

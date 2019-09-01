@@ -2,20 +2,24 @@ package main
 
 import (
 	"github.com/AlexanderFadeev/ood/lab2/display"
+	"github.com/AlexanderFadeev/ood/lab2/helper"
 	"github.com/AlexanderFadeev/ood/lab2/stats_display"
 	"github.com/AlexanderFadeev/ood/lab2/weather_data"
 )
 
-const fishingEventsBits = weather_data.PressureBit | weather_data.TemperatureBit
+const location = "Lake Baikal"
 
 func main() {
 	wd := weather_data.New()
 
-	d := display.New()
-	sd := stats_display.New()
+	d := display.New(wd, location)
+	sd := stats_display.New(wd, location)
 
-	wd.ConnectPro(fishingEventsBits, d.DisplayPro("Out"), 1)
-	wd.ConnectPro(fishingEventsBits, sd.DisplayStatsPro("Out"), 0)
+	wd.DoOnTemperatureChange(helper.WrapToFloatSlot(d.DisplayPro), 1)
+	wd.DoOnPressureChange(helper.WrapToFloatSlot(d.DisplayPro), 1)
+
+	wd.DoOnTemperatureChange(helper.WrapToFloatSlot(sd.DisplayStatsPro), 0)
+	wd.DoOnPressureChange(helper.WrapToFloatSlot(sd.DisplayStatsPro), 0)
 
 	wd.SetTemperature(1)
 	wd.SetPressure(2)

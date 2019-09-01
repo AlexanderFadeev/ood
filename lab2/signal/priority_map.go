@@ -35,7 +35,7 @@ func (m *uintToConnectionPriorityMapImpl) get(key uint) (*connection, bool) {
 		return nil, false
 	}
 
-	return val.(*connection), ok
+	return val.(*connection), true
 }
 
 func (m *uintToConnectionPriorityMapImpl) delete(key uint) {
